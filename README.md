@@ -35,3 +35,16 @@ Sebelum melakukan perubahan baru, pastikan repositori Anda selalu diperbarui den
 ```
 
 Hal ini untuk menghindari konflik dengan perubahan yang dilakukan oleh pengguna lain.
+
+# Rekomendasi Ekstensi VSCode
+
+- Auto Close Tag
+- Auto rename Tag
+- HTML CSS Support
+- Prettier
+- Live Server
+- Highlight Match
+- CSS Peek
+- Headwind
+- Tailwindcss
+- Codeium
