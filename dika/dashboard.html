@@ -29,33 +29,90 @@
   </head>
   <body class="flex justify-center w-screen">
     <!-- navbar -->
-    <div class="w-full fixed top-0 flex justify-between items-center w-full px-8 py-2">
-      <h1>E-Commerce</h1>
-      <p class="font-semibold">Kategori</pc>
-      <!-- input search -->
-      <div class="flex border-1 rounded-sm px-3 py-1 items-center gap-2">
-        <i class="ph ph-magnifying-glass text-2xl"></i>
-        <input type="text" placeholder="Cari" />
-      </div>
-
-      <div class="flex items-center gap-3">
-        <i class="ph ph-shopping-cart-simple text-2xl"></i>
-        <i class="ph ph-bell text-2xl"></i>
-        <i class="ph ph-bell text-2xl"></i>
-      </div>
-
-      <div class="flex gap-4">
-        <!-- toko -->
-        <div class="flex items-center gap-2">
-          <i class="ph-fill ph-storefront text-3xl border-1 p-1 rounded-full"></i>
-        <p>Toko</p>
-      </div>
-      <!-- user profile -->
-      <div class="flex items-center">
-        <img src="" alt="user" class="w-10 h-10 rounded-full border-1 gap-2">
-        <p>Pengguna</p>
-      </div>
+    <div
+      class="bg-white fixed top-0 flex flex-col px-8 pt-2 border-b-gray-200 border-b-1 w-full"
+    >
+      <div
+        class="w-full flex justify-between items-center w-full gap-4 flex-nowrap"
+      >
+        <div class="flex items-center gap-6">
+          <h1 class="text-(--primary-color)">E-Commerce</h1>
+          <p class="font-semibold">Kategori</p>
         </div>
+        <!-- input search -->
+        <div
+          class="flex border-1 rounded-md px-3 py-1 items-center gap-2 border-gray-300"
+        >
+          <i class="ph ph-magnifying-glass text-2xl"></i>
+          <input type="text" placeholder="Cari" class="outline-none" />
+        </div>
+
+        <div class="flex items-center gap-3">
+          <i class="ph ph-shopping-cart-simple text-2xl"></i>
+          <i class="ph ph-bell text-2xl"></i>
+          <i class="ph ph-envelope-simple text-2xl"></i>
+        </div>
+
+        <div class="flex gap-4">
+          <!-- toko -->
+          <div class="flex items-center gap-2">
+            <i
+              class="ph-fill ph-storefront text-3xl border-1 p-1 rounded-full border-gray-300"
+            ></i>
+            <p>Toko</p>
+          </div>
+          <!-- user profile -->
+          <div class="flex items-center gap-2">
+            <img
+              src=""
+              alt="user"
+              class="w-10 h-10 rounded-full border-1 gap-2 border-gray-300"
+            />
+            <p>User</p>
+          </div>
+        </div>
+      </div>
+      <div class="flex items-center gap-2 justify-center text-gray-400">
+        <p>satu</p>
+        <p>satu</p>
+        <p>satu</p>
+        <p>satu</p>
+      </div>
+    </div>
+    <!-- body -->
+    <div class="mt-24 w-[960px] flex flex-col gap-6">
+      <div class="w-full h-64 bg-gray-200 rounded-xl"></div>
+      <div>
+        <h2>Produk</h2>
+        <div class="flex flex-wrap w-full gap-4">
+          <!-- card -->
+          <div class="rounded-xl overflow-hidden shadow-md">
+            <div class="size-40 bg-gray-300"></div>
+            <div class="bg-white p-1">
+              <h3>Judul</h3>
+              <h2>Rp62.000</h2>
+              <p>Jakarta Barat</p>
+              <div class="flex gap-1 items-center">
+                <i class="ph-fill ph-star"></i>
+                4.7 | 17 terjual
+              </div>
+            </div>
+          </div>
+          <!-- card -->
+          <div class="rounded-xl overflow-hidden shadow-md">
+            <div class="size-40 bg-gray-300"></div>
+            <div class="bg-white p-1">
+              <h3>Judul</h3>
+              <h2>Rp62.000</h2>
+              <p>Jakarta Barat</p>
+              <div class="flex gap-1 items-center">
+                <i class="ph-fill ph-star"></i>
+                4.7 | 17 terjual
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </body>
 </html>
