@@ -4,6 +4,36 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard | E-Commerce</title>
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="style.css" />
+    <style type="text/tailwindcss">
+      @layer base {
+        h3 {
+          @apply text-xl font-medium text-gray-600;
+        }
+      }
+
+      @layer components {
+        .btn {
+          @apply px-4 py-2 rounded-lg font-medium transition-all;
+        }
+      }
+
+      @layer utilities {
+        .card {
+          @apply p-4 bg-white shadow-md rounded-lg;
+        }
+      }
+    </style>
   </head>
-  <body></body>
+  <body class="flex items-center justify-center min-h-screen">
+    <div class="card w-96 text-center">
+      <h1>Judul Utama</h1>
+      <p class="text-gray-700">Ini adalah contoh kartu dengan Tailwind CSS.</p>
+      <div class="mt-4">
+        <button class="btn btn-primary">Tombol Utama</button>
+        <button class="btn btn-secondary">Tombol Sekunder</button>
+      </div>
+    </div>
+  </body>
 </html>
