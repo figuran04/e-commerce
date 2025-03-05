@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard | E-Commerce</title>
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
     <link rel="stylesheet" href="style.css" />
     <style type="text/tailwindcss">
-      @layer base {
+      /* @layer base {
         h3 {
           @apply text-xl font-medium text-gray-600;
         }
@@ -23,17 +24,38 @@
         .card {
           @apply p-4 bg-white shadow-md rounded-lg;
         }
-      }
+      } */
     </style>
   </head>
-  <body class="flex items-center justify-center min-h-screen">
-    <div class="card w-96 text-center">
-      <h1>Judul Utama</h1>
-      <p class="text-gray-700">Ini adalah contoh kartu dengan Tailwind CSS.</p>
-      <div class="mt-4">
-        <button class="btn btn-primary">Tombol Utama</button>
-        <button class="btn btn-secondary">Tombol Sekunder</button>
+  <body class="flex justify-center w-screen">
+    <!-- navbar -->
+    <div class="w-full fixed top-0 flex justify-between items-center w-full px-8 py-2">
+      <h1>E-Commerce</h1>
+      <p class="font-semibold">Kategori</pc>
+      <!-- input search -->
+      <div class="flex border-1 rounded-sm px-3 py-1 items-center gap-2">
+        <i class="ph ph-magnifying-glass text-2xl"></i>
+        <input type="text" placeholder="Cari" />
       </div>
+
+      <div class="flex items-center gap-3">
+        <i class="ph ph-shopping-cart-simple text-2xl"></i>
+        <i class="ph ph-bell text-2xl"></i>
+        <i class="ph ph-bell text-2xl"></i>
+      </div>
+
+      <div class="flex gap-4">
+        <!-- toko -->
+        <div class="flex items-center gap-2">
+          <i class="ph-fill ph-storefront text-3xl border-1 p-1 rounded-full"></i>
+        <p>Toko</p>
+      </div>
+      <!-- user profile -->
+      <div class="flex items-center">
+        <img src="" alt="user" class="w-10 h-10 rounded-full border-1 gap-2">
+        <p>Pengguna</p>
+      </div>
+        </div>
     </div>
   </body>
 </html>
