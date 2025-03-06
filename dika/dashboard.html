@@ -86,9 +86,12 @@
       <div class="w-full h-48 bg-gray-200 rounded-xl"></div>
       <div class="flex flex-col gap-2">
         <h2>Produk</h2>
-        <div class="flex flex-wrap w-full gap-4">
+        <div
+          class="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6"
+          id="products"
+        >
           <!-- card -->
-          <div class="rounded-xl overflow-hidden shadow">
+          <!-- <div class="rounded-xl overflow-hidden shadow">
             <div class="size-40 bg-gray-300"></div>
             <div class="bg-white p-2">
               <h3 class="line-clamp-2">Judul</h3>
@@ -99,7 +102,7 @@
                 4.7 | 17 terjual
               </div>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
       <div
@@ -152,5 +155,39 @@
         </div>
       </div>
     </div>
+    <script>
+      async function fetchProducts() {
+        try {
+          const response = await fetch("https://fakestoreapi.com/products");
+          const products = await response.json();
+
+          const productsContainer = document.getElementById("products");
+          productsContainer.innerHTML = products
+            .map(
+              (product) => `
+                    <div class="rounded-xl overflow-hidden shadow">
+                        <div class="size-40 bg-gray-300 flex justify-center items-center">
+                            <img src="${product.image}" alt="${product.title}" class="h-full w-full object-contain">
+                        </div>
+                        <div class="bg-white p-2">
+                            <h4 class="line-clamp-2 overflow-hidden text-ellipsis break-words max-h-12">${product.title}</h4>
+                            <p class="font-semibold text-xl">$${product.price}</p>
+                            <p class="line-clamp-1">Unknown Location</p>
+                            <div class="flex gap-1 items-center">
+                                <i class="ph-fill ph-star text-yellow-500"></i>
+                                4.7 | 17 sold
+                            </div>
+                        </div>
+                    </div>
+                `
+            )
+            .join("");
+        } catch (error) {
+          console.error("Error fetching products:", error);
+        }
+      }
+
+      fetchProducts();
+    </script>
   </body>
 </html>
