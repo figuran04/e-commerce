@@ -33,24 +33,26 @@
       class="bg-white fixed top-0 flex flex-col px-8 pt-2 border-b-gray-200 border-b-1 w-full"
     >
       <div
-        class="w-full flex justify-between items-center w-full gap-6 flex-nowrap"
+        class="w-full flex justify-between items-center w-full gap-8 flex-nowrap"
       >
-        <div class="flex items-center gap-6">
-          <h1 class="text-(--primary-color)">ECommerce</h1>
-          <p class="font-semibold">Kategori</p>
-        </div>
-        <!-- input search -->
-        <div
-          class="flex border-1 rounded-md px-3 py-1 items-center gap-2 border-gray-300 w-full"
-        >
-          <i class="ph ph-magnifying-glass text-2xl"></i>
-          <input type="text" placeholder="Cari" class="outline-none" />
+        <div class="flex flex-col md:flex-row md:gap-6 md:w-full">
+          <div class="flex items-center gap-6">
+            <h1 class="text-(--primary-color)">ECommerce</h1>
+            <p class="font-semibold">Kategori</p>
+          </div>
+          <!-- input search -->
+          <div
+            class="flex border-1 rounded-md px-3 py-1 items-center gap-2 border-gray-300 w-full"
+          >
+            <i class="ph ph-magnifying-glass text-2xl"></i>
+            <input type="text" placeholder="Cari" class="outline-none" />
+          </div>
         </div>
 
-        <div class="flex items-center gap-4">
-          <i class="ph ph-shopping-cart-simple text-2xl"></i>
-          <i class="ph ph-bell text-2xl"></i>
-          <i class="ph ph-envelope-simple text-2xl"></i>
+        <div class="flex items-center gap-6">
+          <i class="ph-bold ph-shopping-cart-simple text-2xl"></i>
+          <i class="ph-bold ph-bell text-2xl"></i>
+          <i class="ph-bold ph-envelope-simple text-2xl"></i>
         </div>
 
         <div class="flex gap-4">
@@ -80,37 +82,73 @@
       </div>
     </div>
     <!-- body -->
-    <div class="mt-24 w-[960px] flex flex-col gap-6">
-      <div class="w-full h-64 bg-gray-200 rounded-xl"></div>
-      <div>
+    <div class="mt-24 container mx-auto flex flex-col gap-6">
+      <div class="w-full h-48 bg-gray-200 rounded-xl"></div>
+      <div class="flex flex-col gap-2">
         <h2>Produk</h2>
         <div class="flex flex-wrap w-full gap-4">
           <!-- card -->
-          <div class="rounded-xl overflow-hidden shadow-md">
+          <div class="rounded-xl overflow-hidden shadow">
             <div class="size-40 bg-gray-300"></div>
-            <div class="bg-white p-1">
-              <h3>Judul</h3>
-              <h2>Rp62.000</h2>
-              <p>Jakarta Barat</p>
+            <div class="bg-white p-2">
+              <h3 class="line-clamp-2">Judul</h3>
+              <p class="font-semibold text-xl">Rp62.000</p>
+              <p class="line-clamp-1">Jakarta Barat</p>
               <div class="flex gap-1 items-center">
-                <i class="ph-fill ph-star"></i>
+                <i class="ph-fill ph-star text-yellow-500"></i>
                 4.7 | 17 terjual
               </div>
             </div>
           </div>
-          <!-- card -->
-          <div class="rounded-xl overflow-hidden shadow-md">
-            <div class="size-40 bg-gray-300"></div>
-            <div class="bg-white p-1">
-              <h3>Judul</h3>
-              <h2>Rp62.000</h2>
-              <p>Jakarta Barat</p>
-              <div class="flex gap-1 items-center">
-                <i class="ph-fill ph-star"></i>
-                4.7 | 17 terjual
-              </div>
-            </div>
+        </div>
+      </div>
+      <div
+        class="flex flex-col md:flex-row justify-between w-full border-t-1 border-gray-300 pt-4"
+      >
+        <div class="leading-8 mt-2">
+          <p class="font-semibold">E-commerce</p>
+          <ul class="list-none">
+            <li>item</li>
+            <li>item</li>
+            <li>item</li>
+            <li>item</li>
+            <li>item</li>
+          </ul>
+        </div>
+        <div class="leading-8 mt-2">
+          <p class="font-semibold">Bell</p>
+          <ul class="list-none">
+            <li>item</li>
+            <li>item</li>
+            <li>item</li>
+          </ul>
+          <div class="leading-8 mt-2">
+            <p class="font-semibold">Jual</p>
+            <ul class="list-none">
+              <li>item</li>
+              <li>item</li>
+            </ul>
           </div>
+        </div>
+        <div class="leading-8 mt-2">
+          <p class="font-semibold">Keamanan & Privasi</p>
+          <ul class="list-none">
+            <li>item</li>
+            <li>item</li>
+            <li>item</li>
+            <li>item</li>
+            <li>item</li>
+          </ul>
+        </div>
+        <div class="leading-8 mt-2">
+          <p class="font-semibold">Nikmati keuntungan spesial di aplikasi:</p>
+          <ul class="list-none">
+            <li>item</li>
+            <li>item</li>
+            <li>item</li>
+            <li>item</li>
+            <li>item</li>
+          </ul>
         </div>
       </div>
     </div>
