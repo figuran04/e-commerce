@@ -1,0 +1,197 @@
+/* @import "tailwindcss"; */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* :root {
+    --background: #ffffff;
+    --foreground: #171717;
+    --bg-color: #f3f4f6;
+    --text-color: #111827;
+    --heading-color: #1f2937;
+    --subheading-color: #374151;
+    --muted-text-color: #4b5563;
+    --primary-color: var(--color-green-500);
+    --primary-hover: #2563eb;
+    --secondary-color: #6b7280;
+    --secondary-hover: #4b5563;
+    --card-bg: #ffffff;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+  }
+
+  .dark {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+    --bg-color: #111;
+    --text-color: #e5e7eb;
+    --heading-color: #d1d5db;
+    --subheading-color: #9ca3af;
+    --muted-text-color: #6b7280;
+    --primary-color: #1e40af;
+    --primary-hover: #1e3a8a;
+    --secondary-color: #4b5563;
+    --secondary-hover: #374151;
+    --card-bg: #181818;
+    --shadow-color: rgba(255, 255, 255, 0.1);
+  } */
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: "Poppins", sans-serif;
+}
+
+h1 {
+  font-size: 1.875rem;
+  font-weight: 700;
+}
+
+h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+h3 {
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+@keyframes slide {
+  0%,
+  20% {
+    transform: translateX(0%);
+  }
+  25%,
+  45% {
+    transform: translateX(-100%);
+  }
+  50%,
+  70% {
+    transform: translateX(-200%);
+  }
+  75%,
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+.carousel {
+  display: flex;
+  animation: slide 12s infinite;
+}
+
+.carousel-item {
+  flex: 0 0 100%;
+}
+
+.loading {
+  @apply border-x-[rgba(0,0,0,0.5)] dark:border-x-[rgba(255,255,255,0.3)] border-y-transparent w-[50px] aspect-square rounded-full border-[8px] animate-spin;
+}
+
+.skeleton {
+  cursor: progress;
+  background: linear-gradient(0.25turn, transparent, #fff, transparent),
+    linear-gradient(#aaa, #aaa);
+  background-repeat: no-repeat;
+  background-position: -315px 0, 0 0, 0px 190px, 50px 195px;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  to {
+    background-position: 315px 0, 0 0, 0 190px, 50px 195px;
+  }
+}
+
+.card {
+  @apply overflow-hidden shadow rounded-xl transition-all;
+}
+.card:hover {
+  @apply scale-105;
+}
+.card .image {
+  @apply overflow-hidden bg-white aspect-square flex rounded-xl justify-center items-center;
+}
+.card img {
+  @apply object-contain w-full h-full;
+}
+.card .title {
+  @apply overflow-hidden line-clamp-2 text-ellipsis max-h-12;
+}
+
+.detail-produk {
+  @apply grid grid-cols-1 gap-2 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 items-start;
+}
+.detail-produk .gambar-produk {
+  @apply col-span-1 flex flex-col items-center;
+}
+.gambar-produk .gambar-utama {
+  @apply flex items-center justify-center overflow-hidden bg-white rounded-lg w-64 h-64;
+}
+.gambar-utama .image {
+  @apply object-contain w-full h-full;
+}
+.gambar-produk .mini-image {
+  @apply w-14 h-14 bg-gray-300 rounded-xl;
+}
+
+.detail-produk .mid-produk {
+  @apply col-span-1 sm:col-span-1 md:col-span-2 lg:col-span-2 flex flex-col gap-3;
+}
+.detail-produk .pembelian-produk {
+  @apply bg-background dark:bg-foreground col-span-1 sm:col-span-1 md:col-span-3 lg:col-span-1 xl:col-span-1 py-4 px-2 rounded-lg w-full flex flex-col gap-3 border border-[rgba(0,0,0,0.2)] dark:border-[rgba(255,255,255,0.3)];
+}
+.pembelian-produk input {
+  @apply w-12 pl-3 text-center border-none;
+}
+.pembelian-produk .quantity {
+  @apply flex items-center gap-2 border border-[rgba(0,0,0,0.2)] dark:border-[rgba(255,255,255,0.3)] rounded px-2 py-1;
+}
+.colors {
+  @apply size-10 rounded-lg;
+}
+.pembelian-produk .button {
+  @apply flex flex-row lg:flex-col gap-2 w-full items-center;
+}
+.dua-kolom {
+  @apply space-y-6;
+}
+
+.body {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Wrapper untuk efek blur */
+.glow-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1; /* Tetap di belakang konten */
+  overflow: hidden;
+}
+
+/* Efek glow blur */
+.glow {
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  filter: blur(150px);
+  opacity: 0.7;
+}
+
+/* Glow hijau */
+.glow.green {
+  background: #00ff7f;
+  top: 15%;
+  left: 10%;
+}
+
+/* Glow merah muda */
+.glow.pink {
+  background: #ff69b4;
+  bottom: 15%;
+  right: 10%;
+}
