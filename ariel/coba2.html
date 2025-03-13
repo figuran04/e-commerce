@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Commerce Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://kit.fontawesome.com/YOUR_FONT_AWESOME_KIT.js" crossorigin="anonymous"></script>
+</head>
+<body class="bg-gray-100">
+
+    <!-- Navbar -->
+    <nav class="bg-white p-4 shadow-md flex items-center justify-between">
+        <div class="flex items-center space-x-4">
+            <h1 class="text-2xl font-bold text-green-600">E-Commerce</h1>
+            <span class="text-gray-500">Kategori</span>
+            <div class="relative">
+                <input type="text" placeholder="Search" class="border px-4 py-2 rounded-full pl-10">
+                <i class="fa fa-search absolute left-3 top-3 text-gray-400"></i>
+            </div>
+        </div>
+        <div class="flex items-center space-x-6">
+            <i class="fa fa-shopping-cart text-xl text-gray-500"></i>
+            <i class="fa fa-bell text-xl text-gray-500"></i>
+            <i class="fa fa-envelope text-xl text-gray-500"></i>
+            <div class="border-l h-6"></div>
+            <div class="flex items-center space-x-2">
+                <i class="fa fa-store text-green-500 text-xl"></i>
+                <span class="text-gray-700">Toko</span>
+            </div>
+            <div class="flex items-center space-x-2">
+                <i class="fa fa-user-circle text-green-500 text-xl"></i>
+                <span class="text-gray-700">Pengguna</span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="flex">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-white h-screen shadow-md p-4">
+            <div class="flex items-center space-x-3">
+                <div class="w-12 h-12 bg-gray-300 rounded-full"></div>
+                <div>
+                    <h2 class="font-semibold">Nur Rachma</h2>
+                    <p class="text-sm text-gray-500">⭐⭐⭐⭐⭐</p>
+                </div>
+            </div>
+            <button class="mt-2 px-2 py-1 bg-gray-200 rounded text-sm">Power Merchant</button>
+            <p class="mt-2 text-sm text-gray-500">Performa Toko <span class="text-green-500 font-bold">100/100</span></p>
+
+            <nav class="mt-6">
+                <a href="#" class="flex items-center p-2 text-green-500 font-semibold bg-green-100 rounded-md">
+                    <i class="fa fa-home mr-3"></i> Beranda
+                </a>
+                <a href="#" class="flex items-center p-2 mt-2 text-gray-700 hover:bg-gray-100 rounded-md">
+                    <i class="fa fa-chart-bar mr-3"></i> Penjualan
+                </a>
+                <a href="#" class="flex items-center p-2 mt-2 text-gray-700 hover:bg-gray-100 rounded-md">
+                    <i class="fa fa-box mr-3"></i> Produk
+                </a>
+                <a href="#" class="flex items-center p-2 mt-2 text-gray-700 hover:bg-gray-100 rounded-md">
+                    <i class="fa fa-bullhorn mr-3"></i> Promosi
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Konten -->
+        <main class="flex-1 p-6">
+            <h2 class="text-green-500">Beranda > Toko</h2>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <div class="mt-4 flex items-center space-x-6">
+                    <div class="w-24 h-24 bg-gray-300 rounded-full"></div>
+                    <div>
+                        <h3 class="text-xl font-semibold">Sinta Nur Rachma</h3>
+                        <p class="text-gray-500">Lorem ipsum dolor sit amet.</p>
+                        <div class="flex space-x-4 mt-2">
+                            <p><span class="font-bold">560K</span> Pengikut</p>
+                            <p><span class="font-bold">100</span> Diikuti</p>
+                            <p><span class="font-bold">52K</span> Kunjungan</p>
+                        </div>
+                    </div>
+                    <button class="bg-green-500 text-white px-4 py-2 rounded">Ikuti</button>
+                </div>
+            </div>
+
+            <div class="mt-4 bg-white p-4 rounded-lg shadow-md">
+                <h3 class="font-semibold">Penjualan</h3>
+            </div>
+
+            <div class="mt-4 bg-white p-4 rounded-lg shadow-md">
+                <h3 class="font-semibold">Produk</h3>
+                <table class="w-full mt-2 border-collapse">
+                    <thead>
+                        <tr class="border-b text-left">
+                            <th class="p-2">Produk</th>
+                            <th class="p-2">Harga Normal</th>
+                            <th class="p-2">Harga Flash Sale</th>
+                            <th class="p-2">Diskon</th>
+                            <th class="p-2">Stok Flash Sale</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b">
+                            <td class="p-2">Sweater Gaul Hypebeast, XL</td>
+                            <td class="p-2">Rp1.000.000</td>
+                            <td class="p-2">Rp1.000.000</td>
+                            <td class="p-2">75%</td>
+                            <td class="p-2">4</td>
+                        </tr>
+                        <tr class="border-b">
+                            <td class="p-2">Sweater Gaul Hypebeast, XL</td>
+                            <td class="p-2">Rp1.000.000</td>
+                            <td class="p-2">Rp1.000.000</td>
+                            <td class="p-2">75%</td>
+                            <td class="p-2">4</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+</body>
+</html>
