@@ -7,6 +7,21 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <nav class="navbar">
+        <div class="logo">Zeroova</div>
+        <ul class="nav-links">
+            <li><a href="#">Kategori</a></li>
+            <li>
+                <input type="text" placeholder="Cari...">
+            </li>
+            <li><a href="#"><img src="keranjang.png" alt="Keranjang" class="icon"></a></li>
+            <li><a href="#"><img src="notifikasi.png" alt="Notifikasi" class="icon"></a></li>
+            <li><a href="#"><img src="pesan.png" alt="Pesan" class="icon"></a></li>
+            <li><a href="#">Toko</a></li>
+            <li><a href="#"><img src="user.png" alt="USer" class="icon"></a></li>
+        </ul>
+    </nav>
+
     <div class="container">
         <div class="breadcrumb">
             <a href="#">Beranda</a> > <span>Detail Produk</span>
@@ -57,9 +72,82 @@
                 <button class="add-to-cart">+ Keranjang</button>
                 <button class="buy-now">Beli Langsung</button>
             </div>
-                        
         </div>
     </div>
+    <div class="review-section">
+        <div class="review-header">
+            <h2>Ulasan Pembeli</h2>
+            <p>12,9rb ulasan</p>
+        </div>
+        <div class="review-section">
+            <div class="review-header">
+                <div class="review-rating">
+                    <span>⭐ 4.9</span>/5.0
+                </div>
+                <p class="review-summary">
+                    98% pembeli merasa puas<br>
+                    <span>12,396 rating | 2,323 ulasan</span>
+                </p>
+            </div>
+        
+            <div class="review-container">
+                <div class="review-filters">
+                    <h4>FILTER ULASAN</h4>
+                    <div class="filter-group">
+                        <label><input type="checkbox"> Dengan Foto & Video</label>
+                    </div>
+                    <h4>Rating</h4>
+                    <div class="filter-group">
+                        <label><input type="checkbox"> ⭐ 5</label>
+                        <label><input type="checkbox"> ⭐ 4</label>
+                        <label><input type="checkbox"> ⭐ 3</label>
+                        <label><input type="checkbox"> ⭐ 2</label>
+                        <label><input type="checkbox"> ⭐ 1</label>
+                    </div>
+                    <h4>Topik Ulasan</h4>
+                    <div class="filter-group">
+                        <label><input type="checkbox"> Kualitas Barang</label>
+                        <label><input type="checkbox"> Pelayanan Penjual</label>
+                        <label><input type="checkbox"> Kemasan Barang</label>
+                        <label><input type="checkbox"> Harga Barang</label>
+                        <label><input type="checkbox"> Sesuai Deskripsi</label>
+                        <label><input type="checkbox"> Pengiriman</label>
+                    </div>
+                </div>
+
+                <div class="review-list">
+                    <div class="review-item">
+                        <div class="review-header">
+                            <h3>Masker yang bagus!</h3>
+                        </div>
+                        <div class="review-user">
+                            <p><strong>Agus Wibowo</strong> - ⭐⭐⭐⭐⭐</p>
+                        </div>
+                        <p>Saya sangat puas dengan masker ini. Kualitasnya bagus dan harga yang terjangkau.</p>
+                        <p class="review-date">Tanggal: 12 Februari 2023</p>
+                        <div class="review-images">
+                            <img src="masker1.jpg" alt="Masker">
+                            <img src="masker2.jpg" alt="Masker">
+                        </div>
+                    </div>
+        
+                    <div class="review-item">
+                        <div class="review-header">
+                            <h3>Masker yang nyaman!</h3>
+                        </div>
+                        <div class="review-user">
+                            <p><strong>Siti Rahma</strong> - ⭐⭐⭐⭐</p>
+                        </div>
+                        <p>Maskernya nyaman dipakai, tapi pengirimannya agak lama.</p>
+                        <p class="review-date">Tanggal: 10 Februari 2023</p>
+                    </div>
+                </div>
+            </div>
+        
+            <button class="load-more">Lihat lebih banyak</button>
+        </div>
+        
+        
     <script src="script.js"></script>
 </body>
 </html>

@@ -5,6 +5,56 @@ body {
     background-color: #f9f9f9;
 }
 
+.navbar {
+    display: flex;
+    justify-content: normal;
+    align-items: center;
+    background-color: #63CA53;
+    padding: 10px 50px;
+}
+
+.logo {
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    align-items: center;
+}
+.nav-links input[type="text"] {
+    width: 750px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+.nav-links li {
+    margin: 0 15px;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.nav-links input[type="text"] {
+    padding: 5px;
+    border: none;
+    border-radius: 10px;
+}
+
+.icon {
+    width: 24px;
+    height: 24px;
+}
+
+.nav-links a:hover {
+    text-decoration: underline;
+}
 .container {
     width: 80%;
     margin: auto;
@@ -156,6 +206,7 @@ h1 {
     background: #28a745;
     color: white;
 }
+
 .quantity-control {
     display: flex;
     align-items: center;
@@ -182,5 +233,117 @@ h1 {
 #quantity {
     width: 50px;
     text-align: center;
-    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+.review-section {
+    margin-top: 20px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Mengatur container agar filter ada di kiri dan review di kanan */
+.review-container {
+    display: flex;
+    gap: 20px;
+}
+
+/* Filter ulasan di sebelah kiri */
+.review-filters {
+    width: 250px;
+    background: #f8f8f8;
+    padding: 15px;
+    border-radius: 5px;
+    margin-top: 15px;
+}
+
+.review-filters h4 {
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.filter-group {
+    margin-bottom: 15px;
+}
+
+.filter-group label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+}
+
+.filter-group input {
+    cursor: pointer;
+}
+
+/* Review list di sebelah kanan */
+.review-list {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Item ulasan */
+.review-item {
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    flex-direction: column;
+}
+
+.review-user {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+}
+
+.review-date {
+    font-size: 12px;
+    color: #777;
+}
+
+.review-text {
+    font-size: 14px;
+    color: #333;
+    margin-top: 5px;
+}
+
+/* Menampilkan gambar ulasan */
+.review-images {
+    display: flex;
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.review-images img {
+    width: 60px;
+    height: 60px;
+    border-radius: 5px;
+    object-fit: cover;
+}
+
+/* Tombol lihat lebih banyak */
+.load-more {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    border: 1px solid #007bff;
+    background: white;
+    color: #007bff;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+.load-more:hover {
+    background: #007bff;
+    color: white;
 }
