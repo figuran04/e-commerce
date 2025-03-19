@@ -25,7 +25,7 @@ const Navbar = () => {
             href="/"
             className="text-xl font-bold text-primary hover:text-primary-hover line-clamp-1"
           >
-            Eco-Friendly
+            Zerovaa
           </Link>
           <p className="hidden font-medium md:block">Kategori</p>
         </div>

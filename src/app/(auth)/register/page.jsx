@@ -8,7 +8,7 @@ export default function RegisterPage() {
   const [inputValue, setInputValue] = useState("");
   return (
     <div className="container mx-auto p-4 flex flex-col items-center">
-      <h2 className="text-2xl font-bold text-primary mb-6">Eco-Friendly</h2>
+      <h2 className="text-2xl font-bold text-primary mb-6">Zerovaa</h2>
       <div className="flex gap-8">
         <div className="hidden md:flex flex-col items-center gap-2 max-w-96">
           <div className="size-80 p-0 bg-gray-200 rounded-xl overflow-hidden">
@@ -18,11 +18,9 @@ export default function RegisterPage() {
               className="w-full object-cover h-full"
             />
           </div>
-          <h2 className="text-2xl font-semibold">
-            Jual Beli Mudah di Eco-Friendly
-          </h2>
+          <h2 className="text-2xl font-semibold">Jual Beli Mudah di Zerovaa</h2>
           <p className="text-center text-sm">
-            Gabung dan rasakan kemudahan bertransaksi di Eco-Friendly
+            Gabung dan rasakan kemudahan bertransaksi di Zerovaa
           </p>
         </div>
         <div className="flex flex-col gap-6 p-8 rounded-lg sm:shadow-md sm:w-96 w-full bg-background dark:bg-foreground">
@@ -31,7 +29,7 @@ export default function RegisterPage() {
               <span>Daftar Sekarang</span>
             </div>
             <p className="text-sm">
-              Sudah punya akun Eco-Friendly?{" "}
+              Sudah punya akun Zerovaa?{" "}
               <Link
                 href="/login"
                 className="text-primary hover:text-primary-hover font-bold"
@@ -89,7 +87,7 @@ export default function RegisterPage() {
         </div>
       </div>
       <div className="text-sm flex items-center gap-2 mt-8">
-        <span>Copyright 2025, Eco-Friendly</span>
+        <span>Copyright 2025, Zerovaa</span>
         <span>|</span>
         <a href="#" className="text-primary hover:text-primary-hover font-bold">
           Bantuan

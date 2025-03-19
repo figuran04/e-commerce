@@ -9,11 +9,11 @@ export default function LoginPage() {
 
   return (
     <div className="container mx-auto p-4 flex flex-col items-center">
-      <h2 className="text-2xl font-bold text-primary mb-6">Eco-Friendly</h2>
+      <h2 className="text-2xl font-bold text-primary mb-6">Zerovaa</h2>
 
       <div className="p-8 rounded-lg sm:shadow-md sm:w-96 w-full bg-background dark:bg-foreground">
         <div className="flex justify-between items-center text-lg font-semibold mb-6">
-          <span>Masuk ke Eco-Friendly</span>
+          <span>Masuk ke Zerovaa</span>
           <Link
             href="/register"
             className="text-primary hover:text-primary-hover font-bold text-sm"
@@ -74,7 +74,7 @@ export default function LoginPage() {
       </div>
 
       <div className="mt-8 text-sm flex items-center gap-2">
-        <span>Copyright 2025, Eco-Friendly</span>
+        <span>Copyright 2025, Zerovaa</span>
         <span>|</span>
         <a href="#" className="text-primary hover:text-primary-hover font-bold">
           Bantuan

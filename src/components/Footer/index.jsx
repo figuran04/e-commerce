@@ -4,7 +4,7 @@ const Footer = () => {
       <div className="container mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-6">
         {/* Tentang */}
         <div>
-          <h3 className="text-lg font-semibold">Eco-Friendly</h3>
+          <h3 className="text-lg font-semibold">Zerovaa</h3>
           <ul className="mt-2 space-y-1">
             <li>Tentang Kami</li>
             <li>Karir</li>
@@ -63,7 +63,7 @@ const Footer = () => {
 
       {/* Copyright */}
       <div className="border-t border-[rgba(0,0,0,0.2)] dark:border-[rgba(255,255,255,0.3)] mt-6 pt-4 text-center text-sm">
-        © 2025 Eco-Friendly. Semua hak dilindungi.
+        © 2025 Zerovaa. Semua hak dilindungi.
       </div>
     </footer>
   );
