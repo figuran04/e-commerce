@@ -62,7 +62,7 @@
       /* 
       @layer base {
         .body {
-          @apply background: bg-lime-700/1;
+          @apply background: bg-green-500/1;
         }
       }
 
@@ -80,9 +80,10 @@
     </style>
   </head>
   <body class="flex flex-col">
+    <!-- <div class="absolute glow bg-lime-500 w-full h-[250px] top-0 left-0"></div> -->
     <!-- navbar -->
     <div
-      class="z-50 bg-lime-50/88 backdrop-blur-md sticky top-0 flex gap-2 flex-col p-4 border-b-gray-200 border-b-1 w-full"
+      class="z-50 bg-white/88 backdrop-blur-md sticky top-0 flex gap-2 flex-col p-4 border-b-gray-200 border-b-1 w-full"
     >
       <div
         class="w-full flex container mx-auto justify-between gap-6 items-center w-full flex-nowrap"
@@ -113,18 +114,18 @@
 
         <div class="flex gap-4">
           <!-- toko -->
-          <div class="flex items-center gap-2">
+          <div class="flex items-center gap-2 cursor-pointer">
             <i
               class="ph-fill ph-storefront text-(--primary-color) text-3xl p-1 rounded-full"
             ></i>
-            <p>Toko</p>
+            <p class="md:block hidden">Toko</p>
           </div>
           <!-- user profile -->
-          <div class="flex items-center gap-2">
+          <div class="flex items-center gap-2 cursor-pointer">
             <i
               class="ph-fill ph-user text-(--primary-color) text-3xl p-1 rounded-full"
             ></i>
-            <p>User</p>
+            <p class="md:block hidden">User</p>
           </div>
         </div>
       </div>
@@ -135,8 +136,16 @@
         <p>satu</p>
       </div>
     </div>
+    <!-- <div class="glow-wrapper">
+      <div
+        class="glow bg-green-500 w-[400px] h-[150px] top-[20%] left-[10%]"
+      ></div>
+      <div
+        class="glow bg-pink-500 w-[400px] h-[150px] bottom-[20%] right-[10%]"
+      ></div>
+    </div> -->
     <!-- body -->
-    <div class="bg-[#F4F6F4]">
+    <div class="body min-h-screen bg-gray-100">
       <main class="container mx-auto flex flex-col gap-4 p-4">
         <div class="overflow-hidden rounded-lg shadow">
           <!-- Carousel -->
@@ -179,7 +188,7 @@
         </div>
       </main>
     </div>
-    <footer class="bg-lime-50 border-t-2 border-lime-600/20 py-6">
+    <footer class="bg-white/88 backdrop-blur-md py-6">
       <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-6">
         <div>
           <h3 class="text-lg font-bold text-(--primary-color)">Zerovaa</h3>
@@ -300,7 +309,7 @@
       </div>
 
       <div
-        class="border-t-2 border-lime-600/20 mt-6 pt-4 text-center text-sm text-lime-700/50"
+        class="border-t-2 border-gray-100 mt-6 pt-4 text-center text-sm text-green-500/50"
       >
         © 2025 Zerovaa. Semua hak dilindungi.
       </div>
@@ -316,12 +325,12 @@
           productsContainer.innerHTML = products
             .map(
               (product) => `
-                    <a href="#" class="hover:scale-105 hover:shadow shadow-lime-600/10 transition-all rounded-xl bg-white group hover:bg-lime-100 transition-all p-1">
+                    <a href="#" class="hover:scale-105 hover:shadow-md transition-all rounded-xl bg-white/88 backdrop-blur-md hover:backdrop-filter-none transition-all p-1">
                       <div>
                           <div class="bg-gray-300 rounded-xl flex justify-center items-center overflow-hidden">
                               <img src="${product.image}" alt="${product.title}" class="aspect-square w-full object-cover">
                           </div>
-                          <div class="bg-white group-hover:bg-lime-100 transition-all p-2">
+                          <div class="p-2">
                               <h4 class="line-clamp-2 overflow-hidden text-ellipsis break-words max-h-12">${product.title}</h4>
                               <p class="font-semibold text-xl">$${product.price}</p>
                               <p class="line-clamp-1">${product.category}</p>
