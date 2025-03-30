@@ -9,7 +9,7 @@
    git add .
    ```
 3. Buat commit dengan pesan yang jelas:
-   ```sh
+   ```shgit
    git commit -m "pesan perubahan"
    ```
 4. Push perubahan ke repositori:
