@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Beranda | Zerovaa</title>
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <!-- <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script> -->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/bold/style.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <style type="text/tailwindcss">
+      /* Carousel animation */
+      @keyframes slide {
+        0% {
+          transform: translateX(0%);
+        }
+        20% {
+          transform: translateX(0%);
+        }
+        25% {
+          transform: translateX(-100%);
+        }
+        45% {
+          transform: translateX(-100%);
+        }
+        50% {
+          transform: translateX(-200%);
+        }
+        70% {
+          transform: translateX(-200%);
+        }
+        75% {
+          transform: translateX(0%);
+        }
+        100% {
+          transform: translateX(0%);
+        }
+      }
+
+      .carousel {
+        display: flex;
+        animation: slide 12s infinite;
+      }
+
+      .carousel-item {
+        flex: 0 0 100%;
+      }
+      /* 
+      @layer base {
+        .body {
+          @apply background: bg-green-500/1;
+        }
+      }
+
+      @layer components {
+        .btn {
+          @apply px-4 py-2 rounded-lg font-medium transition-all;
+        }
+      }
+
+      @layer utilities {
+        .card {
+          @apply p-4 bg-white shadow-md rounded-lg;
+        }
+      } */
+    </style>
+  </head>
+  <body class="flex flex-col">
+    <!-- <div class="absolute glow bg-lime-500 w-full h-[250px] top-0 left-0"></div> -->
+    <!-- navbar -->
+    <div
+      class="z-50 bg-white/88 backdrop-blur-md sticky top-0 flex gap-2 flex-col p-4 border-b-gray-200 border-b-1 w-full"
+    >
+      <div
+        class="w-full flex container mx-auto justify-between gap-6 items-center w-full flex-nowrap"
+      >
+        <div class="flex flex-col md:flex-row md:gap-6 md:w-full">
+          <div class="flex items-center gap-6">
+            <h1 class="text-(--primary-color)">Zerovaa</h1>
+            <p class="font-semibold">Kategori</p>
+          </div>
+          <!-- input search -->
+          <div
+            class="hidden md:flex w-full items-center justify-center flex-nowrap"
+          >
+            <div
+              class="border-1 rounded-md px-3 py-1 items-center gap-2 border-gray-300 flex items-center"
+            >
+              <i class="ph ph-magnifying-glass text-2xl"></i>
+              <input type="text" placeholder="Cari" class="outline-none" />
+            </div>
+          </div>
+        </div>
+
+        <div class="items-center gap-4 hidden md:flex">
+          <i class="ph-bold ph-shopping-cart-simple text-2xl"></i>
+          <i class="ph-bold ph-bell text-2xl"></i>
+          <i class="ph-bold ph-envelope-simple text-2xl"></i>
+        </div>
+
+        <div class="flex gap-4">
+          <!-- toko -->
+          <div class="flex items-center gap-2 cursor-pointer">
+            <i
+              class="ph-fill ph-storefront text-(--primary-color) text-3xl p-1 rounded-full"
+            ></i>
+            <p class="md:block hidden">Toko</p>
+          </div>
+          <!-- user profile -->
+          <div class="flex items-center gap-2 cursor-pointer">
+            <i
+              class="ph-fill ph-user text-(--primary-color) text-3xl p-1 rounded-full"
+            ></i>
+            <p class="md:block hidden">User</p>
+          </div>
+        </div>
+      </div>
+      <div class="flex items-center gap-2 justify-center text-gray-400">
+        <p>satu</p>
+        <p>satu</p>
+        <p>satu</p>
+        <p>satu</p>
+      </div>
+    </div>
+    <!-- <div class="glow-wrapper">
+      <div
+        class="glow bg-green-500 w-[400px] h-[150px] top-[20%] left-[10%]"
+      ></div>
+      <div
+        class="glow bg-pink-500 w-[400px] h-[150px] bottom-[20%] right-[10%]"
+      ></div>
+    </div> -->
+    <!-- body -->
+    <div class="body min-h-screen bg-gray-100">
+      <main class="container mx-auto flex flex-col gap-4 p-4">
+        <div class="overflow-hidden rounded-lg shadow">
+          <!-- Carousel -->
+          <div class="carousel">
+            <!-- Slide 1 -->
+            <div class="carousel-item">
+              <img
+                src="https://images.tokopedia.net/img/cache/1208/NsjrJu/2025/2/28/05bef05b-6fb1-4027-a8ec-4bd4f2f6c984.jpg.webp?ect=3g"
+                alt="Slide 1"
+                class="w-full sm:h-36 md:h-48 lg:h-64 xl:h-80 object-cover rounded-md"
+              />
+            </div>
+
+            <!-- Slide 2 -->
+            <div class="carousel-item">
+              <img
+                src="https://images.tokopedia.net/img/cache/1208/NsjrJu/2025/3/6/3f1b1477-7ea9-4bbd-a1df-1932bb7f2e61.jpg.webp?ect=3g"
+                alt="Slide 2"
+                class="w-full sm:h-36 md:h-48 lg:h-64 xl:h-80 object-cover rounded-md"
+              />
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="carousel-item">
+              <img
+                src="https://images.tokopedia.net/img/cache/1208/NsjrJu/2025/3/3/bec444fc-a066-487c-bdf1-58c7daf9d454.jpg.webp?ect=3g"
+                alt="Slide 3"
+                class="w-full sm:h-36 md:h-48 lg:h-64 xl:h-80 object-cover rounded-md"
+              />
+            </div>
+          </div>
+        </div>
+        <!-- <div class="w-full h-48 bg-gray-200 rounded-xl"></div> -->
+        <div class="flex flex-col gap-2">
+          <h2>Produk</h2>
+          <div
+            class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6"
+            id="products"
+          ></div>
+        </div>
+      </main>
+    </div>
+    <footer class="bg-white/88 backdrop-blur-md py-6">
+      <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div>
+          <h3 class="text-lg font-bold text-(--primary-color)">Zerovaa</h3>
+          <ul class="mt-2 space-y-1">
+            <li
+              class="cursor-pointer hover:text-(--primary-color) transition-all"
+            >
+              Tentang Kami
+            </li>
+            <li
+              class="cursor-pointer hover:text-(--primary-color) transition-all"
+            >
+              Karir
+            </li>
+            <li
+              class="cursor-pointer hover:text-(--primary-color) transition-all"
+            >
+              Blog
+            </li>
+            <li
+              class="cursor-pointer hover:text-(--primary-color) transition-all"
+            >
+              Kontak
+            </li>
+            <li
+              class="cursor-pointer hover:text-(--primary-color) transition-all"
+            >
+              Bantuan
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-bold text-(--primary-color)">Beli</h3>
+          <ul class="mt-2 space-y-1">
+            <li
+              class="cursor-pointer hover:text-(--primary-color) transition-all"
+            >
+              Cara Belanja
+            </li>
+            <li
+              class="cursor-pointer hover:text-(--primary-color) transition-all"
+            >
+              Metode Pembayaran
+            </li>
+            <li
+              class="cursor-pointer hover:text-(--primary-color) transition-all"
+            >
+              Pengiriman
+            </li>
+          </ul>
+          <h3 class="mt-4 text-lg font-bold text-(--primary-color)">Jual</h3>
+          <ul class="mt-2 space-y-1">
+            <li
+              class="cursor-pointer hover:text-(--primary-color) transition-all"
+            >
+              Cara Berjualan
+            </li>
+            <li
+              class="cursor-pointer hover:text-(--primary-color) transition-all"
+            >
+              Keuntungan Jualan
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-bold text-(--primary-color)">
+            Keamanan & Privasi
+          </h3>
+          <ul class="mt-2 space-y-1">
+            <li
+              class="cursor-pointer hover:text-(--primary-color) transition-all"
+            >
+              Syarat & Ketentuan
+            </li>
+            <li
+              class="cursor-pointer hover:text-(--primary-color) transition-all"
+            >
+              Kebijakan Privasi
+            </li>
+            <li
+              class="cursor-pointer hover:text-(--primary-color) transition-all"
+            >
+              Garansi Produk
+            </li>
+            <li
+              class="cursor-pointer hover:text-(--primary-color) transition-all"
+            >
+              Pusat Resolusi
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-bold text-(--primary-color)">Ikuti Kami</h3>
+          <div class="flex space-x-3 mt-2">
+            <span class="bg-gray-300 p-2 rounded">📘</span>
+            <span class="bg-gray-300 p-2 rounded">🐦</span>
+            <span class="bg-gray-300 p-2 rounded">📸</span>
+          </div>
+          <h3 class="mt-4 text-lg font-bold text-(--primary-color)">
+            Unduh Aplikasi
+          </h3>
+          <div class="flex space-x-2 mt-2">
+            <button
+              class="bg-(--primary-color) text-white px-4 py-2 rounded text-sm"
+            >
+              App Store
+            </button>
+            <button
+              class="bg-(--primary-color) text-white px-4 py-2 rounded text-sm"
+            >
+              Google Play
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="border-t-2 border-gray-100 mt-6 pt-4 text-center text-sm text-green-500/50"
+      >
+        © 2025 Zerovaa. Semua hak dilindungi.
+      </div>
+    </footer>
+
+    <script>
+      async function fetchProducts() {
+        try {
+          const response = await fetch("https://fakestoreapi.com/products");
+          const products = await response.json();
+
+          const productsContainer = document.getElementById("products");
+          productsContainer.innerHTML = products
+            .map(
+              (product) => `
+                    <a href="#" class="hover:scale-105 hover:shadow-md transition-all rounded-xl bg-white/88 backdrop-blur-md hover:backdrop-filter-none transition-all p-1">
+                      <div>
+                          <div class="bg-gray-300 rounded-xl flex justify-center items-center overflow-hidden">
+                              <img src="${product.image}" alt="${product.title}" class="aspect-square w-full object-cover">
+                          </div>
+                          <div class="p-2">
+                              <h4 class="line-clamp-2 overflow-hidden text-ellipsis break-words max-h-12">${product.title}</h4>
+                              <p class="font-semibold text-xl">$${product.price}</p>
+                              <p class="line-clamp-1">${product.category}</p>
+                              <div class="flex gap-1 items-center">
+                                  <i class="ph-fill ph-star text-yellow-500"></i>
+                                  ${product.rating.rate} | ${product.rating.count} sold
+                              </div>
+                          </div>
+                      </div>
+                    </a>
+                `
+            )
+            .join("");
+        } catch (error) {
+          console.error("Error fetching products:", error);
+        }
+      }
+
+      fetchProducts();
+    </script>
+  </body>
+</html>

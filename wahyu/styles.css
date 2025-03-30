@@ -1,0 +1,349 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+}
+
+.navbar {
+    display: flex;
+    justify-content: normal;
+    align-items: center;
+    background-color: #63CA53;
+    padding: 10px 50px;
+}
+
+.logo {
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    align-items: center;
+}
+.nav-links input[type="text"] {
+    width: 750px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+.nav-links li {
+    margin: 0 15px;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.nav-links input[type="text"] {
+    padding: 5px;
+    border: none;
+    border-radius: 10px;
+}
+
+.icon {
+    width: 24px;
+    height: 24px;
+}
+
+.nav-links a:hover {
+    text-decoration: underline;
+}
+.container {
+    width: 80%;
+    margin: auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.breadcrumb {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.breadcrumb a {
+    text-decoration: none;
+    color: #007bff;
+}
+
+.product-detail {
+    display: flex;
+    gap: 20px;
+}
+
+.image-section {
+    flex: 1;
+}
+
+.image-placeholder {
+    width: 100%;
+    height: 300px;
+    background-color: #ddd;
+}
+
+.thumbnail-placeholder {
+    display: flex;
+    margin-top: 10px;
+    gap: 5px;
+}
+
+.thumbnail-placeholder div {
+    width: 50px;
+    height: 50px;
+    background-color: #ccc;
+}
+
+.info-section {
+    flex: 2;
+}
+
+h1 {
+    font-size: 20px;
+    margin: 0;
+}
+
+.sales {
+    color: #777;
+    font-size: 14px;
+}
+
+.price {
+    font-size: 24px;
+    font-weight: bold;
+    color: #e60000;
+    margin: 10px 0;
+}
+
+.color-selection {
+    margin: 10px 0;
+}
+
+.color-btn {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    background: white;
+    cursor: pointer;
+    margin: 5px;
+    border-radius: 5px;
+}
+
+.color-btn:hover {
+    background: #007bff;
+    color: white;
+}
+
+.tabs {
+    margin: 10px 0;
+}
+
+.tab {
+    padding: 8px 16px;
+    border: 1px solid #ccc;
+    background: white;
+    cursor: pointer;
+}
+
+.tab.active {
+    background: #007bff;
+    color: white;
+}
+
+.tab-content {
+    display: none;
+    padding: 10px;
+    border: 1px solid #ccc;
+    margin-top: 5px;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.purchase-section {
+    flex: 1;
+    background: #f1f1f1;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.purchase-section input {
+    width: 50px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.subtotal {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.add-to-cart,
+.buy-now {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 5px;
+    border-radius: 5px;
+}
+
+.add-to-cart {
+    background: #007bff;
+    color: white;
+}
+
+.buy-now {
+    background: #28a745;
+    color: white;
+}
+
+.quantity-control {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    margin-bottom: 10px;
+}
+
+.quantity-btn {
+    width: 30px;
+    height: 30px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.quantity-btn:hover {
+    background-color: #0056b3;
+}
+
+#quantity {
+    width: 50px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+.review-section {
+    margin-top: 20px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Mengatur container agar filter ada di kiri dan review di kanan */
+.review-container {
+    display: flex;
+    gap: 20px;
+}
+
+/* Filter ulasan di sebelah kiri */
+.review-filters {
+    width: 250px;
+    background: #f8f8f8;
+    padding: 15px;
+    border-radius: 5px;
+    margin-top: 15px;
+}
+
+.review-filters h4 {
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.filter-group {
+    margin-bottom: 15px;
+}
+
+.filter-group label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+}
+
+.filter-group input {
+    cursor: pointer;
+}
+
+/* Review list di sebelah kanan */
+.review-list {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Item ulasan */
+.review-item {
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    flex-direction: column;
+}
+
+.review-user {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+}
+
+.review-date {
+    font-size: 12px;
+    color: #777;
+}
+
+.review-text {
+    font-size: 14px;
+    color: #333;
+    margin-top: 5px;
+}
+
+/* Menampilkan gambar ulasan */
+.review-images {
+    display: flex;
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.review-images img {
+    width: 60px;
+    height: 60px;
+    border-radius: 5px;
+    object-fit: cover;
+}
+
+/* Tombol lihat lebih banyak */
+.load-more {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    border: 1px solid #007bff;
+    background: white;
+    color: #007bff;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+.load-more:hover {
+    background: #007bff;
+    color: white;
+}

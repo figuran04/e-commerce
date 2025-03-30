@@ -2,13 +2,15 @@
 
 /* Variable Colors */
 :root {
-  --bg-color: #f3f4f6;
+  --bg-color: #F3FDE4;
   --text-color: #111827;
   --heading-color: #1f2937;
   --subheading-color: #374151;
   --muted-text-color: #4b5563;
-  --primary-color: #3b82f6;
-  --primary-hover: #2563eb;
+  /* --primary-color: #509717;
+  --primary-hover: #3e681c; */
+  --primary-color: #22c55e;
+  --primary-hover: #15803d;
   --secondary-color: #6b7280;
   --secondary-hover: #4b5563;
   --card-bg: #ffffff;
@@ -36,31 +38,40 @@ h3 {
   font-weight: 500;
 }
 
-/* Button Styles */
-.btn {
-  padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
-  font-weight: 500;
-  transition: all 0.3s;
+.body {
+  position: relative;
+  overflow: hidden;
 }
 
-.btn-primary {
-  background-color: var(--primary-color);
-  color: white;
+/* Wrapper untuk efek blur */
+.glow-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1; /* Tetap di belakang konten */
+  pointer-events: none; /* Pastikan tidak mengganggu interaksi dengan elemen lain */
+  overflow: hidden;
 }
 
-.btn-primary:hover {
-  background-color: var(--primary-hover);
+/* Efek glow blur */
+.glow {
+  position: absolute;
+  filter: blur(150px);
+  opacity: 1;
+  pointer-events: none; /* Pastikan glow tidak mengganggu interaksi */
+}
+/* 
+.glow.green {
+  background: #00ff7f;
 }
 
-.btn-secondary {
-  background-color: var(--secondary-color);
-  color: white;
-}
+.glow.pink {
+  background: #ff69b4;
+} */
 
-.btn-secondary:hover {
-  background-color: var(--secondary-hover);
-}
+
 
 /* Card Styles */
 .card {
