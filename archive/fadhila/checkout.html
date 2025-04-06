@@ -22,36 +22,43 @@
     />
     <link rel="stylesheet" href="style.css" />
     <style>
-        .section {
-            margin: 20px;
-            padding: 20px;
-            border: 1px solid #E0E0E0;
-            border-radius: 8px;
-            display: flex;
-            justify-content: space-between;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse; /* Menghindari garis ganda */
-        }
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 
-        th, td {
-            border: 1px solid #ddd;
-            padding: 10px; /* Menambahkan jarak dalam sel */
-            text-align: left; /* Agar teks sejajar ke kiri */
-        }
+      body {
+        font-family: "Poppins", sans-serif;
+      }
 
-        th {
-            background-color: #f4f4f4;
-        }
-        .total{
-            margin: 20px;
-            padding: 20px;
-            border: 1px solid #E0E0E0;
-            border-radius: 8px;
-            display: flex;
-            justify-content: space-between;
-        }
+      .section {
+        /* margin: 20px; */
+        padding: 16px;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        display: flex;
+        justify-content: space-between;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse; /* Menghindari garis ganda */
+      }
+
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 10px; /* Menambahkan jarak dalam sel */
+        text-align: left; /* Agar teks sejajar ke kiri */
+      }
+
+      th {
+        background-color: #f4f4f4;
+      }
+      .total {
+        /* margin: 20px 0; */
+        padding: 16px;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        display: flex;
+        justify-content: space-between;
+      }
     </style>
   </head>
 
@@ -130,34 +137,36 @@
 
     <div class="bg-gray-50">
       <main class="container mx-auto p-4 flex flex-col gap-4 min-h-screen">
-        <strong><h1 style="font-size: 20px;">Checkout</h1></strong>
-        <div class="container">
-            <div class="section">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Nama Produk</th>
-                            <th>Harga</th>
-                            <th>Jumlah</th>
-                            <th>Subtotal</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Produk Satu</td>
-                            <td>Rp10.000</td>
-                            <td>2</td>
-                            <td>Rp20.000</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="total">
-                <p>Total: </p>
-                <a href="#"class="px-4 py-1 rounded border-2 border-lime-600 bg-lime-600 text-gray-50">
-                    Checkout
-                </a>
-            </div>
+        <strong><h1 style="font-size: 20px">Checkout</h1></strong>
+
+        <div class="section">
+          <table>
+            <thead>
+              <tr>
+                <th>Nama Produk</th>
+                <th>Harga</th>
+                <th>Jumlah</th>
+                <th>Subtotal</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Produk Satu</td>
+                <td>Rp10.000</td>
+                <td>2</td>
+                <td>Rp20.000</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="total">
+          <p>Total:</p>
+          <a
+            href="#"
+            class="px-4 py-1 rounded border-2 border-lime-600 bg-lime-600 text-gray-50"
+          >
+            Checkout
+          </a>
         </div>
       </main>
     </div>
