@@ -2,6 +2,7 @@
 
 uploads/*
 !/uploads/*.PNG
+url.md
 
 # dependencies
 /node_modules
