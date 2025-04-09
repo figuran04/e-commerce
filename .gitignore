@@ -2,6 +2,7 @@
 
 uploads/*
 !/uploads/*.PNG
+!/uploads/*.png
 url.md
 
 # dependencies
