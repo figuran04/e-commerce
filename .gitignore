@@ -3,7 +3,7 @@
 uploads/*
 !/uploads/*.PNG
 !/uploads/*.png
-url.md
+url.*
 
 # dependencies
 /node_modules
