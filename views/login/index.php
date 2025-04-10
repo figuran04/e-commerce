@@ -1,135 +1,98 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Zerovaa</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #fafaf8;
-            text-align: center;
-            margin: 0;
-            padding: 0;
-        }
-        .login-container {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 350px;
-            margin: auto;
-            margin-top: 50px;
-            text-align: left;
-        }
-        .login-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        .login-header h3 {
-            font-size: 16px;
-            margin: 0;
-        }
-        .register-link, .help-link, .footer-link {
-            color: #5c9820;
-            text-decoration: none;
-            font-weight: bold;
-        }
-        .input-field {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0 5px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        .input-hint {
-            font-size: 12px;
-            color: #888;
-            margin-left: 5px;
-        }
-        .help-link {
-            display: block;
-            text-align: right;
-            margin-bottom: 10px;
-            font-size: 12px;
-        }
-        .next-btn, .qr-btn, .google-btn {
-            width: 100%;
-            padding: 10px;
-            margin: 5px 0;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-        .next-btn {
-            background: #ddd;
-            color: #888;
-            cursor: not-allowed;
-        }
-        .qr-btn, .google-btn {
-            background: #fff;
-            border: 1px solid #ccc;
-            cursor: pointer;
-        }
-        .divider {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 10px 0;
-            font-size: 12px;
-            color: #888;
-        }
-        .divider span {
-            flex: 1;
-            height: 1px;
-            background: #ccc;
-            margin: 0 10px;
-        }
-    </style>
-</head>
-<body>
+<?php
+require_once '../../config/init.php';
+$pageTitle = "Masuk";
+ob_start();
+?>
+<style>
+  .login-container {
+    background: white;
+    border-radius: 10px;
+    text-align: left;
+  }
 
-    <main>
-        <div class="login-container">
-            <div class="login-header">
-                <h3>Masuk ke E-Commerce</h3>
-                <a href="#" class="register-link">Daftar</a>
-            </div>
-            <input type="text" class="input-field" placeholder="Nomor HP atau Email" id="loginInput">
-            <p class="input-hint">Contoh: 081234567890</p>
-            <a href="#" class="help-link">Butuh bantuan?</a>
-            <button class="next-btn" id="nextButton" disabled>Selanjutnya</button>
-            <div class="divider">
-                <span></span> atau masuk dengan <span></span>
-            </div>
-            <button class="qr-btn">
-                <i class="fas fa-qrcode"></i> Scan Kode QR
-            </button>
-            <button class="google-btn">
-                <i class="fab fa-google"></i> Google
-            </button>
-        </div>
-    </main>
+  .login-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+  }
 
-    <script>
-        document.getElementById("loginInput").addEventListener("input", function() {
-            var nextButton = document.getElementById("nextButton");
-            if (this.value.trim() !== "") {
-                nextButton.disabled = false;
-                nextButton.style.background = "#5b7c3a";
-                nextButton.style.color = "#fff";
-                nextButton.style.cursor = "pointer";
-            } else {
-                nextButton.disabled = true;
-                nextButton.style.background = "#ddd";
-                nextButton.style.color = "#888";
-                nextButton.style.cursor = "not-allowed";
-            }
-        });
-    </script>
+  .login-header h3 {
+    font-size: 16px;
+    margin: 0;
+  }
 
-</body>
-</html>
+  .register-link,
+  .help-link {
+    color: #5c9820;
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  .input-field {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  .help-link {
+    display: block;
+    text-align: right;
+    margin-bottom: 10px;
+    font-size: 12px;
+  }
+</style>
+<h1 class="text-2xl font-bold text-center text-lime-600"><a href="../home">Zerovaa</a></h1>
+<div class="flex w-full min-h-screen justify-center gap-8 items-center md:-mt-20">
+  <div class="login-container md:w-96 w-full h-min md:shadow-lg px-4 py-8 flex flex-col gap-1">
+    <div class="login-header">
+      <h2 class="text-xl font-bold">Masuk ke Zerovaa</h2>
+      <a href="../register" class="register-link">Daftar</a>
+    </div>
+    <?php if (isset($_SESSION['error'])) : ?>
+      <p style="color: red;"><?= $_SESSION['error']; ?></p>
+      <?php unset($_SESSION['error']); // Menghapus error setelah ditampilkan
+      ?>
+    <?php endif; ?>
+    <form action="../../controllers/auth/login_handler.php" method="POST" class="flex flex-col w-full gap-1">
+      <label for="email">Email:</label>
+      <input class="input-field" type="email" id="email" name="email" class="border" placeholder="example@gmail.com" required>
+
+      <label for="password">Password:</label>
+      <input class="input-field" type="password" id="password" name="password" class="border" placeholder="********" required>
+
+      <a href="#" class="help-link">Butuh bantuan?</a>
+      <button class="rounded px-4 py-2 bg-gray-100 text-gray-200 cursor-not-allowed" type="submit" id="nextButton" disabled>Masuk</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  document.getElementById("email").addEventListener("input", checkFields);
+  document.getElementById("password").addEventListener("input", checkFields);
+
+  function checkFields() {
+    var email = document.getElementById("email").value.trim();
+    var password = document.getElementById("password").value.trim();
+    var nextButton = document.getElementById("nextButton");
+
+    // Jika kedua field terisi, aktifkan tombol
+    if (email !== "" && password !== "") {
+      nextButton.disabled = false;
+      nextButton.classList.add("bg-lime-600", "hover:bg-lime-700", "text-gray-50", "cursor-pointer");
+      nextButton.classList.remove("bg-gray-100", "text-gray-200", "cursor-not-allowed");
+    } else {
+      // Jika salah satu atau keduanya kosong, nonaktifkan tombol
+      nextButton.disabled = true;
+      nextButton.classList.remove("bg-lime-600", "hover:bg-lime-700", "text-gray-50", "cursor-pointer");
+      nextButton.classList.add("bg-gray-100", "text-gray-200", "cursor-not-allowed");
+    }
+  }
+</script>
+
+<?php
+$content = ob_get_clean();
+include '../../layout.php';
+?>

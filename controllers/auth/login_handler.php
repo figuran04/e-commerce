@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
     exit;
   } else {
-    $_SESSION['error'] = "Email atau password salah!";
+    $_SESSION['error'] = "Email atau password salah! atau belum daftar?";
     header("Location: ../../views/login");
     exit;
   }
