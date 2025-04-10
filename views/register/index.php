@@ -63,11 +63,13 @@ ob_start();
     margin-top: 10px;
   }
 </style>
+<h1 class="text-2xl font-bold text-center text-lime-600"><a href="../home">Zerovaa</a></h1>
+
 <?php if (isset($message)) : ?>
   <p style="color: green; text-align: center;"><?= $message ?></p>
 <?php endif; ?>
 
-<div class="flex flex-col md:flex-row w-full min-h-screen justify-center gap-8 items-center">
+<div class="flex flex-col md:flex-row w-full min-h-screen justify-center gap-8 items-center md:-mt-8">
   <div class="left w-96 hidden md:flex flex-col items-center gap-2">
     <img class="w-full rounded-xl" src="popup1.png" alt="Zerovaa E-Commerce">
     <h3 class="text-xl font-semibold">Jual Beli Mudah di Zerovaa</h3>
