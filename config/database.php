@@ -1,6 +1,6 @@
 <?php
-$BASE_URL = "http://localhost/e-commerce/views";
 $BASE = "http://localhost/e-commerce";
+$BASE_URL = $BASE . "/views";
 $host = "localhost";
 $user = "root";
 $pass = "";
