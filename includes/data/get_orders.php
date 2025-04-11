@@ -1,10 +1,10 @@
 <?php
 require_once '../../config/init.php';
 
-// if (!isset($_SESSION['user_id'])) {
-//   header("Location: ../../views/login");
-//   exit;
-// }
+if (!isset($_SESSION['user_id'])) {
+  header("Location: ../../views/login");
+  exit;
+}
 
 $user_id = $_SESSION['user_id'];
 

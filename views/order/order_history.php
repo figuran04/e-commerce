@@ -16,7 +16,7 @@ ob_start();
         <p><strong>Total Harga:</strong> Rp<?= number_format($order['total_price'], 0, ',', '.'); ?></p>
         <p><strong>Status:</strong> <?= ucfirst(htmlspecialchars($order['status'])); ?></p>
         <p><strong>Tanggal:</strong> <?= htmlspecialchars($order['created_at']); ?></p>
-        <a href="order_success.php?order_id=<?= $order['id']; ?>" class="bg-blue-500 text-white px-4 py-2 rounded mt-2 inline-block">📄 Lihat Detail</a>
+        <a href="order_success.php?order_id=<?= $order['id']; ?>" class="bg-lime-600 text-white px-4 py-2 rounded mt-2 inline-block">📄 Lihat Detail</a>
       </div>
     <?php endforeach; ?>
   </div>

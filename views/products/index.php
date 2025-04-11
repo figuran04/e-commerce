@@ -1,16 +1,30 @@
-<?php include 'header.php'; ?>
+<?php
+require_once '../../config/init.php';
+$pageTitle = "Daftar Produk";
+require '../../controllers/products/products_controller.php';
+ob_start();
+?>
 
-<main class="container mx-auto p-4">
-  <h2 class="text-xl font-semibold mb-4">Daftar Produk</h2>
-  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-    <!-- Contoh produk -->
-    <a href="detail_produk.php?id=1" class="bg-white rounded shadow p-4 hover:shadow-lg">
-      <img src="images/tas1.png" alt="Fjallraven - Foldsack" class="w-full h-48 object-cover rounded">
-      <h3 class="text-lg font-bold mt-2">Fjallraven - Foldsack</h3>
-      <p class="text-lime-600 font-semibold">Rp109.000</p>
+
+<div class="flex gap-4">
+  <a href="../products"
+    class="border rounded px-4 py-1 border-gray-200">
+    Semua
+  </a>
+  <?php while ($category = mysqli_fetch_assoc($categoriesResult)) : ?>
+    <a href="../products?category=<?= $category['id'] ?>"
+      class="border rounded px-4 py-1 border-gray-200">
+      <?= $category['name']; ?>
     </a>
-    <!-- Tambahkan produk lain di sini -->
-  </div>
-</main>
+  <?php endwhile; ?>
+</div>
+<h2><?= $pageTitle; ?></h2>
+<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+  <?php include '../../includes/product_card.php'; ?>
+</div>
 
-<?php include 'footer.php'; ?>
+<?php
+$content = ob_get_clean();
+
+include '../../layout.php';
+?>
