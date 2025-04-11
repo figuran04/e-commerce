@@ -1,5 +1,5 @@
 <?php
-$BASE = "http://localhost/e-commerce";
+$BASE = "http://localhost/wahyu-zerovaa";
 $BASE_URL = $BASE . "/views";
 $host = "localhost";
 $user = "root";
