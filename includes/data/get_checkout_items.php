@@ -1,8 +1,8 @@
 <?php
 
-// if (!isset($_SESSION['user_id'])) {
-//   die("User not logged in.");
-// }
+if (!isset($_SESSION['user_id'])) {
+  die("User not logged in.");
+}
 
 $user_id = $_SESSION['user_id'];
 $query = "SELECT c.id AS cart_id, p.id AS product_id, p.name, p.price, c.quantity

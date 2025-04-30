@@ -69,7 +69,7 @@ ob_start();
   <p style="color: green; text-align: center;"><?= $message ?></p>
 <?php endif; ?>
 
-<div class="flex flex-col md:flex-row w-full min-h-screen justify-center gap-8 items-center md:-mt-8">
+<div class="flex flex-col md:flex-row w-full gap-8 items-center md:items-start md:justify-center mt-20">
   <div class="left w-96 hidden md:flex flex-col items-center gap-2">
     <img class="w-full rounded-xl" src="popup1.png" alt="Zerovaa E-Commerce">
     <h3 class="text-xl font-semibold">Jual Beli Mudah di Zerovaa</h3>
@@ -82,13 +82,13 @@ ob_start();
 
     <form action="../../controllers/auth/register_handler.php" method="POST" class="flex flex-col gap-1">
       <label for="name">Nama:</label>
-      <input type="text" id="name" name="name" class="border" required>
+      <input type="text" id="name" name="name" placeholder="John Doe" class="border" required>
 
       <label for="email">Email:</label>
-      <input type="email" id="email" name="email" class="border" required>
+      <input type="email" id="email" name="email" placeholder="example@gmail.com" class="border" required>
 
       <label for="password">Password:</label>
-      <input type="password" id="password" name="password" class="border" required>
+      <input type="password" id="password" name="password" placeholder="********" class="border" required>
 
       <button class="submit bg-lime-600 hover:bg-lime-700 rounded px-4 py-2" type="submit">Daftar</button>
     </form>

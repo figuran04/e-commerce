@@ -1,10 +1,10 @@
 <?php
 require_once '../../config/init.php';
 
-// if (!isset($_SESSION['user_id']) || $_SESSION['is_admin'] != 1) {
-//   header("Location: ../login");
-//   exit;
-// }
+if (!isset($_SESSION['user_id']) || $_SESSION['is_admin'] != 1) {
+  header("Location: ../login");
+  exit;
+}
 
 $pageTitle = "Admin Dashboard";
 ob_start();
@@ -66,36 +66,39 @@ $status = isset($_GET['status']) ? $_GET['status'] : null;
       <input x-model="searchProduct" placeholder="Search products..." class="w-full p-2 pl-10 border rounded" />
       <span class="absolute left-3 top-2.5 text-gray-400"><i class="ph-bold ph-magnifying-glass"></i></span>
     </div>
-
-    <table class="w-full border bg-white shadow">
-      <thead class="bg-gray-200">
-        <tr>
-          <th class="border px-4 py-2">ID</th>
-          <th class="border px-4 py-2">Name</th>
-          <th class="border px-4 py-2">Description</th>
-          <th class="border px-4 py-2">Price</th>
-          <th class="border px-4 py-2">Stock</th>
-          <th class="border px-4 py-2">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <?php while ($row = $result_products->fetch_assoc()): ?>
-          <tr
-            x-show="`${'<?= strtolower($row['name']) ?>'} ${'<?= strtolower($row['description']) ?>'}`.includes(searchProduct.toLowerCase())"
-            class="hover:bg-gray-50">
-            <td class="border px-4 py-2"><?= $row['id']; ?></td>
-            <td class="border px-4 py-2"><?= htmlspecialchars($row['name']); ?></td>
-            <td class="border px-4 py-2"><?= htmlspecialchars($row['description']); ?></td>
-            <td class="border px-4 py-2"><?= number_format($row['price'], 0, ',', '.'); ?></td>
-            <td class="border px-4 py-2"><?= $row['stock']; ?></td>
-            <td class="border px-4 py-2">
-              <a href="edit_product.php?id=<?= $row['id']; ?>" class="text-lime-500">Edit</a> |
-              <a href="../../controllers/admin/delete_product.php?id=<?= $row['id']; ?>" class="text-red-500" onclick="return confirm('Hapus produk ini?')">Delete</a>
-            </td>
-          </tr>
-        <?php endwhile; ?>
-      </tbody>
-    </table>
+    <div class="flex overflow-x-auto">
+      <div class="max-h-[500px] overflow-y-auto">
+        <table class="w-full border bg-white shadow">
+          <thead class="bg-gray-200">
+            <tr>
+              <th class="border px-4 py-2">ID</th>
+              <th class="border px-4 py-2">Name</th>
+              <th class="border px-4 py-2">Description</th>
+              <th class="border px-4 py-2">Price</th>
+              <th class="border px-4 py-2">Stock</th>
+              <th class="border px-4 py-2">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php while ($row = $result_products->fetch_assoc()): ?>
+              <tr
+                x-show="`${'<?= strtolower($row['name']) ?>'} ${'<?= strtolower($row['description']) ?>'}`.includes(searchProduct.toLowerCase())"
+                class="hover:bg-gray-50">
+                <td class="border px-4 py-2"><?= $row['id']; ?></td>
+                <td class="border px-4 py-2"><?= htmlspecialchars($row['name']); ?></td>
+                <td class="border px-4 py-2"><?= htmlspecialchars($row['description']); ?></td>
+                <td class="border px-4 py-2"><?= number_format($row['price'], 0, ',', '.'); ?></td>
+                <td class="border px-4 py-2"><?= $row['stock']; ?></td>
+                <td class="border px-4 py-2">
+                  <a href="edit_product.php?id=<?= $row['id']; ?>" class="text-lime-500">Edit</a> |
+                  <a href="../../controllers/admin/delete_product.php?id=<?= $row['id']; ?>" class="text-red-500" onclick="return confirm('Hapus produk ini?')">Delete</a>
+                </td>
+              </tr>
+            <?php endwhile; ?>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </section>
 
   <!-- Categories Tab -->
@@ -110,28 +113,32 @@ $status = isset($_GET['status']) ? $_GET['status'] : null;
       <input name="category_name" placeholder="New Category" class="border px-3 py-2 w-1/3 rounded" required>
       <button type="submit" class="bg-lime-600 text-white px-4 py-2 rounded">Add</button>
     </form>
-    <table class="w-full border bg-white shadow">
-      <thead class="bg-gray-200">
-        <tr>
-          <th class="border px-4 py-2">ID</th>
-          <th class="border px-4 py-2">Name</th>
-          <th class="border px-4 py-2">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <?php while ($row = $result_categories->fetch_assoc()): ?>
-          <tr
-            x-show="`${'<?= strtolower($row['name']) ?>'}`.includes(searchCategory.toLowerCase())">
-            <td class="border px-4 py-2"><?= $row['id']; ?></td>
-            <td class="border px-4 py-2"><?= htmlspecialchars($row['name']); ?></td>
-            <td class="border px-4 py-2">
-              <a href="edit_category.php?id=<?= $row['id']; ?>" class="text-lime-500">Edit</a> |
-              <a href="../../controllers/admin/delete_category.php?id=<?= $row['id']; ?>" class="text-red-500" onclick="return confirm('Hapus kategori ini?')">Delete</a>
-            </td>
-          </tr>
-        <?php endwhile; ?>
-      </tbody>
-    </table>
+    <div class="flex overflow-x-auto">
+      <div class="max-h-[500px] overflow-y-auto">
+        <table class="w-full border bg-white shadow">
+          <thead class="bg-gray-200">
+            <tr>
+              <th class="border px-4 py-2">ID</th>
+              <th class="border px-4 py-2">Name</th>
+              <th class="border px-4 py-2">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php while ($row = $result_categories->fetch_assoc()): ?>
+              <tr
+                x-show="`${'<?= strtolower($row['name']) ?>'}`.includes(searchCategory.toLowerCase())">
+                <td class="border px-4 py-2"><?= $row['id']; ?></td>
+                <td class="border px-4 py-2"><?= htmlspecialchars($row['name']); ?></td>
+                <td class="border px-4 py-2">
+                  <a href="edit_category.php?id=<?= $row['id']; ?>" class="text-lime-500">Edit</a> |
+                  <a href="../../controllers/admin/delete_category.php?id=<?= $row['id']; ?>" class="text-red-500" onclick="return confirm('Hapus kategori ini?')">Delete</a>
+                </td>
+              </tr>
+            <?php endwhile; ?>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </section>
 
   <!-- Users Tab -->
@@ -141,37 +148,41 @@ $status = isset($_GET['status']) ? $_GET['status'] : null;
       <input x-model="searchUser" placeholder="Search users..." class="w-full p-2 pl-10 border rounded" />
       <span class="absolute left-3 top-2.5 text-gray-400"><i class="ph-bold ph-magnifying-glass"></i></span>
     </div>
-    <table class="w-full border bg-white shadow">
-      <thead class="bg-gray-200">
-        <tr>
-          <th class="border px-4 py-2">ID</th>
-          <th class="border px-4 py-2">Name</th>
-          <th class="border px-4 py-2">Email</th>
-          <th class="border px-4 py-2">Role</th>
-          <th class="border px-4 py-2">Status</th>
-          <th class="border px-4 py-2">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <?php while ($row = $result_users->fetch_assoc()): ?>
-          <tr
-            x-show="`${'<?= strtolower($row['name'] . ' ' . $row['email']) ?>'}`.includes(searchUser.toLowerCase())">
-            <td class="border px-4 py-2"><?= $row['id']; ?></td>
-            <td class="border px-4 py-2"><?= htmlspecialchars($row['name']); ?></td>
-            <td class="border px-4 py-2"><?= htmlspecialchars($row['email']); ?></td>
-            <td class="border px-4 py-2"><?= $row['role']; ?></td>
-            <td class="border px-4 py-2"><?= $row['status']; ?></td>
-            <td class="border px-4 py-2 space-x-2">
-              <a href="../../controllers/admin/toggle_role.php?id=<?= $row['id']; ?>" class="text-yellow-600">Toggle Role</a>
-              <a href="../../controllers/admin/block_user.php?id=<?= $row['id']; ?>" class="text-purple-600">
-                <?= $row['status'] === 'active' ? 'Block' : 'Activate'; ?>
-              </a>
-              <a href="../../controllers/admin/delete_user.php?id=<?= $row['id']; ?>" class="text-red-500" onclick="return confirm('Hapus user ini?')">Delete</a>
-            </td>
-          </tr>
-        <?php endwhile; ?>
-      </tbody>
-    </table>
+    <div class="flex overflow-x-auto">
+      <div class="max-h-[500px] overflow-y-auto">
+        <table class="w-full border bg-white shadow">
+          <thead class="bg-gray-200">
+            <tr>
+              <th class="border px-4 py-2">ID</th>
+              <th class="border px-4 py-2">Name</th>
+              <th class="border px-4 py-2">Email</th>
+              <th class="border px-4 py-2">Role</th>
+              <th class="border px-4 py-2">Status</th>
+              <th class="border px-4 py-2">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php while ($row = $result_users->fetch_assoc()): ?>
+              <tr
+                x-show="`${'<?= strtolower($row['name'] . ' ' . $row['email']) ?>'}`.includes(searchUser.toLowerCase())">
+                <td class="border px-4 py-2"><?= $row['id']; ?></td>
+                <td class="border px-4 py-2"><?= htmlspecialchars($row['name']); ?></td>
+                <td class="border px-4 py-2"><?= htmlspecialchars($row['email']); ?></td>
+                <td class="border px-4 py-2"><?= $row['role']; ?></td>
+                <td class="border px-4 py-2"><?= $row['status']; ?></td>
+                <td class="border px-4 py-2 space-x-2">
+                  <a href="../../controllers/admin/toggle_role.php?id=<?= $row['id']; ?>" class="text-yellow-600">Toggle Role</a>
+                  <a href="../../controllers/admin/block_user.php?id=<?= $row['id']; ?>" class="text-purple-600">
+                    <?= $row['status'] === 'active' ? 'Block' : 'Activate'; ?>
+                  </a>
+                  <a href="../../controllers/admin/delete_user.php?id=<?= $row['id']; ?>" class="text-red-500" onclick="return confirm('Hapus user ini?')">Delete</a>
+                </td>
+              </tr>
+            <?php endwhile; ?>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </section>
 
 </div>

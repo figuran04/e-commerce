@@ -2,22 +2,13 @@
 require_once '../../config/init.php';
 $pageTitle = "Checkout";
 include '../../includes/data/get_checkout_items.php';
-// if (empty($cart_items)) {
-//   header("Location: ../cart?error=empty_cart");
-//   exit;
-// }
+if (empty($cart_items)) {
+  header("Location: ../cart?error=empty_cart");
+  exit;
+}
 ob_start();
 ?>
 <style>
-  .section {
-    margin: 20px;
-    padding: 20px;
-    border: 1px solid #E0E0E0;
-    border-radius: 8px;
-    display: flex;
-    justify-content: space-between;
-  }
-
   table {
     width: 100%;
     border-collapse: collapse;
@@ -26,7 +17,7 @@ ob_start();
   th,
   td {
     border: 1px solid #ddd;
-    padding: 10px;
+    padding: 6px 16px;
     text-align: left;
   }
 
@@ -35,8 +26,8 @@ ob_start();
   }
 
   .total {
-    margin: 20px;
-    padding: 20px;
+    margin: 20px 0;
+    padding: 16px;
     border: 1px solid #E0E0E0;
     border-radius: 8px;
     display: flex;
@@ -44,11 +35,11 @@ ob_start();
   }
 </style>
 
-<h1 class="text-2xl font-bold">Checkout</h1>
+<h2 class="text-xl font-bold"><i class="ph-fill ph-shopping-cart"></i> Checkout</h2>
 
 <div>
-  <div class="section">
-    <table>
+  <div class="flex overflow-x-auto">
+    <table class="w-full">
       <thead>
         <tr>
           <th>Nama Produk</th>
@@ -59,8 +50,8 @@ ob_start();
       </thead>
       <tbody>
         <?php foreach ($cart_items as $item): ?>
-          <tr>
-            <td><?= htmlspecialchars($item['name']); ?></td>
+          <tr class="overflow-hidden">
+            <td class="line-clamp-2"><?= htmlspecialchars($item['name']); ?></td>
             <td>Rp<?= number_format($item['price'], 0, ',', '.'); ?></td>
             <td><?= $item['quantity']; ?></td>
             <td>Rp<?= number_format($item['price'] * $item['quantity'], 0, ',', '.'); ?></td>

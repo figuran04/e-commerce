@@ -4,7 +4,7 @@ $pageTitle = "Riwayat Pesanan";
 ob_start();
 ?>
 
-<h2 class="text-2xl font-bold">📜 Riwayat Pesanan</h2>
+<h2 class="text-xl font-bold"><i class="ph-fill ph-scroll"></i> Riwayat Pesanan</h2>
 
 <?php if (empty($orders)) : ?>
   <p class="text-gray-600">Anda belum memiliki pesanan.</p>
@@ -16,7 +16,7 @@ ob_start();
         <p><strong>Total Harga:</strong> Rp<?= number_format($order['total_price'], 0, ',', '.'); ?></p>
         <p><strong>Status:</strong> <?= ucfirst(htmlspecialchars($order['status'])); ?></p>
         <p><strong>Tanggal:</strong> <?= htmlspecialchars($order['created_at']); ?></p>
-        <a href="order_success.php?order_id=<?= $order['id']; ?>" class="bg-lime-600 text-white px-4 py-2 rounded mt-2 inline-block">📄 Lihat Detail</a>
+        <a href="order_success.php?order_id=<?= $order['id']; ?>" class="bg-lime-600 text-white px-4 py-2 rounded mt-2 inline-block"><i class="ph-fill ph-note"></i> Lihat Detail</a>
       </div>
     <?php endforeach; ?>
   </div>

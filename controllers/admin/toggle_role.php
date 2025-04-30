@@ -1,10 +1,10 @@
 <?php
 require_once '../../config/init.php';
 
-// if (!isset($_SESSION['user_id']) || $_SESSION['is_admin'] != 1) {
-//   header("Location: ../../views/login");
-//   exit;
-// }
+if (!isset($_SESSION['user_id']) || $_SESSION['is_admin'] != 1) {
+  header("Location: ../../views/login");
+  exit;
+}
 
 if (isset($_GET['id'])) {
   $user_id = $_GET['id'];

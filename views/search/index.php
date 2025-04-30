@@ -3,8 +3,7 @@ $pageTitle = "Search";
 include "../../controllers/search/search_handler.php";
 ob_start()
 ?>
-
-<h1>Search Results for: "<?php echo htmlspecialchars($data['query']); ?>"</h1>
+<h2 class="text-xl font-bold mb-4"><i class="ph-bold ph-magnifying-glass"></i> Pencarian: "<?php echo htmlspecialchars($data['query']); ?>"</h2>
 
 <?php if (!empty($data['query'])) : ?>
   <?php if (count($data['products']) > 0) : ?>
@@ -13,10 +12,10 @@ ob_start()
     <?php include('../../includes/product_card.php'); ?>
     <?php echo "</div>"; ?>
   <?php else : ?>
-    <p>No products found for "<?php echo htmlspecialchars($data['query']); ?>".</p>
+    <p>Produk tidak ditemukan untuk "<?php echo htmlspecialchars($data['query']); ?>".</p>
   <?php endif; ?>
 <?php else : ?>
-  <p>Please enter a search term.</p>
+  <p>Masukkan kata kunci dengan benar</p>
 <?php endif; ?>
 <?php
 $content = ob_get_clean();

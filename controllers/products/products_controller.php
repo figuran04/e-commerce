@@ -2,7 +2,7 @@
 require_once '../../config/init.php';
 
 $categoryFilter = "";
-$pageTitle = "Semua Produk";
+$pageTitle = "Daftar Produk";
 
 if (isset($_GET['category']) && is_numeric($_GET['category'])) {
   $categoryID = $_GET['category'];
@@ -23,9 +23,9 @@ $categoryQuery = "SELECT * FROM categories ORDER BY name ASC";
 $categoriesResult = $conn->query($categoryQuery);
 
 // Ambil daftar produk
-$query = "SELECT p.id, p.name, p.price, p.image, c.name AS category 
-          FROM products p 
-          LEFT JOIN categories c ON p.category_id = c.id 
+$query = "SELECT p.id, p.name, p.price, p.image, c.name AS category
+          FROM products p
+          LEFT JOIN categories c ON p.category_id = c.id
           $categoryFilter
           ORDER BY p.created_at DESC";
 

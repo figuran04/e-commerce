@@ -1,0 +1,6 @@
+ErrorDocument 400 http://localhost/e-commerce/views/error/?code=400
+ErrorDocument 401 http://localhost/e-commerce/views/error/?code=401
+ErrorDocument 402 http://localhost/e-commerce/views/error/?code=402
+ErrorDocument 403 http://localhost/e-commerce/views/error/?code=403
+ErrorDocument 404 http://localhost/e-commerce/views/error/?code=404
+ErrorDocument 500 http://localhost/e-commerce/views/error/?code=500

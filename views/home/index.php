@@ -35,7 +35,7 @@ ob_start();
       </a>
     <?php endforeach; ?>
   </div>
-  <div class="flex gap-4 overflow-x-scroll">
+  <div class="flex gap-4 overflow-x-auto">
     <a href="../products"
       class="border rounded px-4 py-1 border-gray-200 text-lime-600">
       Semua

@@ -1,10 +1,10 @@
 <?php
 require_once '../../config/init.php';
 
-// if (!isset($_SESSION['user_id']) || $_SESSION['is_admin'] != 1) {
-//   header("Location: ../login");
-//   exit;
-// }
+if (!isset($_SESSION['user_id']) || $_SESSION['is_admin'] != 1) {
+  header("Location: ../login");
+  exit;
+}
 
 // Ambil data kategori berdasarkan ID
 if (isset($_GET['id'])) {

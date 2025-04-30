@@ -1,10 +1,10 @@
 <?php
 require_once '../../config/init.php';
 
-// if (!isset($_SESSION['user_id']) || $_SESSION['is_admin'] != 1) {
-//   header("Location: ../../views/login");
-//   exit;
-// }
+if (!isset($_SESSION['user_id']) || $_SESSION['is_admin'] != 1) {
+  header("Location: ../../views/login");
+  exit;
+}
 
 // Cek apakah form sudah disubmit
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'add') {

@@ -13,6 +13,9 @@ $isAdminPage = strpos($currentPath, 'admin') !== false;
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="E-commerce yang hanya menjual produk ramah lingkungan dengan sistem carbon footprint tracking, di mana pelanggan bisa melihat dampak lingkungan dari pembelian mereka.">
+  <meta name="keywords" content="Zerovaa, E-Commerce, Indonesia, Eco Friendy">
+  <meta name="author" content="Zerovaa Team">
   <title><?php echo isset($pageTitle) ? $pageTitle . " | Zerovaa" : "Zerovaa"; ?></title>
   <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
@@ -40,7 +43,7 @@ $isAdminPage = strpos($currentPath, 'admin') !== false;
     <?php if ($isAdminPage): ?>
       <div class="flex min-h-screen">
         <?php include 'includes/sidebar.php'; ?>
-        <main class="flex-1 p-6">
+        <main class="container mx-auto p-4 flex flex-col gap-4 min-h-screen">
           <?= isset($content) ? $content : '<p>Konten tidak ditemukan.</p>'; ?>
         </main>
       </div>

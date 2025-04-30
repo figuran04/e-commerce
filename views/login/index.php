@@ -10,23 +10,11 @@ ob_start();
     text-align: left;
   }
 
-  .login-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-  }
-
-  .login-header h3 {
-    font-size: 16px;
-    margin: 0;
-  }
 
   .register-link,
   .help-link {
     color: #5c9820;
     text-decoration: none;
-    font-weight: bold;
   }
 
   .input-field {
@@ -41,15 +29,17 @@ ob_start();
     display: block;
     text-align: right;
     margin-bottom: 10px;
-    font-size: 12px;
   }
 </style>
 <h1 class="text-2xl font-bold text-center text-lime-600"><a href="../home">Zerovaa</a></h1>
-<div class="flex w-full min-h-screen justify-center gap-8 items-center md:-mt-20">
+<div class="flex w-full justify-center gap-8 mt-20">
   <div class="login-container md:w-96 w-full h-min md:shadow-lg px-4 py-8 flex flex-col gap-1">
-    <div class="login-header">
-      <h2 class="text-xl font-bold">Masuk ke Zerovaa</h2>
-      <a href="../register" class="register-link">Daftar</a>
+    <div class="flex justify-between flex-col">
+      <h2 class="text-xl font-bold text-lime-600">Masuk ke Zerovaa</h2>
+      <div class="text-end">
+        <span>Belum punya akun? </span>
+        <a href="../register" class="register-link">Daftar</a>
+      </div>
     </div>
     <?php if (isset($_SESSION['error'])) : ?>
       <p style="color: red;"><?= $_SESSION['error']; ?></p>
@@ -63,7 +53,7 @@ ob_start();
       <label for="password">Password:</label>
       <input class="input-field" type="password" id="password" name="password" class="border" placeholder="********" required>
 
-      <a href="#" class="help-link">Butuh bantuan?</a>
+      <a href="#" class="help-link text-sm">Butuh bantuan?</a>
       <button class="rounded px-4 py-2 bg-gray-100 text-gray-200 cursor-not-allowed" type="submit" id="nextButton" disabled>Masuk</button>
     </form>
   </div>
