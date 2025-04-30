@@ -7,7 +7,7 @@
         </li>
         <li class="mx-[20%] md:mx-[10%] text-center"><a href="../categories" class="hover:text-lime-700">Kategori</a></li>
       </ul>
-      <form action="../search" method="get" class="relative w-full">
+      <form action="../search" method="get" class="relative w-full  max-w-fit">
         <input
           type="text"
           name="q"
