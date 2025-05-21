@@ -1,7 +1,7 @@
 <?php
 require_once '../../config/init.php';
 $pageTitle = "Kategori";
-include '../../includes/data/get_categories.php';
+require '../../controllers/category/category_handler.php';
 ob_start();
 ?>
 

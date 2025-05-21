@@ -1,39 +1,28 @@
 <?php
 require_once '../../config/init.php';
+require_once '../../models/ProductModel.php';
+require_once '../../models/CategoryModel.php';
 
-$categoryFilter = "";
+$productModel = new ProductModel($conn);
+$categoryModel = new CategoryModel($conn);
+
 $pageTitle = "Daftar Produk";
+$categoryID = null;
+$categoryName = null;
 
+// Cek apakah ada filter kategori
 if (isset($_GET['category']) && is_numeric($_GET['category'])) {
-  $categoryID = $_GET['category'];
-  $stmt = $conn->prepare("SELECT name FROM categories WHERE id = ?");
-  $stmt->bind_param("i", $categoryID);
-  $stmt->execute();
-  $categoryResult = $stmt->get_result();
-  $category = $categoryResult->fetch_assoc();
+  $categoryID = intval($_GET['category']); // gunakan intval untuk memastikan tipe int
+  $categoryName = $categoryModel->getNameById($categoryID);
 
-  if ($category) {
-    $pageTitle = "Kategori: " . htmlspecialchars($category['name']);
-    $categoryFilter = "WHERE p.category_id = ?";
+  if ($categoryName) {
+    $pageTitle = "Kategori: " . htmlspecialchars($categoryName);
+  } else {
+    // Kategori tidak ditemukan → beri fallback
+    $categoryID = null;
   }
 }
 
-// Ambil daftar kategori
-$categoryQuery = "SELECT * FROM categories ORDER BY name ASC";
-$categoriesResult = $conn->query($categoryQuery);
-
-// Ambil daftar produk
-$query = "SELECT p.id, p.name, p.price, p.image, c.name AS category
-          FROM products p
-          LEFT JOIN categories c ON p.category_id = c.id
-          $categoryFilter
-          ORDER BY p.created_at DESC";
-
-$stmt = $conn->prepare($query);
-if ($categoryFilter !== "") {
-  $stmt->bind_param("i", $categoryID);
-}
-$stmt->execute();
-$result = $stmt->get_result();
-
-$products = $result->fetch_all(MYSQLI_ASSOC);
+// Ambil semua kategori & produk (filter jika perlu)
+$categoriesResult = $categoryModel->getAll(); // ini bisa diproses di view
+$products = $productModel->getAll($categoryID);

@@ -3,57 +3,53 @@ require_once '../../config/init.php';
 $pageTitle = "Masuk";
 ob_start();
 ?>
-<style>
+<style type="text/tailwindcss">
   .login-container {
-    background: white;
-    border-radius: 10px;
-    text-align: left;
+    @apply bg-white rounded-lg text-left md:w-96 w-full h-min md:shadow-lg p-4 flex flex-col gap-1;
   }
 
-
-  .register-link,
-  .help-link {
-    color: #5c9820;
-    text-decoration: none;
+  input {
+    @apply border rounded border-gray-300 p-2 outline-lime-600;
   }
 
-  .input-field {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0 5px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+  label {
+    @apply mt-3;
   }
 
-  .help-link {
-    display: block;
-    text-align: right;
-    margin-bottom: 10px;
+  a{
+    @apply text-lime-600 hover:text-lime-700;
   }
 </style>
 <h1 class="text-2xl font-bold text-center text-lime-600"><a href="../home">Zerovaa</a></h1>
-<div class="flex w-full justify-center gap-8 mt-20">
-  <div class="login-container md:w-96 w-full h-min md:shadow-lg px-4 py-8 flex flex-col gap-1">
-    <div class="flex justify-between flex-col">
-      <h2 class="text-xl font-bold text-lime-600">Masuk ke Zerovaa</h2>
-      <div class="text-end">
-        <span>Belum punya akun? </span>
-        <a href="../register" class="register-link">Daftar</a>
-      </div>
+<div class="flex w-full justify-center mt-20">
+  <div class="login-container">
+    <h2 class="text-lime-600 text-xl font-semibold text-center mt-2">Masuk ke Zerovaa</h2>
+    <div class="text-center">
+      <span>Belum punya akun? </span><a href="../register">Daftar</a>
     </div>
     <?php if (isset($_SESSION['error'])) : ?>
-      <p style="color: red;"><?= $_SESSION['error']; ?></p>
+      <?php unset($_SESSION['success']); ?>
+      <div class="p-4 text-red-700 bg-red-100 border border-red-300 rounded">
+        <p style="color: red;"><?= $_SESSION['error']; ?></p>
+      </div>
       <?php unset($_SESSION['error']); // Menghapus error setelah ditampilkan
       ?>
     <?php endif; ?>
+
+    <?php if (isset($_SESSION['success'])): ?>
+      <div class="p-4 text-green-700 bg-green-100 border border-green-300 rounded">
+        <p><?= $_SESSION['success'] ?></p>
+      </div>
+      <?php unset($_SESSION['success']); ?>
+    <?php endif; ?>
     <form action="../../controllers/auth/login_handler.php" method="POST" class="flex flex-col w-full gap-1">
       <label for="email">Email:</label>
-      <input class="input-field" type="email" id="email" name="email" class="border" placeholder="example@gmail.com" required>
+      <input type="email" id="email" name="email" placeholder="example@gmail.com" required>
 
       <label for="password">Password:</label>
-      <input class="input-field" type="password" id="password" name="password" class="border" placeholder="********" required>
+      <input type="password" id="password" name="password" placeholder="********" required>
 
-      <a href="#" class="help-link text-sm">Butuh bantuan?</a>
+      <a href="#" class="text-right text-sm my-2">Butuh bantuan?</a>
       <button class="rounded px-4 py-2 bg-gray-100 text-gray-200 cursor-not-allowed" type="submit" id="nextButton" disabled>Masuk</button>
     </form>
   </div>

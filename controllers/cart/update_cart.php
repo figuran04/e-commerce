@@ -1,6 +1,9 @@
 <?php
+// controllers/cart/update_cart.php
 require '../../config/init.php';
+require_once '../../models/CartModel.php'; // Memanggil model
 
+// Pastikan pengguna sudah login dan data yang dibutuhkan ada
 if (!isset($_SESSION['user_id']) || !isset($_POST['cart_id']) || !isset($_POST['quantity'])) {
   header("Location: ../../views/cart");
   exit;
@@ -9,15 +12,12 @@ if (!isset($_SESSION['user_id']) || !isset($_POST['cart_id']) || !isset($_POST['
 $cart_id = $_POST['cart_id'];
 $quantity = (int) $_POST['quantity'];
 
-// Pastikan jumlah minimal 1
-if ($quantity < 1) {
-  $quantity = 1;
-}
+// Membuat instance dari CartModel
+$cartModel = new CartModel($conn);
 
-$query = "UPDATE carts SET quantity = ? WHERE id = ?";
-$stmt = $conn->prepare($query);
-$stmt->bind_param("ii", $quantity, $cart_id);
-$stmt->execute();
+// Memperbarui jumlah produk di keranjang
+$cartModel->updateQuantity($cart_id, $quantity);
 
+// Redirect ke halaman keranjang
 header("Location: ../../views/cart");
 exit;

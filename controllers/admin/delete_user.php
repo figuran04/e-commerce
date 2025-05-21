@@ -1,5 +1,6 @@
 <?php
 require_once '../../config/init.php';
+require_once '../../models/UserModel.php';
 
 if (!isset($_SESSION['user_id']) || $_SESSION['is_admin'] != 1) {
   header("Location: ../../views/login");
@@ -7,19 +8,15 @@ if (!isset($_SESSION['user_id']) || $_SESSION['is_admin'] != 1) {
 }
 
 if (isset($_GET['id'])) {
-  $user_id = $_GET['id'];
+  $user_id = intval($_GET['id']);
+  $userModel = new UserModel($conn);
 
-  // Query untuk menghapus pengguna
-  $stmt = $conn->prepare("DELETE FROM users WHERE id = ?");
-  $stmt->bind_param("i", $user_id);
-
-  if ($stmt->execute()) {
+  if ($userModel->delete($user_id)) {
     $_SESSION['success'] = "Pengguna berhasil dihapus!";
-    header("Location: ../../views/admin/?status=success");
-    exit;
   } else {
     $_SESSION['error'] = "Terjadi kesalahan saat menghapus pengguna!";
-    header("Location: ../../views/admin/?status=error");
-    exit;
   }
+
+  header("Location: ../../views/admin?tab=users");
+  exit;
 }

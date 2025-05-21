@@ -1,13 +1,13 @@
 <header class="bg-[#E2E6CF] shadow sticky top-0 z-50">
   <nav class="xl:container xl:mx-auto text-lime-600 py-2 px-5 md:px-5 lg:px-8 flex flex-col gap-3 md:gap-0">
-    <div class="grid grid-cols-3 w-full px-1">
+    <div class="grid grid-cols-3 w-full px-1 pt-1">
       <ul class="flex items-center">
         <li>
           <h1 class="text-xl font-bold text-lime-600 hover:text-lime-700 my-1"><a href="../home">Zerovaa</a></h1>
         </li>
         <li class="mx-[20%] md:mx-[10%] text-center"><a href="../categories" class="hover:text-lime-700">Kategori</a></li>
       </ul>
-      <form action="../search" method="get" class="relative w-full  max-w-fit">
+      <form action="../search" method="get" class="relative w-full">
         <input
           type="text"
           name="q"

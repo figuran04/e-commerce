@@ -1,13 +1,14 @@
 <?php
 require '../../config/init.php';
 $pageTitle = "Keranjang";
-include '../../includes/cart_items.php';
+include '../../controllers/cart/cart_handler.php'; // Memanggil controller
+
 ob_start();
 ?>
 
 <h2 class="text-xl font-bold"><i class="ph-fill ph-shopping-cart"></i> Keranjang Belanja</h2>
 
-<?php if ($result->num_rows > 0) : ?>
+<?php if (count($data['cartItems']) > 0) : ?> <!-- Ganti num_rows dengan count() -->
   <div class="flex overflow-x-auto">
     <table class="w-full mt-4 border">
       <thead>
@@ -21,7 +22,7 @@ ob_start();
         </tr>
       </thead>
       <tbody>
-        <?php while ($cart = $result->fetch_assoc()) : ?>
+        <?php foreach ($data['cartItems'] as $cart) : ?> <!-- Gunakan foreach karena data sudah berupa array -->
           <tr>
             <td class="p-2">
               <img src="../../uploads/<?= $cart['image'] ?>" alt="<?= $cart['name'] ?>" class="w-20 aspect-square object-cover">
@@ -45,14 +46,14 @@ ob_start();
               <a href="../../controllers/cart/remove_cart.php?cart_id=<?= $cart['cart_id'] ?>" class="text-red-500">Hapus</a>
             </td>
           </tr>
-        <?php endwhile; ?>
+        <?php endforeach; ?>
       </tbody>
     </table>
   </div>
 
   <a href="../checkout" class="block text-center bg-lime-600 text-white px-4 py-2 rounded mt-4">Lanjut ke Checkout</a>
 <?php else : ?>
-  <p class="text-gray-500 mt-4">Keranjang belanja Anda kosong.</p>
+  <p class="text-gray-500">Keranjang belanja Anda kosong.</p>
 <?php endif; ?>
 
 <?php

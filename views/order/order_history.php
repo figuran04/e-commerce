@@ -1,5 +1,5 @@
 <?php
-require_once '../../includes/data/get_orders.php';
+require_once '../../controllers/orders/user_orders.php';
 $pageTitle = "Riwayat Pesanan";
 ob_start();
 ?>

@@ -16,7 +16,7 @@ $isAdminPage = strpos($currentPath, 'admin') !== false;
   <meta name="description" content="E-commerce yang hanya menjual produk ramah lingkungan dengan sistem carbon footprint tracking, di mana pelanggan bisa melihat dampak lingkungan dari pembelian mereka.">
   <meta name="keywords" content="Zerovaa, E-Commerce, Indonesia, Eco Friendy">
   <meta name="author" content="Zerovaa Team">
-  <title><?php echo isset($pageTitle) ? $pageTitle . " | Zerovaa" : "Zerovaa"; ?></title>
+  <title><?php echo isset($pageTitle) ? $pageTitle . " - Zerovaa" : "Zerovaa"; ?></title>
   <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
   <link

@@ -49,7 +49,7 @@ ob_start();
 </style>
 <h2 class="text-xl font-bold">Edit Produk</h2>
 
-<form action="../../controllers/profile/product_controller.php" method="POST" enctype="multipart/form-data" class="flex flex-col gap-3 w-min">
+<form action="../../controllers/profile/edit_product.php" method="POST" enctype="multipart/form-data" class="flex flex-col gap-3 w-min">
   <input type="hidden" name="action" value="edit">
   <input type="hidden" name="id" value="<?= $id ?>">
 

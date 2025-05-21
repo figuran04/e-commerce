@@ -1,14 +1,16 @@
 <?php
 require_once '../../config/init.php';
+require_once '../../controllers/checkout/checkout_handler.php';
 $pageTitle = "Checkout";
-include '../../includes/data/get_checkout_items.php';
+
 if (empty($cart_items)) {
   header("Location: ../cart?error=empty_cart");
   exit;
 }
+
 ob_start();
 ?>
-<style>
+<style type="text/tailwindcss">
   table {
     width: 100%;
     border-collapse: collapse;
@@ -26,12 +28,13 @@ ob_start();
   }
 
   .total {
-    margin: 20px 0;
+    @apply my-5 p-4 border border-gray-300 rounded-lg flex flex-col gap-2 md:flex-row justify-between md:items-center;
+    /* margin: 20px 0;
     padding: 16px;
     border: 1px solid #E0E0E0;
     border-radius: 8px;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; */
   }
 </style>
 
@@ -51,7 +54,9 @@ ob_start();
       <tbody>
         <?php foreach ($cart_items as $item): ?>
           <tr class="overflow-hidden">
-            <td class="line-clamp-2"><?= htmlspecialchars($item['name']); ?></td>
+            <td>
+              <p class="line-clamp-2"><?= htmlspecialchars($item['name']); ?></p>
+            </td>
             <td>Rp<?= number_format($item['price'], 0, ',', '.'); ?></td>
             <td><?= $item['quantity']; ?></td>
             <td>Rp<?= number_format($item['price'] * $item['quantity'], 0, ',', '.'); ?></td>
@@ -62,8 +67,8 @@ ob_start();
   </div>
 
   <div class="total">
-    <p>Total: Rp<?= number_format($total_price, 0, ',', '.'); ?></p>
-    <form action="../../controllers/orders/process_order.php" method="POST">
+    <p class="whitespace-nowrap">Total: Rp<?= number_format($total_price, 0, ',', '.'); ?></p>
+    <form action="../../controllers/orders/process_order.php" method="POST" class="w-full text-right">
       <button type="submit" class="px-4 py-1 rounded border-2 border-lime-600 bg-lime-600 text-gray-50">
         Bayar Sekarang
       </button>

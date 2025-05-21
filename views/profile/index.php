@@ -2,15 +2,6 @@
 require_once '../../controllers/profile/profile_controller.php';
 $pageTitle = "Profil";
 ob_start();
-
-if (isset($_GET['id'])) {
-  $profile_id = $_GET['id'];
-} else {
-  $profile_id = $_SESSION['user_id'];
-}
-
-$user = getUserById($profile_id);
-
 ?>
 
 <style>
@@ -28,11 +19,13 @@ $user = getUserById($profile_id);
 <?php else : ?>
   <h2 class="text-xl font-bold"><i class="ph-fill ph-user"></i> <?= htmlspecialchars($user['name']); ?></h2>
 <?php endif; ?>
+
 <?php if ($profile_id == $_SESSION['user_id']) : ?>
   <div class="border-t pt-4 -mb-4 border-gray-300">
   <?php else : ?>
     <div class="border-t pt-4 border-gray-300">
     <?php endif; ?>
+
     <div class="flex flex-col md:flex-row w-full items-center justify-center md:justify-normal gap-2 md:gap-4">
       <div class="size-20 rounded-full overflow-hidden border-2 border-gray-300 flex justify-center items-center">
         <i class="ph-fill ph-user text-gray-300 text-6xl"></i>
@@ -44,6 +37,7 @@ $user = getUserById($profile_id);
       <?php endif; ?>
     </div>
     </div>
+
     <?php if ($profile_id == $_SESSION['user_id']) : ?>
       <div class="flex justify-center md:justify-start sticky top-25 md:top-14 bg-gray-50 py-4 border-b border-gray-300">
         <a href="upload_product.php" class="bg-lime-600 text-white text-center py-2 px-4 rounded">
@@ -56,9 +50,7 @@ $user = getUserById($profile_id);
 
     <h3 class="text-lg font-semibold">Daftar Produk</h3>
 
-    <?php
-    $products = getProductsByUserId($profile_id);
-    if (!empty($products)) : ?>
+    <?php if (!empty($products)) : ?>
       <div class="flex overflow-x-auto mb-4">
         <table class="min-w-full text-left border border-gray-200">
           <thead>
@@ -95,15 +87,12 @@ $user = getUserById($profile_id);
         </table>
       </div>
     <?php else : ?>
-      <p>
-        Belum ada produk yang ditambahkan.
-      </p>
+      <p>Belum ada produk yang ditambahkan.</p>
     <?php endif; ?>
 
-
     <?php if ($profile_id == $_SESSION['user_id']) : ?>
-      <h2 class="text-xl font-bold"><i class="ph-bold ph-sign-out"></i> Log out</h2>
       <div class="p-4 text-red-700 bg-red-100 border border-red-300 rounded">
+        <h2 class="text-xl font-bold pb-3"><i class="ph-bold ph-sign-out"></i> Log out</h2>
         <button onclick="openLogoutModal()" class="text-red-500 w-min">Keluar</button>
       </div>
       <div id="logoutModal" class="fixed inset-0 bg-[rgba(0,0,0,0.5)] backdrop-blur flex items-center justify-center z-50 hidden">

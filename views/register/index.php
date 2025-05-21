@@ -1,103 +1,109 @@
 <?php
 $pageTitle = "Daftar";
 require '../../config/init.php';
-
-
-// Tangani form jika dikirim
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  $email = $_POST['email'];
-  $password = $_POST['password'];
-
-  // Simpan ke database
-  $sql = "INSERT INTO akun_terdaftar (email, password) VALUES ('$email', '$password')";
-  if ($conn->query($sql) === TRUE) {
-    $message = "Data berhasil disimpan.";
-  } else {
-    $message = "Error: " . $sql . "<br>" . $conn->error;
-  }
-  $conn->close();
-}
-
 ob_start();
 ?>
 
-<style>
-  /* .container1 {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    width: 900px;
-    margin-top: 100px;
-  } */
-
+<style type="text/tailwindcss">
   .left {
-    text-align: left;
+    @apply w-96 hidden md:flex flex-col items-center gap-2;
   }
 
   .right {
-    background: white;
-    /* padding: 20px; */
-    border-radius: 8px;
-    /* box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); */
+    @apply rounded-lg bg-white  md:w-96 w-full h-min md:shadow-lg p-4 flex flex-col gap-1;
   }
 
-  .submit {
-    /* background: #509717; */
+  /* .submit {
     color: white;
-    /* padding: 10px; */
     width: 100%;
     border: none;
-    /* border-radius: 5px; */
     margin-top: 10px;
     cursor: pointer;
-  }
+  } */
 
   input {
-    /* width: 95%; */
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
+    @apply border rounded border-gray-300 p-2 outline-lime-600;
   }
 
   label {
-    margin-top: 10px;
+    @apply mt-3;
+  }
+
+  a{
+    @apply text-lime-600 hover:text-lime-700;
   }
 </style>
 <h1 class="text-2xl font-bold text-center text-lime-600"><a href="../home">Zerovaa</a></h1>
 
-<?php if (isset($message)) : ?>
-  <p style="color: green; text-align: center;"><?= $message ?></p>
-<?php endif; ?>
+<div class="flex flex-col md:flex-row w-full gap-8 items-center md:items-center md:justify-center mt-20">
 
-<div class="flex flex-col md:flex-row w-full gap-8 items-center md:items-start md:justify-center mt-20">
-  <div class="left w-96 hidden md:flex flex-col items-center gap-2">
+  <!-- BAGIAN KIRI (Tersembunyi ketika mobile responsive)-->
+  <div class="left">
     <img class="w-full rounded-xl" src="popup1.png" alt="Zerovaa E-Commerce">
-    <h3 class="text-xl font-semibold">Jual Beli Mudah di Zerovaa</h3>
+    <h2 class="text-xl font-semibold">Jual Beli Mudah di Zerovaa</h2>
     <p class="text-center">Bergabung dan rasakan kemudahan bertransaksi di Zerovaa</p>
   </div>
 
-  <div class="right md:w-96 w-full h-min md:shadow-lg p-4 flex flex-col gap-1">
-    <h3 style="text-align: center;" class="text-lime-600 text-xl font-semibold">Daftar Sekarang</h3>
-    <p style="text-align: center;">Sudah punya akun? <a class="text-lime-600 hover:text-lime-700" href="../login">Masuk</a></p>
+  <!-- BAGIAN KANAN -->
+  <div class="right">
+    <h2 class="text-lime-600 text-xl font-semibold text-center mt-2">Daftar Sekarang</h2>
+    <p class="text-center">Sudah punya akun? <a href="../login">Masuk</a></p>
+    <?php if (isset($_SESSION['error'])): ?>
+      <div class="p-4 text-red-700 bg-red-100 border border-red-300 rounded">
+        <p><?= $_SESSION['error'] ?></p>
+      </div>
+      <?php unset($_SESSION['error']); ?>
+    <?php endif; ?>
+
+    <?php if (isset($_SESSION['success'])): ?>
+      <div class="p-4 text-green-700 bg-green-100 border border-green-300 rounded">
+        <p><?= $_SESSION['success'] ?></p>
+      </div>
+    <?php endif; ?>
 
     <form action="../../controllers/auth/register_handler.php" method="POST" class="flex flex-col gap-1">
       <label for="name">Nama:</label>
-      <input type="text" id="name" name="name" placeholder="John Doe" class="border" required>
+      <input type="text" id="name" name="name" placeholder="John Doe" required>
 
       <label for="email">Email:</label>
-      <input type="email" id="email" name="email" placeholder="example@gmail.com" class="border" required>
+      <input type="email" id="email" name="email" placeholder="example@gmail.com" required>
 
       <label for="password">Password:</label>
-      <input type="password" id="password" name="password" placeholder="********" class="border" required>
+      <input type="password" id="password" name="password" placeholder="********" required>
 
-      <button class="submit bg-lime-600 hover:bg-lime-700 rounded px-4 py-2" type="submit">Daftar</button>
+      <button class="mt-3 rounded px-4 py-2 bg-gray-100 text-gray-200 cursor-not-allowed" type="submit" id="nextButton" disabled>Daftar</button>
     </form>
 
     <p class="text-sm">
-      Dengan mendaftar, saya menyetujui <a class="text-lime-600" href="#">Syarat & Ketentuan</a> serta <a class="text-lime-600" href="#">Kebijakan Privasi</a>
+      Dengan mendaftar, saya menyetujui <a href="#">Syarat & Ketentuan</a> serta <a href="#">Kebijakan Privasi</a>
     </p>
   </div>
 </div>
+
+<script>
+  document.getElementById("name").addEventListener("input", checkFields);
+  document.getElementById("email").addEventListener("input", checkFields);
+  document.getElementById("password").addEventListener("input", checkFields);
+
+  function checkFields() {
+    var name = document.getElementById("name").value.trim();
+    var email = document.getElementById("email").value.trim();
+    var password = document.getElementById("password").value.trim();
+    var nextButton = document.getElementById("nextButton");
+
+    // Jika kedua field terisi, aktifkan tombol
+    if (name !== "" && email !== "" && password !== "") {
+      nextButton.disabled = false;
+      nextButton.classList.add("bg-lime-600", "hover:bg-lime-700", "text-gray-50", "cursor-pointer");
+      nextButton.classList.remove("bg-gray-100", "text-gray-200", "cursor-not-allowed");
+    } else {
+      // Jika salah satu atau keduanya kosong, nonaktifkan tombol
+      nextButton.disabled = true;
+      nextButton.classList.remove("bg-lime-600", "hover:bg-lime-700", "text-gray-50", "cursor-pointer");
+      nextButton.classList.add("bg-gray-100", "text-gray-200", "cursor-not-allowed");
+    }
+  }
+</script>
 
 <?php
 $content = ob_get_clean();

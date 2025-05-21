@@ -1,118 +1,77 @@
 <?php
 require_once '../../config/init.php';
+require_once '../../models/ProductModel.php';
+require_once '../../models/CategoryModel.php';
 
 if (!isset($_SESSION['user_id']) || $_SESSION['is_admin'] != 1) {
-  header("Location: ../login");
-  exit;
+    header("Location: ../login");
+    exit;
 }
 
-// Ambil data produk berdasarkan ID
-if (isset($_GET['id'])) {
-  $product_id = $_GET['id'];
-  $stmt = $conn->prepare("SELECT * FROM products WHERE id = ?");
-  $stmt->bind_param("i", $product_id);
-  $stmt->execute();
-  $result = $stmt->get_result();
-  $product = $result->fetch_assoc();
+$productModel = new ProductModel($conn);
+$categoryModel = new CategoryModel($conn);
 
-  if (!$product) {
-    header("Location: ./?status=error");
+// Ambil produk berdasarkan ID dari query string
+$product = $productModel->getById($_GET['id']);
+if (!$product) {
+    $_SESSION['error'] = "Produk tidak ditemukan!";
+    header("Location: ../");
     exit;
-  }
-} else {
-  header("Location: ./?status=error");
-  exit;
 }
 
-// Ambil data kategori
-$sql_categories = "SELECT * FROM categories";
-$result_categories = $conn->query($sql_categories);
+// Ambil semua kategori menggunakan model
+$categories = $categoryModel->getAll();
 
-// Handle form submission to update product
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'edit') {
-  $name = trim($_POST['name']);
-  $description = trim($_POST['description']);
-  $price = $_POST['price'];
-  $stock = $_POST['stock'];
-  $category_id = $_POST['category_id'];
-  $image = $_FILES['image']['name'];
-
-  // Validasi input
-  if (empty($name) || empty($description) || empty($price) || empty($stock)) {
-    $_SESSION['error'] = "Semua field harus diisi!";
-    header("Location: ./edit_product.php?id={$product_id}");
-    exit;
-  }
-
-  // Upload image jika ada
-  if ($image) {
-    $target_dir = "../../uploads/";
-    $target_file = $target_dir . basename($_FILES["image"]["name"]);
-
-    // Pastikan file berhasil diupload
-    if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
-      // Jika upload berhasil, gambar baru akan digunakan
-    } else {
-      $_SESSION['error'] = "Terjadi kesalahan saat mengupload gambar!";
-      header("Location: ./edit_product.php?id={$product_id}");
-      exit;
-    }
-  } else {
-    $image = $product['image']; // Jika tidak ada gambar baru, gunakan gambar lama
-  }
-
-  // Query untuk mengupdate produk
-  $stmt = $conn->prepare("UPDATE products SET name = ?, description = ?, price = ?, stock = ?, category_id = ?, image = ? WHERE id = ?");
-  $stmt->bind_param("ssdiiss", $name, $description, $price, $stock, $category_id, $image, $product_id);
-
-  if ($stmt->execute()) {
-    $_SESSION['success'] = "Produk berhasil diperbarui!";
-    header("Location: ./?status=success");
-    exit;
-  } else {
-    $_SESSION['error'] = "Terjadi kesalahan saat memperbarui produk!";
-    header("Location: ./?status=error");
-    exit;
-  }
-}
 ob_start();
 ?>
 
-<style type="text/tailwindcss">
-  input, select, option, textarea{
-    @apply border;
-  }
-</style>
+<h2 class="text-xl font-bold mb-4">Edit Product</h2>
 
-<form action="./edit_product.php?id=<?= $product['id']; ?>" method="POST" enctype="multipart/form-data" class="flex flex-col gap-1">
-  <input type="hidden" name="action" value="edit">
+<!-- Notifikasi -->
+<?php if (isset($_SESSION['success'])): ?>
+    <div class="p-4 text-green-700 bg-green-100 border border-green-300 rounded">
+        <?= $_SESSION['success'];
+        unset($_SESSION['success']); ?>
+    </div>
+<?php endif; ?>
 
-  <label for="name">Product Name:</label>
-  <input type="text" id="name" name="name" value="<?= htmlspecialchars($product['name']); ?>" required>
+<?php if (isset($_SESSION['error'])): ?>
+    <div class="p-4 text-red-700 bg-red-100 border border-red-300 rounded">
+        <?= $_SESSION['error'];
+        unset($_SESSION['error']); ?>
+    </div>
+<?php endif; ?>
 
-  <label for="description">Description:</label>
-  <textarea id="description" name="description" required><?= htmlspecialchars($product['description']); ?></textarea>
+<form action="../../controllers/admin/edit_product.php?id=<?= $product['id']; ?>" method="POST" enctype="multipart/form-data" class="flex flex-col gap-2">
+    <input class="border rounded px-2 border-gray-300 py-1" type="hidden" name="action" value="edit">
 
-  <label for="price">Price:</label>
-  <input type="number" id="price" name="price" value="<?= $product['price']; ?>" required step="0.01">
+    <label>Product Name:</label>
+    <input class="border rounded px-2 border-gray-300 py-1" type="text" name="name" value="<?= htmlspecialchars($product['name']); ?>" required>
 
-  <label for="stock">Stock:</label>
-  <input type="number" id="stock" name="stock" value="<?= $product['stock']; ?>" required>
+    <label>Description:</label>
+    <textarea class="border rounded px-2 border-gray-300 py-1" name="description" required><?= htmlspecialchars($product['description']); ?></textarea>
 
-  <label for="category_id">Category:</label>
-  <select name="category_id" id="category_id" required>
-    <option value="">Select Category</option>
-    <?php while ($category = $result_categories->fetch_assoc()): ?>
-      <option value="<?= $category['id']; ?>" <?= ($product['category_id'] == $category['id']) ? 'selected' : ''; ?>>
-        <?= htmlspecialchars($category['name']); ?>
-      </option>
-    <?php endwhile; ?>
-  </select>
+    <label>Price:</label>
+    <input class="border rounded px-2 border-gray-300 py-1" type="number" name="price" value="<?= $product['price']; ?>" required step="0.01">
 
-  <label for="image">Image:</label>
-  <input type="file" id="image" name="image">
+    <label>Stock:</label>
+    <input class="border rounded px-2 border-gray-300 py-1" type="number" name="stock" value="<?= $product['stock']; ?>" required>
 
-  <button type="submit">Update Product</button>
+    <label>Category:</label>
+    <select class="border rounded px-2 border-gray-300 py-1" name="category_id" required>
+        <option value="">Select Category</option>
+        <?php while ($category = $categories->fetch_assoc()): ?>
+            <option value="<?= $category['id']; ?>" <?= ($product['category_id'] == $category['id']) ? 'selected' : ''; ?>>
+                <?= htmlspecialchars($category['name']); ?>
+            </option>
+        <?php endwhile; ?>
+    </select>
+
+    <label>Image:</label>
+    <input class="border rounded px-2 border-gray-300 py-1" type="file" name="image">
+    <p>Current: <?= $product['image']; ?></p>
+
+    <button type="submit" class="px-4 py-1 rounded border-2 border-lime-600 bg-lime-600 hover:bg-lime-700 hover:border-lime-700 text-gray-50 cursor-pointer">Update Product</button>
 </form>
 
 <?php

@@ -1,17 +1,27 @@
 <?php
-require '../../config/init.php';
+require '../../models/UserModel.php';  // Mengimpor model User
 
+// Mengecek apakah request menggunakan metode POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  // Mengambil data dari form
   $name = trim($_POST['name']);
   $email = trim($_POST['email']);
-  $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+  $password = $_POST['password'];
 
-  $query = "INSERT INTO users (name, email, password) VALUES (?, ?, ?)";
-  $stmt = $conn->prepare($query);
-  $stmt->bind_param("sss", $name, $email, $password);
+  // Validasi data (misal, cek email yang sudah terdaftar)
+  $userModel = new UserModel();
+  if ($userModel->isEmailExist($email)) {
+    $_SESSION['error'] = "Email sudah terdaftar.";
+    header("Location: ../../views/register");
+    exit;
+  }
 
-  if ($stmt->execute()) {
-    $_SESSION['success'] = "Akun berhasil dibuat! Silakan login.";
+  // Hash password
+  $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+
+  // Menyimpan pengguna baru ke database
+  if ($userModel->register($name, $email, $hashedPassword)) {
+    $_SESSION['success'] = "Akun berhasil dibuat! Silakan masuk.";
     header("Location: ../../views/login");
     exit;
   } else {

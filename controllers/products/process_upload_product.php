@@ -1,15 +1,12 @@
 <?php
 require '../../config/init.php';
+require '../../models/ProductModel.php';
 
-// Pastikan pengguna login
 if (!isset($_SESSION['user_id'])) {
   $_SESSION['error'] = "Silakan login untuk mengunggah produk!";
   header("Location: ../../views/login");
   exit;
 }
-
-$user_id = $_SESSION['user_id']; // ID pengguna yang login
-$user_name = $_SESSION['user_name']; // Nama pengguna jika diperlukan
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $name = trim($_POST['name']);
@@ -17,6 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $price = floatval($_POST['price']);
   $stock = intval($_POST['stock']);
   $category_id = intval($_POST['category_id']);
+  $user_id = $_SESSION['user_id'];
 
   if (empty($name) || empty($price) || empty($stock) || empty($category_id)) {
     $_SESSION['error'] = "Semua bidang wajib diisi!";
@@ -24,25 +22,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     exit;
   }
 
-  // Upload gambar (jika ada)
+  // Upload gambar
   $image = null;
   if (!empty($_FILES['image']['name'])) {
-    $image_name = time();  // Menggunakan time() sebagai nama gambar
+    $image_name = time();  // atau bisa ditambah ekstensi file jika perlu
     $target_dir = "../../uploads/";
     $target_file = $target_dir . $image_name;
 
     if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
-      $image = $image_name;  // Gunakan nama gambar baru
+      $image = $image_name;
     }
   }
 
-  // Simpan produk ke database
-  $query = "INSERT INTO products (user_id, name, description, price, stock, category_id, image) 
-              VALUES (?, ?, ?, ?, ?, ?, ?)";
-  $stmt = $conn->prepare($query);
-  $stmt->bind_param("issdiis", $user_id, $name, $description, $price, $stock, $category_id, $image);
+  $productModel = new ProductModel($conn);
+  $success = $productModel->create([
+    'user_id' => $user_id,
+    'name' => $name,
+    'description' => $description,
+    'price' => $price,
+    'stock' => $stock,
+    'category_id' => $category_id,
+    'image' => $image
+  ]);
 
-  if ($stmt->execute()) {
+  if ($success) {
     $_SESSION['success'] = "Produk berhasil diunggah!";
     header("Location: ../../views/profile");
   } else {
