@@ -1,22 +1,41 @@
 <?php
-// controllers/cart/remove_cart.php
-require '../../config/init.php';
-require_once '../../models/CartModel.php'; // Memanggil model
+require_once '../../config/init.php';
+require_once '../../models/CartModel.php';
+require_once '../../views/partials/alerts.php'; // <- Tambahkan ini untuk setFlash()
 
-// Pastikan pengguna sudah login dan ID keranjang tersedia
-if (!isset($_SESSION['user_id']) || !isset($_GET['cart_id'])) {
-  header("Location: ../../views/cart");
+if (!isset($_SESSION['user_id'])) {
+  header("Location: ../auth/login.php");
   exit;
 }
 
-$cart_id = $_GET['cart_id'];
+if (!isset($_GET['cart_id']) || empty($_GET['cart_id'])) {
+  setFlash('error', "ID produk keranjang tidak ditemukan.");
+  header("Location: ../../views/cart/index.php");
+  exit;
+}
 
-// Membuat instance dari CartModel
+$user_id = $_SESSION['user_id'];
+$cart_id = (int)$_GET['cart_id'];
+
 $cartModel = new CartModel($conn);
 
-// Menghapus produk dari keranjang
-$cartModel->removeFromCart($cart_id);
+try {
+  // Cek kepemilikan item
+  if (!$cartModel->isCartItemOwnedByUser($cart_id, $user_id)) {
+    setFlash('error', "Item tidak ditemukan atau bukan milik Anda.");
+    header("Location: ../../views/cart/index.php");
+    exit;
+  }
 
-// Redirect ke halaman keranjang
-header("Location: ../../views/cart");
+  // Hapus item
+  if ($cartModel->removeCartItem($cart_id, $user_id)) {
+    setFlash('success', "Item berhasil dihapus dari keranjang.");
+  } else {
+    setFlash('error', "Gagal menghapus item keranjang.");
+  }
+} catch (Exception $e) {
+  setFlash('error', "Terjadi kesalahan: " . $e->getMessage());
+}
+
+header("Location: ../../views/cart/index.php");
 exit;

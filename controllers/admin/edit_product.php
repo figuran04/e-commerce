@@ -1,6 +1,7 @@
 <?php
 require_once '../../config/init.php';
 require_once '../../models/ProductModel.php';
+require_once '../../views/partials/alerts.php';
 
 if (!isset($_SESSION['user_id']) || $_SESSION['is_admin'] != 1) {
   header("Location: ../../views/login");
@@ -11,7 +12,7 @@ $productModel = new ProductModel($conn);
 
 // Validasi ID dan Ambil Produk
 if (!isset($_GET['id']) || !$product = $productModel->getById($_GET['id'])) {
-  $_SESSION['error'] = "Produk tidak ditemukan!";
+  setFlash('error',  "Produk tidak ditemukan!");
   header("Location: ../../views/admin?tab=products");
   exit;
 }
@@ -27,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] === 'edit') {
 
   // Validasi input
   if (!ProductModel::validateInput($name, $description, $price, $stock, $category_id)) {
-    $_SESSION['error'] = "Semua field wajib diisi dengan benar!";
+    setFlash('error',  "Semua field wajib diisi dengan benar!");
     header("Location: ../../views/admin/edit_product.php?id={$product_id}");
     exit;
   }
@@ -41,16 +42,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] === 'edit') {
     if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
       $image = $_FILES['image']['name'];
     } else {
-      $_SESSION['error'] = "Gagal mengupload gambar!";
+      setFlash('error',  "Gagal mengupload gambar!");
       header("Location: ../../views/admin/edit_product.php?id={$product_id}");
       exit;
     }
   }
 
   if ($productModel->update($product_id, $name, $description, $price, $stock, $category_id, $image)) {
-    $_SESSION['success'] = "Produk berhasil diperbarui!";
+    setFlash('success',  "Produk berhasil diperbarui!");
   } else {
-    $_SESSION['error'] = "Terjadi kesalahan saat memperbarui produk!";
+    setFlash('error',  "Terjadi kesalahan saat memperbarui produk!");
   }
 
   header("Location: ../../views/admin?tab=products");

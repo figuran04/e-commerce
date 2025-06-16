@@ -1,24 +1,27 @@
 <?php
-// controllers/cart/add_to_cart.php
 require '../../config/init.php';
-require_once '../../models/CartModel.php'; // Memanggil model
+require_once '../../models/CartModel.php';
+require_once '../../views/partials/alerts.php'; // untuk setFlash
 
-// Pastikan pengguna sudah login
 if (!isset($_SESSION['user_id'])) {
   header("Location: ../../views/login");
   exit;
 }
 
 $user_id = $_SESSION['user_id'];
-$product_id = $_POST['product_id'];
+$product_id = (int)$_POST['product_id'];
 $quantity = isset($_POST['quantity']) ? (int)$_POST['quantity'] : 1;
 
-// Membuat instance dari CartModel
 $cartModel = new CartModel($conn);
+$cart_id = $cartModel->addToCart($user_id, $product_id, $quantity);
 
-// Menambahkan produk ke keranjang
-$cartModel->addToCart($user_id, $product_id, $quantity);
+// Jika tombol "Beli Sekarang" ditekan
+if (isset($_POST['buy_now'])) {
+  $_SESSION['selected_product_ids'] = [$cart_id]; // simpan ke sesi untuk checkout
+  header("Location: ../../views/checkout/index.php");
+  exit;
+}
 
-// Redirect ke halaman keranjang
-header("Location: ../../views/cart");
+setFlash('success', "Produk berhasil ditambahkan ke keranjang.");
+header("Location: ../../views/product_detail/?id=$product_id");
 exit;

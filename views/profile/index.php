@@ -1,124 +1,132 @@
 <?php
 require_once '../../controllers/profile/profile_controller.php';
+require_once '../../helpers/tampil_data.php';
 $pageTitle = "Profil";
 ob_start();
 ?>
 
+<div class="space-y-6">
+  <!-- Judul -->
+  <div class="flex items-center gap-2">
+    <i class="ph-fill ph-user"></i>
+    <h2 class="text-xl font-bold">Profil Pengguna</h2>
+  </div>
+
+  <?php include '../partials/alerts.php'; ?>
+
+  <!-- Section Atas -->
+  <div class="flex flex-col gap-2 md:grid md:grid-cols-3">
+    <!-- Info Akun -->
+    <div class="row-span-2 p-6 bg-white border border-gray-200 rounded-lg">
+      <div class="flex items-center gap-4 mb-4">
+        <div class="flex items-center justify-center overflow-hidden border-2 border-gray-300 rounded-full size-20">
+          <i class="text-5xl text-gray-300 ph-fill ph-user"></i>
+        </div>
+        <div>
+          <h3 class="text-xl font-semibold text-lime-600"><?= htmlspecialchars($user['name'] ?? $_SESSION['user_name']); ?></h3>
+          <p class="text-sm text-gray-500">ID Pengguna: #<?= $profile_id; ?></p>
+        </div>
+      </div>
+      <div class="mt-4">
+        <label class="block mb-1 text-sm font-medium text-gray-700">Bio</label>
+        <div class="p-3 border border-gray-200 rounded bg-gray-50 text-sm text-gray-700 min-h-[3rem]">
+          <p class="text-gray-400"><?= tampilkanData($user['bio'], 'Belum ada bio.'); ?></p>
+        </div>
+      </div>
+      <?php if ($profile_id == $_SESSION['user_id']) : ?>
+        <div class="flex gap-2 mt-4">
+          <a href="./edit_profile.php" class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium border-2 rounded text-lime-600 hover:text-lime-700 border-lime-600 hover:border-lime-700">Edit Profil</a>
+          <button onclick="alert('Fitur ini belum hadir')" class="px-4 py-1 text-sm font-medium text-gray-500 border-2 border-gray-500 rounded hover:text-gray-600 hover:border-gray-600">Ganti Password</button>
+        </div>
+      <?php endif; ?>
+      <div class="mt-4 space-y-1 text-sm text-gray-700">
+        <p><strong>Email:</strong> <?= htmlspecialchars($user['email'] ?? 'example@gmail.com'); ?></p>
+        <p><strong>No HP/WA:</strong> <?= tampilkanData($user['phone']); ?></p>
+        <p><strong>Alamat:</strong> <?= tampilkanData($user['address']); ?></p>
+        <p><strong>Tanggal Gabung:</strong> <?= isset($user['created_at']) ? date('d F Y', strtotime($user['created_at'])) : '01 Januari 2024'; ?></p>
+      </div>
+    </div>
+
+    <?php if ($profile_id == $_SESSION['user_id']) : ?>
+      <div class="col-span-2 p-6 text-sm bg-white border border-gray-200 rounded-lg">
+        <h3 class="mb-3 text-lg font-semibold">
+          <a href="../orders/user_orders.php">Pesanan Saya</a>
+        </h3>
+        <ul class="grid grid-cols-4 gap-3">
+          <li>
+            <a href="../orders/user_orders.php?status=Dipesan" class="flex flex-col text-sm text-center tab-link">
+              <i class="text-4xl ph ph-package"></i>
+              Dipesan
+            </a>
+          </li>
+          <li>
+            <a href="../orders/user_orders.php?status=Dikirim" class="flex flex-col text-sm text-center tab-link">
+              <i class="text-4xl ph ph-truck"></i>
+              Dikirim
+            </a>
+          </li>
+          <li>
+            <a href="../orders/user_orders.php?status=Selesai" class="flex flex-col text-sm text-center tab-link">
+              <i class="text-4xl ph ph-check-circle"></i>
+              Selesai
+            </a>
+          </li>
+          <li>
+            <a href="../orders/user_orders.php?status=Dibatalkan" class="flex flex-col text-sm text-center tab-link">
+              <i class="text-4xl ph ph-x-circle"></i>
+              Dibatalkan
+            </a>
+          </li>
+        </ul>
+      </div>
+    <?php endif; ?>
+
+    <!-- Log Out -->
+    <?php if ($profile_id == $_SESSION['user_id']) : ?>
+      <div class="col-span-2 p-6 border border-red-200 rounded-lg bg-red-50">
+        <h2 class="flex items-center gap-2 text-lg font-semibold text-red-600">
+          <i class="ph-bold ph-sign-out"></i> Log Out
+        </h2>
+        <p class="mb-3 text-sm text-gray-600">Keluar dari akun Anda secara aman.</p>
+        <button onclick="openLogoutModal()" class="px-4 py-1 text-red-500 border border-red-500 rounded hover:bg-red-100">Keluar</button>
+      </div>
+    <?php endif; ?>
+  </div>
+</div>
+
+<!-- Modal Logout -->
+<div id="logoutModal" class="fixed inset-0 bg-[rgba(0,0,0,0.5)] backdrop-blur items-center justify-center z-50 hidden">
+  <div class="p-6 bg-white rounded-lg shadow-lg w-72">
+    <h2 class="mb-4 text-lg font-semibold">Konfirmasi Logout</h2>
+    <p class="mb-4">Apakah Anda yakin ingin keluar?</p>
+    <div class="flex justify-end gap-2">
+      <button onclick="closeLogoutModal()" class="px-4 py-1 border border-gray-300 rounded hover:bg-gray-100">Batal</button>
+      <form action="../../controllers/auth/logout_handler.php" method="post">
+        <button type="submit" class="px-4 py-1 text-white bg-red-500 rounded hover:bg-red-600">Keluar</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  function openLogoutModal() {
+    document.getElementById('logoutModal').classList.remove('hidden');
+    document.getElementById('logoutModal').classList.add('flex');
+  }
+
+  function closeLogoutModal() {
+    document.getElementById('logoutModal').classList.remove('flex');
+    document.getElementById('logoutModal').classList.add('hidden');
+  }
+</script>
+
 <style>
-  table,
-  tr,
-  td,
-  th {
-    border: 1px solid black;
-    padding: 4px;
+  .tab-link {
+    @apply px-4 py-1 text-sm font-medium text-white bg-gray-500 rounded hover:bg-gray-600;
   }
 </style>
 
-<?php if ($profile_id == $_SESSION['user_id']) : ?>
-  <h2 class="text-xl font-bold"><i class="ph-fill ph-user"></i> Profil</h2>
-<?php else : ?>
-  <h2 class="text-xl font-bold"><i class="ph-fill ph-user"></i> <?= htmlspecialchars($user['name']); ?></h2>
-<?php endif; ?>
-
-<?php if ($profile_id == $_SESSION['user_id']) : ?>
-  <div class="border-t pt-4 -mb-4 border-gray-300">
-  <?php else : ?>
-    <div class="border-t pt-4 border-gray-300">
-    <?php endif; ?>
-
-    <div class="flex flex-col md:flex-row w-full items-center justify-center md:justify-normal gap-2 md:gap-4">
-      <div class="size-20 rounded-full overflow-hidden border-2 border-gray-300 flex justify-center items-center">
-        <i class="ph-fill ph-user text-gray-300 text-6xl"></i>
-      </div>
-      <?php if ($profile_id == $_SESSION['user_id']) : ?>
-        <p class="font-semibold">Selamat datang, <span class="text-lime-600"><?= htmlspecialchars($_SESSION['user_name']); ?>!</span></p>
-      <?php else : ?>
-        <p class="font-semibold">Profil Pengguna: <span class="text-lime-600"><?= htmlspecialchars($user['name']); ?></span></p>
-      <?php endif; ?>
-    </div>
-    </div>
-
-    <?php if ($profile_id == $_SESSION['user_id']) : ?>
-      <div class="flex justify-center md:justify-start sticky top-25 md:top-14 bg-gray-50 py-4 border-b border-gray-300">
-        <a href="upload_product.php" class="bg-lime-600 text-white text-center py-2 px-4 rounded">
-          <i class="ph-fill ph-upload"></i> Unggah Produk Baru
-        </a>
-      </div>
-    <?php endif; ?>
-
-    <h2 class="text-xl font-bold"><i class="ph-fill ph-upload"></i> Produk yang Diunggah</h2>
-
-    <h3 class="text-lg font-semibold">Daftar Produk</h3>
-
-    <?php if (!empty($products)) : ?>
-      <div class="flex overflow-x-auto mb-4">
-        <table class="min-w-full text-left border border-gray-200">
-          <thead>
-            <tr class="bg-gray-100">
-              <th class="px-4 py-2">Nama</th>
-              <th class="px-4 py-2">Gambar</th>
-              <th class="px-4 py-2">Deskripsi</th>
-              <th class="px-4 py-2">Harga</th>
-              <th class="px-4 py-2">Stok</th>
-              <th class="px-4 py-2">Aksi</th>
-            </tr>
-          </thead>
-          <tbody>
-            <?php foreach ($products as $product) : ?>
-              <tr class="border-t">
-                <td class="px-4 py-2"><?= htmlspecialchars($product['name']) ?></td>
-                <td class="px-4 py-2">
-                  <img src="../../uploads/<?= htmlspecialchars($product['image']) ?>" alt="" class="aspect-square w-14">
-                </td>
-                <td class="px-4 py-2"><?= htmlspecialchars($product['description']) ?></td>
-                <td class="px-4 py-2"><?= number_format($product['price'], 2) ?></td>
-                <td class="px-4 py-2"><?= $product['stock'] ?></td>
-                <td class="px-4 py-2">
-                  <?php if ($product['user_id'] == $_SESSION['user_id']): ?>
-                    <a href="edit_product.php?id=<?= $product['id'] ?>" class="underline text-blue-600">Ubah</a>
-                    <a href="../../controllers/profile/delete_product.php?id=<?= $product['id'] ?>" class="underline text-red-600 ml-2">Hapus</a>
-                  <?php else : ?>
-                    <a href="../product_detail?id=<?= $product['id'] ?>" class="underline text-lime-600">Lihat detail</a>
-                  <?php endif; ?>
-                </td>
-              </tr>
-            <?php endforeach; ?>
-          </tbody>
-        </table>
-      </div>
-    <?php else : ?>
-      <p>Belum ada produk yang ditambahkan.</p>
-    <?php endif; ?>
-
-    <?php if ($profile_id == $_SESSION['user_id']) : ?>
-      <div class="p-4 text-red-700 bg-red-100 border border-red-300 rounded">
-        <h2 class="text-xl font-bold pb-3"><i class="ph-bold ph-sign-out"></i> Log out</h2>
-        <button onclick="openLogoutModal()" class="text-red-500 w-min">Keluar</button>
-      </div>
-      <div id="logoutModal" class="fixed inset-0 bg-[rgba(0,0,0,0.5)] backdrop-blur flex items-center justify-center z-50 hidden">
-        <div class="bg-white rounded-lg shadow-lg p-6 w-72">
-          <h2 class="text-lg font-semibold mb-4">Konfirmasi Logout</h2>
-          <p class="mb-4">Apakah Anda yakin ingin keluar?</p>
-          <div class="flex justify-end gap-2">
-            <button onclick="closeLogoutModal()" class="px-4 py-1 rounded border border-gray-300 hover:bg-gray-100">Batal</button>
-            <form action="../../controllers/auth/logout_handler.php" method="post">
-              <button type="submit" class="px-4 py-1 rounded bg-red-500 text-white hover:bg-red-600">Keluar</button>
-            </form>
-          </div>
-        </div>
-      </div>
-      <script>
-        function openLogoutModal() {
-          document.getElementById('logoutModal').classList.remove('hidden');
-        }
-
-        function closeLogoutModal() {
-          document.getElementById('logoutModal').classList.add('hidden');
-        }
-      </script>
-    <?php endif; ?>
-
-    <?php
-    $content = ob_get_clean();
-    include '../../layout.php';
-    ?>
+<?php
+$content = ob_get_clean();
+include '../../layout.php';
+?>

@@ -1,29 +1,36 @@
 <?php if (isset($_SESSION['user_id'])) : ?>
+  <?php $storeLink = isset($_SESSION['store_id']) ? '../store/?id=' . $_SESSION['store_id'] : '../store/'; ?>
   <div class="h-18 md:hidden"></div>
-  <div class="bg-[#E2E6CF] w-full fixed bottom-0 h-18 md:hidden shadow">
-    <ul class="flex gap-4 sm:gap-16 justify-between px-5 text-lime-600">
+  <div class="bg-[#E2E6CF] w-full fixed bottom-0 h-14 md:hidden shadow">
+    <ul class="grid w-full grid-cols-5 px-4 space-x-1 text-lime-600">
       <li class="w-full group">
-        <a href="../home" class="p-4 w-full group-hover:text-lime-700 flex flex-col items-center justify-center">
-          <i class="ph-bold ph-house text-2xl"></i>
-          <p class="text-sm group-hover:text-lime-700">Beranda</p>
+        <a href="../home" class="flex flex-col items-center justify-center w-full py-2 group-hover:text-lime-700">
+          <i class="text-2xl ph ph-house"></i>
+          <p class="text-xs group-hover:text-lime-700">Beranda</p>
         </a>
       </li>
       <li class="w-full group">
-        <a href="../../controllers/orders/fetch_orders.php" class="p-4 w-full group-hover:text-lime-700 flex flex-col items-center justify-center">
-          <i class="ph-bold ph-scroll text-2xl"></i>
-          <p class="text-sm group-hover:text-lime-700">Riwayat</p>
+        <a href="../orders/user_orders.php" class="flex flex-col items-center justify-center w-full py-2 group-hover:text-lime-700">
+          <i class="text-2xl ph ph-scroll"></i>
+          <p class="text-xs group-hover:text-lime-700">Pesanan</p>
         </a>
       </li>
       <li class="w-full group">
-        <a href="../cart" class="p-4 w-full group-hover:text-lime-700 flex flex-col items-center justify-center">
-          <i class="ph-bold ph-shopping-cart text-2xl"></i>
-          <p class="text-sm group-hover:text-lime-700">Keranjang</p>
+        <a href="../categories" class="flex flex-col items-center justify-center w-full py-2 group-hover:text-lime-700">
+          <i class="text-2xl ph ph-squares-four"></i>
+          <p class="text-xs group-hover:text-lime-700">Kategori</p>
         </a>
       </li>
       <li class="w-full group">
-        <a href="../profile?id=<?= $_SESSION['user_id']; ?>" class="p-4 w-full group-hover:text-lime-700 flex flex-col items-center justify-center">
-          <i class="ph-bold ph-user text-2xl"></i>
-          <p class="text-sm group-hover:text-lime-700">Profil</p>
+        <a href="<?= $storeLink ?>" class="flex flex-col items-center justify-center w-full py-2 group-hover:text-lime-700">
+          <i class="text-2xl ph ph-storefront"></i>
+          <p class="text-xs group-hover:text-lime-700">Toko</p>
+        </a>
+      </li>
+      <li class="w-full group">
+        <a href="../profile?id=<?= $_SESSION['user_id']; ?>" class="flex flex-col items-center justify-center w-full py-2 group-hover:text-lime-700">
+          <i class="text-2xl ph ph-user"></i>
+          <p class="text-xs group-hover:text-lime-700">Profil</p>
         </a>
       </li>
     </ul>

@@ -8,58 +8,76 @@ class CategoryModel
     $this->conn = $conn;
   }
 
-  public static function all()
-  {
-    global $conn;
-    $sql = "SELECT * FROM categories";
-    return $conn->query($sql);
-  }
-
   public function getAll()
   {
-    $query = "SELECT id, name FROM categories ORDER BY name ASC";
+    $query = "SELECT * FROM categories ORDER BY COALESCE(parent_id, 0), name ASC";
     $stmt = $this->conn->prepare($query);
     $stmt->execute();
-    return $stmt->get_result();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+  public function getRootCategories()
+  {
+    $query = "SELECT * FROM categories WHERE parent_id IS NULL ORDER BY name ASC";
+    $stmt = $this->conn->prepare($query);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
 
   public function getById($id)
   {
     $stmt = $this->conn->prepare("SELECT * FROM categories WHERE id = ?");
-    $stmt->bind_param("i", $id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    return $result->fetch_assoc();
+    $stmt->execute([$id]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
   }
 
   public function getNameById($id)
   {
     $stmt = $this->conn->prepare("SELECT name FROM categories WHERE id = ?");
-    $stmt->bind_param("i", $id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $row = $result->fetch_assoc();
+    $stmt->execute([$id]);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
     return $row ? $row['name'] : null;
   }
 
-  public function add($name)
+  public function add($name, $parent_id = null)
   {
-    $stmt = $this->conn->prepare("INSERT INTO categories (name) VALUES (?)");
-    $stmt->bind_param("s", $name);
-    return $stmt->execute();
+    $stmt = $this->conn->prepare("INSERT INTO categories (name, parent_id) VALUES (?, ?)");
+    return $stmt->execute([$name, $parent_id]);
   }
 
   public function delete($id)
   {
     $stmt = $this->conn->prepare("DELETE FROM categories WHERE id = ?");
-    $stmt->bind_param("i", $id);
-    return $stmt->execute();
+    return $stmt->execute([$id]);
   }
 
-  public function update($id, $name)
+  public function update($id, $name, $parent_id = null)
   {
-    $stmt = $this->conn->prepare("UPDATE categories SET name = ? WHERE id = ?");
-    $stmt->bind_param("si", $name, $id);
-    return $stmt->execute();
+    if ($parent_id === null) {
+      $stmt = $this->conn->prepare("UPDATE categories SET name = ?, parent_id = NULL WHERE id = ?");
+      return $stmt->execute([$name, $id]);
+    } else {
+      $stmt = $this->conn->prepare("UPDATE categories SET name = ?, parent_id = ? WHERE id = ?");
+      return $stmt->execute([$name, $parent_id, $id]);
+    }
+  }
+  public function search($keyword)
+  {
+    $stmt = $this->conn->prepare("SELECT * FROM categories WHERE name LIKE ?");
+    $like = '%' . $keyword . '%';
+    $stmt->execute([$like]);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+  }
+  public function getChildCategories()
+  {
+    $stmt = $this->conn->prepare("SELECT id, name FROM categories WHERE parent_id IS NOT NULL");
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+  }
+  public function getChildren($parentId)
+  {
+    $stmt = $this->conn->prepare("SELECT * FROM categories WHERE parent_id = ?");
+    $stmt->execute([$parentId]);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
 }

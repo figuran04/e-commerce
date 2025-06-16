@@ -12,22 +12,20 @@ class SearchModel
   public function searchProducts($query)
   {
     $sql = "SELECT products.*, categories.name AS category_name
-                FROM products
-                LEFT JOIN categories ON products.category_id = categories.id
-                WHERE products.name LIKE ? OR products.description LIKE ?";
+            FROM products
+            LEFT JOIN categories ON products.category_id = categories.id
+            WHERE products.name LIKE :nameQuery OR products.description LIKE :descQuery";
 
     $stmt = $this->conn->prepare($sql);
-    $searchTerm = "%" . $query . "%"; // Menambahkan wildcard untuk pencarian LIKE
-    $stmt->bind_param("ss", $searchTerm, $searchTerm);
+    $searchTerm = "%" . $query . "%";
+    $stmt->bindValue(':nameQuery', $searchTerm, PDO::PARAM_STR);
+    $stmt->bindValue(':descQuery', $searchTerm, PDO::PARAM_STR);
     $stmt->execute();
-    $result = $stmt->get_result();
 
-    // Simpan hasil pencarian dalam array
-    $products = [];
-    while ($row = $result->fetch_assoc()) {
-      // Menambahkan key 'category' untuk memenuhi kebutuhan includes/product_card.php
-      $row['category'] = $row['category_name'] ?: 'Tanpa Kategori';
-      $products[] = $row;
+    $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($products as &$row) {
+      $row['category'] = $row['category_name'] ?? 'Tanpa Kategori';
     }
 
     return $products;

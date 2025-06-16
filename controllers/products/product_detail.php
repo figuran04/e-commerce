@@ -1,9 +1,10 @@
 <?php
 require_once '../../config/init.php';
 require_once '../../models/ProductModel.php';
+require_once '../../views/partials/alerts.php'; // Tambahkan ini
 
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
-  $_SESSION['error'] = "Produk tidak ditemukan.";
+  setFlash('error', "Produk tidak ditemukan.");
   header("Location: ../../views/home");
   exit;
 }
@@ -13,7 +14,7 @@ $productModel = new ProductModel($conn);
 $product = $productModel->getById($id);
 
 if (!$product) {
-  $_SESSION['error'] = "Produk tidak ditemukan.";
+  setFlash('error', "Produk tidak ditemukan.");
   header("Location: ../../views/home");
   exit;
 }

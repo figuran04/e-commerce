@@ -1,9 +1,6 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 uploads/*
-!/uploads/*.PNG
-!/uploads/*.png
-url.*
 
 # dependencies
 /node_modules

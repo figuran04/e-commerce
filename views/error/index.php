@@ -18,7 +18,7 @@ $pageTitle = "Error";
 include "../../controllers/search/search_handler.php";
 ob_start()
 ?>
-
+<?php include('../../includes/alerts.php') ?>
 <div class="flex flex-col items-center pt-20 text-lime-600">
   <h1 class="text-4xl font-bold"><?= htmlspecialchars($code) ?></h1>
   <p class="text-2xl font-semibold"><?= htmlspecialchars($message) ?></p>

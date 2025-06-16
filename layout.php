@@ -19,6 +19,7 @@ $isAdminPage = strpos($currentPath, 'admin') !== false;
   <title><?php echo isset($pageTitle) ? $pageTitle . " - Zerovaa" : "Zerovaa"; ?></title>
   <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <link
     rel="stylesheet"
     type="text/css"
@@ -43,12 +44,12 @@ $isAdminPage = strpos($currentPath, 'admin') !== false;
     <?php if ($isAdminPage): ?>
       <div class="flex min-h-screen">
         <?php include 'includes/sidebar.php'; ?>
-        <main class="container mx-auto p-4 flex flex-col gap-4 min-h-screen">
+        <main class="container flex flex-col min-h-screen gap-4 p-4 mx-auto">
           <?= isset($content) ? $content : '<p>Konten tidak ditemukan.</p>'; ?>
         </main>
       </div>
     <?php else: ?>
-      <main class="container mx-auto p-4 flex flex-col gap-4 min-h-screen">
+      <main class="container flex flex-col min-h-screen gap-4 p-4 mx-auto">
         <?= isset($content) ? $content : '<p>Konten tidak ditemukan.</p>'; ?>
       </main>
     <?php endif; ?>
@@ -56,6 +57,34 @@ $isAdminPage = strpos($currentPath, 'admin') !== false;
   </div>
 
   <?php if (!$hideHeaderFooter) include 'includes/footer.php'; ?>
+
+  <script>
+    <?php if (isset($_SESSION['wa_redirect'])) : ?>
+      window.addEventListener('DOMContentLoaded', () => {
+        setTimeout(() => {
+          window.location.href = <?= json_encode($_SESSION['wa_redirect']) ?>;
+        }, 3000); // tunggu 2 detik
+      });
+      <?php unset($_SESSION['wa_redirect']); ?>
+    <?php endif; ?>
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const backBtn = document.getElementById('btn-kembali');
+
+      // Sembunyikan jika tidak bisa kembali
+      if (window.history.length <= 1) {
+        backBtn.style.display = 'none';
+      }
+    });
+
+    function toggleModal(id) {
+      const modal = document.getElementById(id);
+      if (modal) {
+        modal.classList.toggle('hidden');
+        modal.classList.toggle('flex');
+      }
+    }
+  </script>
 
 </body>
 

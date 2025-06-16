@@ -18,6 +18,6 @@ $cartModel = new CartModel($conn);
 $result = $cartModel->getCartItems($user_id);
 
 // Memasukkan data ke dalam array untuk dipassing ke view
-$data = [
+$cart_data = [
   'cartItems' => $result
 ];

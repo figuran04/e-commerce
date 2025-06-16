@@ -1,6 +1,7 @@
 <?php
 require_once '../../config/init.php';
 require_once '../../models/CategoryModel.php';
+require_once '../../views/partials/alerts.php';
 
 if (!isset($_SESSION['user_id']) || $_SESSION['is_admin'] != 1) {
   header("Location: ../../views/login");
@@ -12,9 +13,9 @@ if (isset($_GET['id'])) {
   $categoryModel = new CategoryModel($conn);
 
   if ($categoryModel->delete($category_id)) {
-    $_SESSION['success'] = "Kategori berhasil dihapus!";
+    setFlash('success', 'Kategori berhasil dihapus!');
   } else {
-    $_SESSION['error'] = "Terjadi kesalahan saat menghapus kategori!";
+    setFlash('error', 'Terjadi kesalahan saat menghapus kategori!');
   }
 
   header("Location: ../../views/admin?tab=categories");

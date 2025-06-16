@@ -14,68 +14,49 @@ class UserModel
   public static function all()
   {
     global $conn;
-    $sql = "SELECT * FROM users";
-    return $conn->query($sql);
+    $stmt = $conn->query("SELECT * FROM users");
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
 
   public function getUserById($id)
   {
     $stmt = $this->db->prepare("SELECT * FROM users WHERE id = ?");
-    $stmt->bind_param("i", $id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    return $result->fetch_assoc();
+    $stmt->execute([$id]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
   }
 
-  // Mengecek apakah email sudah terdaftar
   public function isEmailExist($email)
   {
-    $sql = "SELECT id FROM users WHERE email = ?";
-    $stmt = $this->db->prepare($sql);
-    $stmt->bind_param("s", $email);
-    $stmt->execute();
-    $stmt->store_result();
-
-    return $stmt->num_rows > 0;
+    $stmt = $this->db->prepare("SELECT id FROM users WHERE email = ?");
+    $stmt->execute([$email]);
+    return $stmt->rowCount() > 0;
   }
 
-  // Menyimpan pengguna baru ke database
   public function register($name, $email, $password)
   {
-    $sql = "INSERT INTO users (name, email, password) VALUES (?, ?, ?)";
-    $stmt = $this->db->prepare($sql);
-    $stmt->bind_param("sss", $name, $email, $password);
-
-    return $stmt->execute();
+    $stmt = $this->db->prepare("INSERT INTO users (name, email, password) VALUES (?, ?, ?)");
+    return $stmt->execute([$name, $email, $password]);
   }
 
-  // Login
   public function getByEmail($email)
   {
-    $sql = "SELECT id, name, email, password, role FROM users WHERE email = ?";
-    $stmt = $this->db->prepare($sql);
-    $stmt->bind_param("s", $email);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    return $result->fetch_assoc(); // return false jika tidak ada
+    $stmt = $this->db->prepare("SELECT * FROM users WHERE email = ?");
+    $stmt->execute([$email]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
   }
 
   public function toggleStatus($id)
   {
     $stmt = $this->db->prepare("SELECT status FROM users WHERE id = ?");
-    $stmt->bind_param("i", $id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $user = $result->fetch_assoc();
+    $stmt->execute([$id]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$user) return false;
 
     $new_status = ($user['status'] === 'active') ? 'blocked' : 'active';
 
-    $stmt = $this->db->prepare("UPDATE users SET status = ? WHERE id = ?");
-    $stmt->bind_param("si", $new_status, $id);
-
-    if ($stmt->execute()) {
+    $updateStmt = $this->db->prepare("UPDATE users SET status = ? WHERE id = ?");
+    if ($updateStmt->execute([$new_status, $id])) {
       return $new_status;
     }
 
@@ -85,24 +66,46 @@ class UserModel
   public function delete($id)
   {
     $stmt = $this->db->prepare("DELETE FROM users WHERE id = ?");
-    $stmt->bind_param("i", $id);
-    return $stmt->execute();
+    return $stmt->execute([$id]);
   }
 
   public function getRoleById($id)
   {
     $stmt = $this->db->prepare("SELECT role FROM users WHERE id = ?");
-    $stmt->bind_param("i", $id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $user = $result->fetch_assoc();
+    $stmt->execute([$id]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
     return $user ? $user['role'] : null;
   }
 
   public function updateRole($id, $newRole)
   {
     $stmt = $this->db->prepare("UPDATE users SET role = ? WHERE id = ?");
-    $stmt->bind_param("si", $newRole, $id);
-    return $stmt->execute();
+    return $stmt->execute([$newRole, $id]);
+  }
+  public function search($keyword)
+  {
+    $stmt = $this->db->prepare("SELECT * FROM users WHERE name LIKE ? OR email LIKE ?");
+    $like = '%' . $keyword . '%';
+    $stmt->execute([$like, $like]);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+  }
+  public function updateProfile($id, $name, $email, $phone, $address, $bio)
+  {
+    $stmt = $this->db->prepare("
+    UPDATE users SET name = ?, email = ?, phone = ?, address = ?, bio = ? WHERE id = ?
+  ");
+    return $stmt->execute([$name, $email, $phone, $address, $bio, $id]);
+  }
+
+  public function getUserByStoreId($store_id)
+  {
+    $stmt = $this->db->prepare("
+    SELECT users.*
+    FROM users
+    JOIN stores ON stores.user_id = users.id
+    WHERE stores.id = ?
+  ");
+    $stmt->execute([$store_id]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
   }
 }

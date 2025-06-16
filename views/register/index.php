@@ -35,7 +35,7 @@ ob_start();
 </style>
 <h1 class="text-2xl font-bold text-center text-lime-600"><a href="../home">Zerovaa</a></h1>
 
-<div class="flex flex-col md:flex-row w-full gap-8 items-center md:items-center md:justify-center mt-20">
+<div class="flex flex-col items-center w-full gap-8 mt-20 md:flex-row md:items-center md:justify-center">
 
   <!-- BAGIAN KIRI (Tersembunyi ketika mobile responsive)-->
   <div class="left">
@@ -46,20 +46,9 @@ ob_start();
 
   <!-- BAGIAN KANAN -->
   <div class="right">
-    <h2 class="text-lime-600 text-xl font-semibold text-center mt-2">Daftar Sekarang</h2>
+    <h2 class="mt-2 text-xl font-semibold text-center text-lime-600">Daftar Sekarang</h2>
     <p class="text-center">Sudah punya akun? <a href="../login">Masuk</a></p>
-    <?php if (isset($_SESSION['error'])): ?>
-      <div class="p-4 text-red-700 bg-red-100 border border-red-300 rounded">
-        <p><?= $_SESSION['error'] ?></p>
-      </div>
-      <?php unset($_SESSION['error']); ?>
-    <?php endif; ?>
-
-    <?php if (isset($_SESSION['success'])): ?>
-      <div class="p-4 text-green-700 bg-green-100 border border-green-300 rounded">
-        <p><?= $_SESSION['success'] ?></p>
-      </div>
-    <?php endif; ?>
+    <?php include '../partials/alerts.php'; ?>
 
     <form action="../../controllers/auth/register_handler.php" method="POST" class="flex flex-col gap-1">
       <label for="name">Nama:</label>
@@ -71,11 +60,11 @@ ob_start();
       <label for="password">Password:</label>
       <input type="password" id="password" name="password" placeholder="********" required>
 
-      <button class="mt-3 rounded px-4 py-2 bg-gray-100 text-gray-200 cursor-not-allowed" type="submit" id="nextButton" disabled>Daftar</button>
+      <button class="px-4 py-2 mt-3 text-gray-300 bg-gray-200 rounded cursor-not-allowed" type="submit" id="nextButton" disabled>Daftar</button>
     </form>
 
     <p class="text-sm">
-      Dengan mendaftar, saya menyetujui <a href="#">Syarat & Ketentuan</a> serta <a href="#">Kebijakan Privasi</a>
+      Dengan mendaftar, saya menyetujui <a href="../pages/legal.php#syarat">Syarat & Ketentuan</a> serta <a href="../pages/legal.php#privasi">Kebijakan Privasi</a>
     </p>
   </div>
 </div>
@@ -95,12 +84,12 @@ ob_start();
     if (name !== "" && email !== "" && password !== "") {
       nextButton.disabled = false;
       nextButton.classList.add("bg-lime-600", "hover:bg-lime-700", "text-gray-50", "cursor-pointer");
-      nextButton.classList.remove("bg-gray-100", "text-gray-200", "cursor-not-allowed");
+      nextButton.classList.remove("bg-gray-200", "text-gray-300", "cursor-not-allowed");
     } else {
       // Jika salah satu atau keduanya kosong, nonaktifkan tombol
       nextButton.disabled = true;
       nextButton.classList.remove("bg-lime-600", "hover:bg-lime-700", "text-gray-50", "cursor-pointer");
-      nextButton.classList.add("bg-gray-100", "text-gray-200", "cursor-not-allowed");
+      nextButton.classList.add("bg-gray-200", "text-gray-300", "cursor-not-allowed");
     }
   }
 </script>

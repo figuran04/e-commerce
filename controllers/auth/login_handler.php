@@ -1,12 +1,15 @@
 <?php
+session_start();
 require '../../models/UserModel.php';
+require '../../models/StoreModel.php';
+require '../../views/partials/alerts.php'; // untuk akses setFlash()
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
   $email = filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL);
   $password = trim($_POST['password']);
 
   if (empty($email) || empty($password)) {
-    $_SESSION['error'] = "Email dan password wajib diisi!";
+    setFlash('error', "Email dan password wajib diisi!");
     header("Location: ../../views/login");
     exit;
   }
@@ -15,15 +18,24 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   $user = $userModel->getByEmail($email);
 
   if (!$user) {
-    $_SESSION['error'] = "Email belum terdaftar.";
+    setFlash('error', "Email belum terdaftar.");
     header("Location: ../../views/login");
     exit;
   }
 
   if (!password_verify($password, $user['password'])) {
-    $_SESSION['error'] = "Password salah.";
+    setFlash('error', "Password salah.");
     header("Location: ../../views/login");
     exit;
+  }
+
+  $storeModel = new StoreModel($conn);
+  $store = $storeModel->getStoreByUserId($user['id']);
+
+  if ($store) {
+    $_SESSION['store_id'] = $store['id'];
+  } else {
+    unset($_SESSION['store_id']);
   }
 
   // Login sukses

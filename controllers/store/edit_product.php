@@ -1,6 +1,7 @@
 <?php
 require_once '../../config/init.php';
 require_once '../../models/ProductModel.php';
+require_once '../../views/partials/alerts.php'; // ✅ Flash message handler
 
 $productModel = new ProductModel($conn);
 
@@ -20,39 +21,49 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] === 'edit') {
   $stock = intval($_POST['stock']);
   $category_id = intval($_POST['category_id']);
 
-  // Validasi input
+  // ✅ Validasi input
   if (!ProductModel::validateInput($name, $description, $price, $stock, $category_id)) {
-    header("Location: ../../views/edit_product?id=$id&status=error");
+    setFlash('error', "Input tidak valid. Pastikan semua kolom terisi dengan benar.");
+    header("Location: ../../views/store/edit_product?id=$id");
     exit;
   }
 
-  // Ambil data produk berdasarkan ID
+  // ✅ Cek produk
   $product = $productModel->getById($id);
   if (!$product) {
-    header("Location: ../../views/profile?status=notfound");
+    setFlash('error', "Produk tidak ditemukan.");
+    header("Location: ../../views/store");
     exit;
   }
 
-  // Validasi apakah user yang mengedit adalah pemilik produk atau admin
+  // ✅ Validasi izin edit
   if ($product['user_id'] != $user_id && !$is_admin) {
-    header("Location: ../../views/profile?status=unauthorized");
+    setFlash('error', "Anda tidak memiliki izin untuk mengedit produk ini.");
+    header("Location: ../../views/store");
     exit;
   }
 
-  // Proses gambar (jika ada yang diunggah)
+  // ✅ Proses gambar jika ada
   $image = $product['image'];
   if (!empty($_FILES['image']['name'])) {
-    $image_name = time();
+    $extension = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
+    $image_name = time() . '.' . $extension;
     $target_file = "../../uploads/" . $image_name;
+
     if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
-      $image = $image_name; // Gambar baru
+      $image = $image_name;
     }
   }
 
-  // Update produk dengan data baru
+  // ✅ Update produk
   $success = $productModel->update($id, $name, $description, $price, $stock, $category_id, $image);
-  $status = $success ? "success" : "error";
 
-  header("Location: ../../views/profile?status=$status");
+  if ($success) {
+    setFlash('success', "Produk berhasil diperbarui.");
+  } else {
+    setFlash('error', "Gagal memperbarui produk.");
+  }
+
+  header("Location: ../../views/store");
   exit;
 }

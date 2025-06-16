@@ -17,7 +17,7 @@ if (!empty($query)) {
 }
 
 // Memasukkan data ke dalam array untuk dipassing ke view
-$data = [
+$query_data = [
   'query' => $query,
   'products' => $products
 ];
