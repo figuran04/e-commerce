@@ -1,6 +1,6 @@
-<?php
+﻿<?php
 // controllers/search/search_handler.php
-require_once '../../config/init.php';
+require_once __DIR__ . '/../../config/init.php';
 require_once '../../models/SearchModel.php';
 
 $query = isset($_GET['q']) ? $_GET['q'] : '';

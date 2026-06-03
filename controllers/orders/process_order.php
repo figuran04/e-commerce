@@ -1,10 +1,10 @@
 <?php
-require '../../config/init.php';
-require '../../models/OrderModel.php';
-require '../../models/CartModel.php';
-require '../../models/ProductModel.php';
-require '../../models/UserModel.php';
-require '../../views/partials/alerts.php';
+require_once __DIR__ . '/../../config/init.php';
+require_once __DIR__ . '/../../helpers/flash.php';
+require_once __DIR__ . '/../../models/OrderModel.php';
+require_once __DIR__ . '/../../models/CartModel.php';
+require_once __DIR__ . '/../../models/ProductModel.php';
+require_once __DIR__ . '/../../models/UserModel.php';
 
 if (!isset($_SESSION['user_id'])) {
   header('Location: ../../views/login/index.php');
@@ -14,7 +14,7 @@ if (!isset($_SESSION['user_id'])) {
 $productModel = new ProductModel($conn);
 $orderModel = new OrderModel($conn);
 $cartModel = new CartModel($conn);
-$userModel = new UserModel($conn);
+$userModel = new UserModel();
 $userId = $_SESSION['user_id'];
 $user = $userModel->getUserById($userId);
 
@@ -96,7 +96,7 @@ if ($phone) {
 
   // Buat pesan WhatsApp
   $message = "Halo kak, saya *{$user['name']}* baru saja memesan produk dari toko kakak 😊\n" .
-    "🛒 *ID Pesanan:* {$order['id']}\n" .
+    "🛒 *ID Pesanan:* {$order_id}\n" .
     "📝 Berikut detailnya:\n$orderLink\n\nTerima kasih, ditunggu konfirmasinya ya!";
 
   $waLink = "https://wa.me/{$phone}?text=" . urlencode($message);

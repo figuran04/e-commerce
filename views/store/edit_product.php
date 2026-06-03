@@ -1,5 +1,5 @@
 ﻿<?php
-require_once '../../config/init.php';
+require_once __DIR__ . '/../../config/init.php';
 require_once '../../models/ProductModel.php';
 
 if (!isset($_SESSION['user_id'])) {

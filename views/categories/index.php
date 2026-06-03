@@ -1,5 +1,5 @@
-<?php
-require_once '../../config/init.php';
+﻿<?php
+require_once __DIR__ . '/../../config/init.php';
 $pageTitle = "Kategori";
 require '../../controllers/category/category_handler.php';
 ob_start();

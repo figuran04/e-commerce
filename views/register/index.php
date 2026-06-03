@@ -1,6 +1,6 @@
-<?php
+﻿<?php
 $pageTitle = "Daftar";
-require '../../config/init.php';
+require_once __DIR__ . '/../../config/init.php';
 ob_start();
 ?>
 

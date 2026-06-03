@@ -1,9 +1,9 @@
-<?php
+﻿<?php
 
 require_once '../../models/ProductModel.php';
 require_once '../../models/CategoryModel.php';
 require_once '../../models/UserModel.php';
-require_once '../../views/partials/alerts.php';
+require_once __DIR__ . '/../../helpers/flash.php';
 
 // Cek autentikasi dan hak admin
 if (empty($_SESSION['user_id']) || empty($_SESSION['is_admin']) || $_SESSION['is_admin'] != 1) {
@@ -15,7 +15,7 @@ if (empty($_SESSION['user_id']) || empty($_SESSION['is_admin']) || $_SESSION['is
 // Inisialisasi model
 $productModel = new ProductModel($conn);
 $categoryModel = new CategoryModel($conn);
-$userModel = new UserModel($conn);
+$userModel = new UserModel();
 
 // Ambil data
 $products = method_exists($productModel, 'all') ? $productModel->all() : [];

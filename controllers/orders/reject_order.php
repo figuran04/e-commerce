@@ -1,11 +1,11 @@
 <?php
-require_once '../../config/init.php';
-require_once '../../models/OrderModel.php';
-require_once '../../models/UserModel.php'; // Untuk ambil info pembeli
-require_once '../../views/partials/alerts.php';
+require_once __DIR__ . '/../../config/init.php';
+require_once __DIR__ . '/../../helpers/flash.php';
+require_once __DIR__ . '/../../models/OrderModel.php';
+require_once __DIR__ . '/../../models/UserModel.php';
 
 $orderModel = new OrderModel($conn);
-$userModel = new UserModel($conn);
+$userModel = new UserModel();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_id'])) {
   $order_id = (int) $_POST['order_id'];

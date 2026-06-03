@@ -1,6 +1,7 @@
-﻿<?php
-require_once '../../controllers/profile/profile_controller.php';
-require_once '../../helpers/tampil_data.php';
+<?php
+require_once __DIR__ . '/../../controllers/profile/profile_controller.php';
+// tampil_data.php sudah di-include oleh profile_controller.php
+
 $pageTitle = "Profil";
 ob_start();
 ?>

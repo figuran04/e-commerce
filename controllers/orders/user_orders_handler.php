@@ -1,8 +1,8 @@
 <?php
-require '../../config/init.php'; // $conn = PDO instance
-require '../../models/OrderModel.php';
-require '../../models/StoreModel.php';
-require '../../models/UserModel.php'; // ✅ tambahan
+require_once __DIR__ . '/../../config/init.php';
+require_once __DIR__ . '/../../models/OrderModel.php';
+require_once __DIR__ . '/../../models/StoreModel.php';
+require_once __DIR__ . '/../../models/UserModel.php';
 
 if (!isset($_SESSION['user_id'])) {
   header('Location: ../../views/login');
@@ -11,7 +11,7 @@ if (!isset($_SESSION['user_id'])) {
 
 $orderModel = new OrderModel($conn);
 $storeModel = new StoreModel($conn);
-$userModel = new UserModel($conn); // ✅ buat instance
+$userModel = new UserModel();
 $userId = $_SESSION['user_id'];
 
 // Ambil semua order user dengan detail item

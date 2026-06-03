@@ -1,7 +1,7 @@
-<?php
-require '../../config/init.php';
+﻿<?php
+require_once __DIR__ . '/../../config/init.php';
 require_once '../../models/CartModel.php';
-require_once '../../views/partials/alerts.php'; // <- Untuk setFlash
+require_once __DIR__ . '/../../helpers/flash.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['selected_ids'])) {
   $ids = array_filter(explode(',', $_POST['selected_ids']), 'is_numeric');

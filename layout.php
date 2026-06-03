@@ -71,8 +71,8 @@ $isAdminPage = strpos($currentPath, 'admin') !== false;
     document.addEventListener('DOMContentLoaded', function() {
       const backBtn = document.getElementById('btn-kembali');
 
-      // Sembunyikan jika tidak bisa kembali
-      if (window.history.length <= 1) {
+      // Sembunyikan jika tidak bisa kembali atau elemen tidak ada
+      if (backBtn && window.history.length <= 1) {
         backBtn.style.display = 'none';
       }
     });

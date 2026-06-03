@@ -1,7 +1,7 @@
-<?php
-require_once '../../config/init.php';
+﻿<?php
+require_once __DIR__ . '/../../config/init.php';
 require_once '../../models/UserModel.php';
-require_once '../../views/partials/alerts.php'; // ✅ Tambahkan ini
+require_once __DIR__ . '/../../helpers/flash.php';
 
 if (!isset($_SESSION['user_id'])) {
   header('Location: ../../views/login/');
@@ -15,7 +15,7 @@ $phone = $_POST['phone'] ?? '';
 $address = $_POST['address'] ?? '';
 $bio = $_POST['bio'] ?? '';
 
-$userModel = new UserModel($conn);
+$userModel = new UserModel();
 $success = $userModel->updateProfile($user_id, $name, $email, $phone, $address, $bio);
 
 if ($success) {

@@ -1,5 +1,5 @@
 <?php
-session_start(); // Pastikan session dimulai sebelum menghapusnya
+require_once __DIR__ . '/../../config/init.php';
 
 // Hapus semua variabel session
 $_SESSION = [];
@@ -7,7 +7,7 @@ $_SESSION = [];
 // Hancurkan session
 session_destroy();
 
-// Hapus cookie session jika ada
+// Hapus cookie session agar browser tidak menyimpan session lama
 if (ini_get("session.use_cookies")) {
   $params = session_get_cookie_params();
   setcookie(

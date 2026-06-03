@@ -1,5 +1,5 @@
 ﻿<?php
-require '../../config/init.php';
+require_once __DIR__ . '/../../config/init.php';
 $pageTitle = "Keranjang";
 include '../../controllers/cart/cart_handler.php';
 

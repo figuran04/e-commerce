@@ -1,8 +1,8 @@
 <?php
-require_once '../../config/init.php';
-require_once '../../models/ProductModel.php';
-require_once '../../models/StoreModel.php';
-require_once '../../views/partials/alerts.php'; // <-- Tambahkan ini
+require_once __DIR__ . '/../../config/init.php';
+require_once __DIR__ . '/../../helpers/flash.php';
+require_once __DIR__ . '/../../models/ProductModel.php';
+require_once __DIR__ . '/../../models/StoreModel.php';
 
 if (!isset($_SESSION['user_id'])) {
   header("Location: ../../views/login");

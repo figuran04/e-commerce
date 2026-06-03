@@ -1,6 +1,6 @@
-<?php
+﻿<?php
 // controllers/cart/cart_handler.php
-require_once '../../config/init.php';
+require_once __DIR__ . '/../../config/init.php';
 require_once '../../models/CartModel.php';
 
 // Pastikan pengguna sudah login

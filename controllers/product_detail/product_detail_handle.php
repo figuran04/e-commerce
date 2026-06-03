@@ -1,8 +1,8 @@
-<?php
-require '../../config/init.php';
+﻿<?php
+require_once __DIR__ . '/../../config/init.php';
 require '../../models/ProductModel.php';
 require_once '../../models/StoreModel.php';
-require '../../views/partials/alerts.php'; // ✅ Tambahkan ini untuk akses setFlash()
+require_once __DIR__ . '/../../helpers/flash.php';
 
 $productModel = new ProductModel($conn);
 $storeModel = new StoreModel($conn);

@@ -1,7 +1,7 @@
-<?php
-require_once '../../config/init.php';
+﻿<?php
+require_once __DIR__ . '/../../config/init.php';
 require_once '../../models/CartModel.php';
-require_once '../../views/partials/alerts.php'; // Tambahkan ini untuk setFlash()
+require_once __DIR__ . '/../../helpers/flash.php';
 
 // Hanya tangani jika POST dari cart
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['selected_items'])) {
