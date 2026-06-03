@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 require_once '../../config/init.php';
 require_once '../../models/ProductModel.php';
 
@@ -84,7 +84,7 @@ ob_start();
     <input type="file" name="image" id="image" accept="image/*">
   </section>
   <section class="flex flex-col">
-    <p>Gambar Saat Ini: <img src="../../uploads/<?= htmlspecialchars($product['image']) ?>" alt="Product Image" class="w-40"></p>
+    <p>Gambar Saat Ini: <img src="/5/e-commerce/uploads/<?= htmlspecialchars($product['image']) ?>" alt="Product Image" class="w-40"></p>
   </section>
 
   <button type="submit" class="p-2 text-white rounded bg-lime-600 hover:bg-lime-700">Update Produk</button>
@@ -96,3 +96,4 @@ ob_start();
 $content = ob_get_clean();
 include '../../layout.php';
 ?>
+

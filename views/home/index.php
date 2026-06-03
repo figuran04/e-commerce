@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 require '../../controllers/products/products_controller.php';
 $pageTitle = "Beranda";
 ob_start();
@@ -168,3 +168,4 @@ ob_start();
 $content = ob_get_clean();
 include '../../layout.php';
 ?>
+

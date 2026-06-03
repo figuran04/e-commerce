@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 require '../../controllers/orders/user_orders_handler.php';
 require_once '../../helpers/status.php';
 require_once '../../includes/order_actions.php';
@@ -37,33 +37,33 @@ ob_start();
         // Pesan WhatsApp ke penjual
         $orderLink = $BASE_URL . '/orders/?id=' . $order['id'];
         $buyerMessage = "Halo *{$order['store_name']}*, saya *{$order['user_name']}* ingin menanyakan pesanan saya:\n" .
-          "🛒 *ID Pesanan:* {$order['id']}\n" .
-          "📦 *Status Saat Ini:* {$order['status']}\n" .
-          "💵 *Total Pembayaran:* Rp " . number_format($order['total_price'], 0, ',', '.') . "\n\n";
+          "ðŸ›’ *ID Pesanan:* {$order['id']}\n" .
+          "ðŸ“¦ *Status Saat Ini:* {$order['status']}\n" .
+          "ðŸ’µ *Total Pembayaran:* Rp " . number_format($order['total_price'], 0, ',', '.') . "\n\n";
 
         // Tambahkan keterangan berdasarkan status
         switch ($order['status']) {
           case 'Dipesan':
-            $buyerMessage .= "Pesanan saya masih dalam status *Dipesan*. Mohon infonya ya kak, apakah ada update? 🙏\n";
+            $buyerMessage .= "Pesanan saya masih dalam status *Dipesan*. Mohon infonya ya kak, apakah ada update? ðŸ™\n";
             break;
           case 'Dikirim':
-            $buyerMessage .= "Pesanan saya sudah *dikirim*, tapi saya belum menerimanya. Mohon bantu cek ya kak. 📦\n";
+            $buyerMessage .= "Pesanan saya sudah *dikirim*, tapi saya belum menerimanya. Mohon bantu cek ya kak. ðŸ“¦\n";
             break;
           case 'Selesai':
-            $buyerMessage .= "Saya hanya ingin memastikan bahwa pesanan *Selesai* ini sudah sesuai dan diterima dengan baik 😊\n";
+            $buyerMessage .= "Saya hanya ingin memastikan bahwa pesanan *Selesai* ini sudah sesuai dan diterima dengan baik ðŸ˜Š\n";
             break;
           case 'Ditolak':
-            $buyerMessage .= "Saya ingin menanyakan alasan penolakan pesanan saya. Apakah ada kendala tertentu kak? 😕\n";
+            $buyerMessage .= "Saya ingin menanyakan alasan penolakan pesanan saya. Apakah ada kendala tertentu kak? ðŸ˜•\n";
             break;
           case 'Dibatalkan':
             $buyerMessage .= "Pesanan saya terlihat *dibatalkan*. Saya ingin konfirmasi apakah ini karena permintaan saya, atau ada kendala lain kak?\n";
             break;
           default:
-            $buyerMessage .= "Mohon bantuannya terkait status pesanan saya ya kak 🙏\n";
+            $buyerMessage .= "Mohon bantuannya terkait status pesanan saya ya kak ðŸ™\n";
             break;
         }
 
-        $buyerMessage .= "\n📝 Detail pesanan:\n$orderLink\n\nTerima kasih sebelumnya kak 🙏";
+        $buyerMessage .= "\nðŸ“ Detail pesanan:\n$orderLink\n\nTerima kasih sebelumnya kak ðŸ™";
 
         $waBuyerLink = "https://wa.me/{$storePhone}?text=" . urlencode($buyerMessage);
         ?>
@@ -90,9 +90,9 @@ ob_start();
 
           <div class="grid gap-4 md:grid-cols-2">
             <?php foreach ($order['items'] as $item): ?>
-              <a href="../product_detail/?id=<?= $item['product_id'] ?>" class="transition-all rounded-lg hover:bg-gray-100 group">
+              <a href="/5/e-commerce/views/product_detail/?id=<?= $item['product_id'] ?>" class="transition-all rounded-lg hover:bg-gray-100 group">
                 <div class="flex items-center gap-3 p-1">
-                  <img src="../../uploads/<?= htmlspecialchars($item['image']) ?>" class="object-cover w-16 h-16 rounded-lg group-hover:scale-105">
+                  <img src="/5/e-commerce/uploads/<?= htmlspecialchars($item['image']) ?>" class="object-cover w-16 h-16 rounded-lg group-hover:scale-105">
                   <div>
                     <p class="font-medium line-clamp-2"><?= htmlspecialchars($item['name']) ?></p>
                     <p class="text-sm text-gray-500">
@@ -134,3 +134,5 @@ ob_start();
 $content = ob_get_clean();
 include '../../layout.php';
 ?>
+
+

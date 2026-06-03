@@ -1,11 +1,11 @@
 <?php
-$BASE = "http://localhost/e-commerce";
+$BASE = "http://localhost/5/e-commerce";
 $BASE_URL = $BASE . "/views";
 
 $host = "localhost";
 $user = "root";
 $pass = "";
-$dbname = "zerovaa_db";
+$dbname = "ecommerce";
 $charset = 'utf8mb4';
 
 $dsn = "mysql:host=$host;dbname=$dbname;charset=$charset";

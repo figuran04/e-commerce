@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 include '../../controllers/orders/store_orders_handler.php';
 require_once '../../includes/order_actions.php';
 require_once '../../helpers/status.php';
@@ -9,7 +9,7 @@ ob_start();
 <div class="space-y-6">
   <div class="flex flex-col justify-between md:items-center md:flex-row">
     <h2 class="flex items-center gap-2 text-xl font-bold text-left"><i class="ph-fill ph-package"></i>Pesanan Masuk</h2>
-    <a href="../orders/user_orders.php" class="text-right hover:underline hover:text-lime-700">ke pesanan saya <i class="ph ph-arrow-right"></i></a>
+    <a href="/5/e-commerce/views/orders/user_orders.php" class="text-right hover:underline hover:text-lime-700">ke pesanan saya <i class="ph ph-arrow-right"></i></a>
   </div>
 
   <?php include '../partials/alerts.php'; ?>
@@ -40,29 +40,29 @@ ob_start();
         // Default pesan WhatsApp
         $orderLink = $BASE_URL . '/orders/?id=' . $order['id'];
         $baseMessage = "Halo *{$order['buyer_name']}*, berikut informasi mengenai pesanan kamu di toko kami:\n" .
-          "🛒 *ID Pesanan:* {$order['id']}\n" .
-          "📦 *Status:* {$order['status']}\n" .
-          "💵 *Total Pembayaran:* Rp " . number_format($order['total_price'], 0, ',', '.') . "\n\n";
+          "ðŸ›’ *ID Pesanan:* {$order['id']}\n" .
+          "ðŸ“¦ *Status:* {$order['status']}\n" .
+          "ðŸ’µ *Total Pembayaran:* Rp " . number_format($order['total_price'], 0, ',', '.') . "\n\n";
 
         switch ($order['status']) {
           case 'Dipesan':
-            $baseMessage .= "Pesanan kamu sudah kami terima dan sedang diproses. Mohon ditunggu ya 🙏\n";
+            $baseMessage .= "Pesanan kamu sudah kami terima dan sedang diproses. Mohon ditunggu ya ðŸ™\n";
             break;
           case 'Dikirim':
-            $baseMessage .= "Pesanan kamu sudah kami kirim 📦 Silakan cek dan klik *Selesaikan* jika sudah diterima.\n";
+            $baseMessage .= "Pesanan kamu sudah kami kirim ðŸ“¦ Silakan cek dan klik *Selesaikan* jika sudah diterima.\n";
             break;
           case 'Ditolak':
-            $baseMessage .= "Mohon maaf, pesanan kamu tidak dapat kami proses saat ini 😔 Jika ada pertanyaan, silakan hubungi kami.\n";
+            $baseMessage .= "Mohon maaf, pesanan kamu tidak dapat kami proses saat ini ðŸ˜” Jika ada pertanyaan, silakan hubungi kami.\n";
             break;
           case 'Dibatalkan':
-            $baseMessage .= "Pesanan kamu telah kami batalkan sesuai permintaan. Semoga bisa bertransaksi lagi di lain waktu 🙏\n";
+            $baseMessage .= "Pesanan kamu telah kami batalkan sesuai permintaan. Semoga bisa bertransaksi lagi di lain waktu ðŸ™\n";
             break;
           case 'Selesai':
-            $baseMessage .= "Terima kasih telah menyelesaikan pesanan dan berbelanja di toko kami! 🌟 Kami tunggu pesanan selanjutnya 😊\n";
+            $baseMessage .= "Terima kasih telah menyelesaikan pesanan dan berbelanja di toko kami! ðŸŒŸ Kami tunggu pesanan selanjutnya ðŸ˜Š\n";
             break;
         }
 
-        $baseMessage .= "\n📝 *Lihat detail pesanan di:*\n$orderLink";
+        $baseMessage .= "\nðŸ“ *Lihat detail pesanan di:*\n$orderLink";
 
         // Encode dan buat link
         $waLink = "https://wa.me/{$phone}?text=" . urlencode($baseMessage);
@@ -85,9 +85,9 @@ ob_start();
 
           <div class="grid gap-4 md:grid-cols-2">
             <?php foreach ($order['items'] as $item): ?>
-              <a href="../product_detail/?id=<?= $item['product_id'] ?>" class="transition-all rounded-lg hover:bg-gray-100 group">
+              <a href="/5/e-commerce/views/product_detail/?id=<?= $item['product_id'] ?>" class="transition-all rounded-lg hover:bg-gray-100 group">
                 <div class="flex items-center gap-3 p-1">
-                  <img src="../../uploads/<?= $item['image'] ?>" class="object-cover w-16 h-16 rounded-lg group-hover:scale-105">
+                  <img src="/5/e-commerce/uploads/<?= $item['image'] ?>" class="object-cover w-16 h-16 rounded-lg group-hover:scale-105">
                   <div>
                     <p class="font-medium line-clamp-2"><?= $item['name'] ?></p>
                     <p class="text-sm text-gray-500">Qty: <?= $item['quantity'] ?> x Rp<?= number_format($item['price'], 0, ',', '.') ?></p>
@@ -136,3 +136,6 @@ ob_start();
 $content = ob_get_clean();
 include '../../layout.php';
 ?>
+
+
+

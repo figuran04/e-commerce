@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 require '../../config/init.php';
 require_once '../../models/CartModel.php';
 require_once '../../views/partials/alerts.php'; // untuk setFlash
@@ -23,5 +23,6 @@ if (isset($_POST['buy_now'])) {
 }
 
 setFlash('success', "Produk berhasil ditambahkan ke keranjang.");
-header("Location: ../../views/product_detail/?id=$product_id");
+header("Location: /5/e-commerce/views/product_detail/?id=$product_id");
 exit;
+

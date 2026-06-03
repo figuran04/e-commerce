@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 require_once '../../config/init.php';
 require_once '../../controllers/checkout/checkout_handler.php';
 $pageTitle = "Checkout";
@@ -14,7 +14,7 @@ ob_start();
     <?php else: ?>
       <?php foreach ($cart_items as $item): ?>
         <div class="flex gap-4 pb-4 border-b border-gray-200">
-          <img src="../../uploads/<?= htmlspecialchars($item['image'] ?? 'default.png') ?>" class="object-cover w-20 h-20 border rounded">
+          <img src="/5/e-commerce/uploads/<?= htmlspecialchars($item['image'] ?? 'default.png') ?>" class="object-cover w-20 h-20 border rounded">
           <div class="flex flex-col justify-between">
             <div>
               <p class="font-semibold line-clamp-2"><?= htmlspecialchars($item['name']) ?></p>
@@ -143,3 +143,4 @@ ob_start();
   $content = ob_get_clean();
   include '../../layout.php';
   ?>
+

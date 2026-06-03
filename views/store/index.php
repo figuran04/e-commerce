@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 require '../../controllers/store/store_handler.php';
 require_once '../../helpers/flash.php';
 require_once '../../helpers/format.php';
@@ -182,10 +182,10 @@ $avgHarga = $totalProduk > 0 ? array_sum(array_column($products, 'price')) / $to
             <?php foreach ($products as $product) : ?>
               <tr class="border-gray-200">
                 <td class="px-4 my-2">
-                  <a href="../product_detail?id=<?= $product['id'] ?>" class="text-sm hover:underline line-clamp-3"><?= htmlspecialchars($product['name']) ?></a>
+                  <a href="/5/e-commerce/views/product_detail/?id=<?= $product['id'] ?>" class="text-sm hover:underline line-clamp-3"><?= htmlspecialchars($product['name']) ?></a>
                 </td>
                 <td class="px-4 py-2">
-                  <img src="<?= !empty($product['image']) ? '../../uploads/' . htmlspecialchars($product['image']) : '../../uploads/default_product.jpg' ?>" class="object-cover w-16 h-16 border border-gray-200 rounded">
+                  <img src="<?= !empty($product['image']) ? '/5/e-commerce/uploads/' . htmlspecialchars($product['image']) : '/5/e-commerce/uploads/default_product.jpg' ?>" class="object-cover w-16 h-16 border border-gray-200 rounded">
                 </td>
                 <td class="px-4 py-2">
                   <div class="line-clamp-3"><?= htmlspecialchars($product['description']) ?></div>
@@ -202,7 +202,7 @@ $avgHarga = $totalProduk > 0 ? array_sum(array_column($products, 'price')) / $to
                       Hapus
                     </a>
                   <?php else : ?>
-                    <a href="../product_detail?id=<?= $product['id'] ?>" class="text-lime-600 hover:underline">Lihat detail</a>
+                    <a href="/5/e-commerce/views/product_detail/?id=<?= $product['id'] ?>" class="text-lime-600 hover:underline">Lihat detail</a>
                   <?php endif; ?>
                 </td>
               </tr>
@@ -215,10 +215,10 @@ $avgHarga = $totalProduk > 0 ? array_sum(array_column($products, 'price')) / $to
       <div id="gridView" class="grid hidden grid-cols-2 gap-4 mb-6 sm:grid-cols-3 md:grid-cols-4">
         <?php foreach ($products as $product) : ?>
           <div class="overflow-hidden transition bg-white rounded-lg shadow hover:shadow-md">
-            <img src="<?= !empty($product['image']) ? '../../uploads/' . htmlspecialchars($product['image']) : '../../uploads/default_product.png' ?>" class="object-contain w-full border border-gray-100 aspect-square">
+            <img src="<?= !empty($product['image']) ? '/5/e-commerce/uploads/' . htmlspecialchars($product['image']) : '/5/e-commerce/uploads/default_product.png' ?>" class="object-contain w-full border border-gray-100 aspect-square">
             <div class="flex flex-col p-2 mb-1 space-y-1">
               <h3 class="text-sm md:text-base font-medium text-gray-900 leading-snug line-clamp-2 h-[2.5rem] md:h-[3rem]">
-                <a href="../product_detail?id=<?= $product['id'] ?>" class="hover:underline"><?= htmlspecialchars($product['name']) ?></a>
+                <a href="/5/e-commerce/views/product_detail/?id=<?= $product['id'] ?>" class="hover:underline"><?= htmlspecialchars($product['name']) ?></a>
               </h3>
               <div class="flex items-center justify-between">
                 <p class="text-lg font-semibold truncate text-lime-600">Rp <?= number_format($product['price'], 0, ',', '.') ?></p>
@@ -233,7 +233,7 @@ $avgHarga = $totalProduk > 0 ? array_sum(array_column($products, 'price')) / $to
                     onclick="return confirm('Apakah Anda yakin ingin menghapus produk ini?');"
                     class="text-sm text-red-600 hover:underline">Hapus</a>
                 <?php else : ?>
-                  <a href="../product_detail?id=<?= $product['id'] ?>" class="text-sm text-lime-600 hover:underline">Lihat detail</a>
+                  <a href="/5/e-commerce/views/product_detail/?id=<?= $product['id'] ?>" class="text-sm text-lime-600 hover:underline">Lihat detail</a>
                 <?php endif; ?>
               </div>
             </div>
@@ -262,3 +262,5 @@ $avgHarga = $totalProduk > 0 ? array_sum(array_column($products, 'price')) / $to
 $content = ob_get_clean();
 include '../../layout.php';
 ?>
+
+

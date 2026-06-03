@@ -1,4 +1,4 @@
-<?php require '../../controllers/product_detail/product_detail_handle.php'; ?>
+﻿<?php require '../../controllers/product_detail/product_detail_handle.php'; ?>
 <?php require_once '../../helpers/format.php'; ?>
 <?php $pageTitle = "Detail Produk";
 ob_start(); ?>
@@ -16,7 +16,7 @@ ob_start(); ?>
 </style>
 
 
-<!-- ✅ Breadcrumb -->
+<!-- âœ… Breadcrumb -->
 <nav class="text-sm text-lime-600 mt-4 flex items-center gap-1">
   <a href="<?= $BASE_URL; ?>/home" class="hover:underline hover:text-lime-700">Home</a>
   <p>/</p>
@@ -31,7 +31,7 @@ ob_start(); ?>
 
   <!-- BAGIAN KIRI -->
   <div class="flex justify-center w-full">
-    <img src="../../uploads/<?= htmlspecialchars($product['image']); ?>" class="object-cover w-64 rounded shadow-md" alt="<?= htmlspecialchars($product['name']); ?>">
+    <img src="../uploads/<?= htmlspecialchars($product['image']); ?>" class="object-cover w-64 rounded shadow-md" alt="<?= htmlspecialchars($product['name']); ?>">
   </div>
 
   <!-- BAGIAN TENGAH -->
@@ -199,3 +199,4 @@ ob_start(); ?>
 $content = ob_get_clean();
 include '../../layout.php';
 ?>
+

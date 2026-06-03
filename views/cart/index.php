@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 require '../../config/init.php';
 $pageTitle = "Keranjang";
 include '../../controllers/cart/cart_handler.php';
@@ -66,10 +66,10 @@ if (!empty($cart_data['cartItems'])) {
                         <?= ($cart['stock'] == 0 || $cart['quantity'] > $cart['stock']) ? 'disabled' : '' ?>>
                     </td>
                     <td class="p-3 min-w-40">
-                      <a href="../product_detail?id=<?= $cart['product_id'] ?>" class="font-medium hover:underline line-clamp-3"><?= htmlspecialchars($cart['name']) ?></a>
+                      <a href="/5/e-commerce/views/product_detail/?id=<?= $cart['product_id'] ?>" class="font-medium hover:underline line-clamp-3"><?= htmlspecialchars($cart['name']) ?></a>
                     </td>
                     <td class="p-3">
-                      <img src="../../uploads/<?= $cart['image'] ?>" class="object-cover rounded w-14 h-14">
+                      <img src="/5/e-commerce/uploads/<?= $cart['image'] ?>" class="object-cover rounded w-14 h-14">
                     </td>
                     <td class="p-3">Rp<?= number_format($cart['price'], 0, ',', '.') ?></td>
                     <td class="p-3">
@@ -295,3 +295,5 @@ if (!empty($cart_data['cartItems'])) {
 <?php
 $content = ob_get_clean();
 include '../../layout.php';
+
+

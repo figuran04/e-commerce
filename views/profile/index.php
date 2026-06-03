@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 require_once '../../controllers/profile/profile_controller.php';
 require_once '../../helpers/tampil_data.php';
 $pageTitle = "Profil";
@@ -50,29 +50,29 @@ ob_start();
     <?php if ($profile_id == $_SESSION['user_id']) : ?>
       <div class="col-span-2 p-6 text-sm bg-white border border-gray-200 rounded-lg">
         <h3 class="mb-3 text-lg font-semibold">
-          <a href="../orders/user_orders.php">Pesanan Saya</a>
+          <a href="/5/e-commerce/views/orders/user_orders.php">Pesanan Saya</a>
         </h3>
         <ul class="grid grid-cols-4 gap-3">
           <li>
-            <a href="../orders/user_orders.php?status=Dipesan" class="flex flex-col text-sm text-center tab-link">
+            <a href="/5/e-commerce/views/orders/user_orders.php?status=Dipesan" class="flex flex-col text-sm text-center tab-link">
               <i class="text-4xl ph ph-package"></i>
               Dipesan
             </a>
           </li>
           <li>
-            <a href="../orders/user_orders.php?status=Dikirim" class="flex flex-col text-sm text-center tab-link">
+            <a href="/5/e-commerce/views/orders/user_orders.php?status=Dikirim" class="flex flex-col text-sm text-center tab-link">
               <i class="text-4xl ph ph-truck"></i>
               Dikirim
             </a>
           </li>
           <li>
-            <a href="../orders/user_orders.php?status=Selesai" class="flex flex-col text-sm text-center tab-link">
+            <a href="/5/e-commerce/views/orders/user_orders.php?status=Selesai" class="flex flex-col text-sm text-center tab-link">
               <i class="text-4xl ph ph-check-circle"></i>
               Selesai
             </a>
           </li>
           <li>
-            <a href="../orders/user_orders.php?status=Dibatalkan" class="flex flex-col text-sm text-center tab-link">
+            <a href="/5/e-commerce/views/orders/user_orders.php?status=Dibatalkan" class="flex flex-col text-sm text-center tab-link">
               <i class="text-4xl ph ph-x-circle"></i>
               Dibatalkan
             </a>
@@ -130,3 +130,4 @@ ob_start();
 $content = ob_get_clean();
 include '../../layout.php';
 ?>
+
