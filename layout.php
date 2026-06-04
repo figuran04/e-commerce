@@ -33,6 +33,8 @@ $isAdminPage = strpos($currentPath, 'admin') !== false;
     type="text/css"
     href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css" />
   <link rel="stylesheet" href="<?= $BASE_URL; ?>/global.css">
+  <!-- Auth Helper: JWT di browser -->
+  <script src="<?= $BASE; ?>/helpers/auth.js"></script>
 </head>
 
 <body class="bg-[#E2E6CF]">
@@ -69,9 +71,12 @@ $isAdminPage = strpos($currentPath, 'admin') !== false;
     <?php endif; ?>
 
     document.addEventListener('DOMContentLoaded', function() {
-      const backBtn = document.getElementById('btn-kembali');
+      // Sinkronisasi JWT dengan PHP session di setiap page load
+      if (typeof Auth !== 'undefined') {
+        Auth.syncSession();
+      }
 
-      // Sembunyikan jika tidak bisa kembali atau elemen tidak ada
+      const backBtn = document.getElementById('btn-kembali');
       if (backBtn && window.history.length <= 1) {
         backBtn.style.display = 'none';
       }

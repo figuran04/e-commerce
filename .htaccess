@@ -4,3 +4,14 @@ ErrorDocument 402 http://localhost/5/e-commerce/views/error/?code=402
 ErrorDocument 403 http://localhost/5/e-commerce/views/error/?code=403
 ErrorDocument 404 http://localhost/5/e-commerce/views/error/?code=404
 ErrorDocument 500 http://localhost/5/e-commerce/views/error/?code=500
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    # Rewrite base path
+    RewriteBase /5/e-commerce/
+    
+    # Rute api/ ke api/gateway.php
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^api/(.*)$ api/gateway.php?route=$1 [QSA,L]
+</IfModule>

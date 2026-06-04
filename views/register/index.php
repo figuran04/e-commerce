@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 $pageTitle = "Daftar";
 require_once __DIR__ . '/../../config/init.php';
 ob_start();
@@ -50,7 +50,7 @@ ob_start();
     <p class="text-center">Sudah punya akun? <a href="../login">Masuk</a></p>
     <?php include '../partials/alerts.php'; ?>
 
-    <form action="../../controllers/auth/register_handler.php" method="POST" class="flex flex-col gap-1">
+    <form id="registerForm" class="flex flex-col gap-1">
       <label for="name">Nama:</label>
       <input type="text" id="name" name="name" placeholder="John Doe" required>
 
@@ -60,6 +60,7 @@ ob_start();
       <label for="password">Password:</label>
       <input type="password" id="password" name="password" placeholder="********" required>
 
+      <div id="registerError" class="text-red-600 text-sm hidden"></div>
       <button class="px-4 py-2 mt-3 text-gray-300 bg-gray-200 rounded cursor-not-allowed" type="submit" id="nextButton" disabled>Daftar</button>
     </form>
 
@@ -75,23 +76,60 @@ ob_start();
   document.getElementById("password").addEventListener("input", checkFields);
 
   function checkFields() {
-    var name = document.getElementById("name").value.trim();
-    var email = document.getElementById("email").value.trim();
+    var name     = document.getElementById("name").value.trim();
+    var email    = document.getElementById("email").value.trim();
     var password = document.getElementById("password").value.trim();
     var nextButton = document.getElementById("nextButton");
-
-    // Jika kedua field terisi, aktifkan tombol
     if (name !== "" && email !== "" && password !== "") {
       nextButton.disabled = false;
       nextButton.classList.add("bg-lime-600", "hover:bg-lime-700", "text-gray-50", "cursor-pointer");
       nextButton.classList.remove("bg-gray-200", "text-gray-300", "cursor-not-allowed");
     } else {
-      // Jika salah satu atau keduanya kosong, nonaktifkan tombol
       nextButton.disabled = true;
       nextButton.classList.remove("bg-lime-600", "hover:bg-lime-700", "text-gray-50", "cursor-pointer");
       nextButton.classList.add("bg-gray-200", "text-gray-300", "cursor-not-allowed");
     }
   }
+
+  document.getElementById("registerForm").addEventListener("submit", async function(e) {
+    e.preventDefault();
+    const btn   = document.getElementById("nextButton");
+    const errEl = document.getElementById("registerError");
+    btn.disabled = true;
+    btn.textContent = "Mendaftarkan...";
+    errEl.classList.add("hidden");
+
+    try {
+      const res = await fetch("/5/e-commerce/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name:     document.getElementById("name").value.trim(),
+          email:    document.getElementById("email").value.trim(),
+          password: document.getElementById("password").value.trim()
+        })
+      });
+      const data = await res.json();
+
+      if (data.status === "success") {
+        Auth.save(data.token, data.user);
+        await Auth.syncSession();
+        window.location.href = "/5/e-commerce/views/home";
+      } else {
+        errEl.textContent = data.message || "Gagal mendaftar, coba lagi.";
+        errEl.classList.remove("hidden");
+        btn.disabled = false;
+        btn.textContent = "Daftar";
+        checkFields();
+      }
+    } catch (err) {
+      errEl.textContent = "Gagal terhubung ke server. Coba lagi.";
+      errEl.classList.remove("hidden");
+      btn.disabled = false;
+      btn.textContent = "Daftar";
+      checkFields();
+    }
+  });
 </script>
 
 <?php

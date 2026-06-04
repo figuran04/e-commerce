@@ -21,3 +21,9 @@
 - Headwind
 - Tailwindcss
 - Codeium
+
+
+http://localhost/5/e-commerce/
+http://localhost/5/e-commerce/views/home
+http://localhost/5/e-commerce/views/login
+http://localhost/5/e-commerce/views/register

@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 require '../../controllers/products/products_controller.php';
 $pageTitle = "Beranda";
 ob_start();
@@ -104,8 +104,23 @@ ob_start();
 </div>
 
 <!-- Daftar Produk -->
-<div class="mt-6 product-grid">
-  <?php include '../../includes/product_card.php'; ?>
+<div id="product-container" class="mt-6 product-grid">
+  <!-- Loading skeleton -->
+  <div class="animate-pulse bg-white p-4 rounded-lg h-64 flex flex-col space-y-4">
+    <div class="bg-gray-200 h-40 w-full rounded"></div>
+    <div class="bg-gray-200 h-6 w-3/4 rounded"></div>
+    <div class="bg-gray-200 h-6 w-1/2 rounded"></div>
+  </div>
+  <div class="animate-pulse bg-white p-4 rounded-lg h-64 flex flex-col space-y-4">
+    <div class="bg-gray-200 h-40 w-full rounded"></div>
+    <div class="bg-gray-200 h-6 w-3/4 rounded"></div>
+    <div class="bg-gray-200 h-6 w-1/2 rounded"></div>
+  </div>
+  <div class="animate-pulse bg-white p-4 rounded-lg h-64 flex flex-col space-y-4">
+    <div class="bg-gray-200 h-40 w-full rounded"></div>
+    <div class="bg-gray-200 h-6 w-3/4 rounded"></div>
+    <div class="bg-gray-200 h-6 w-1/2 rounded"></div>
+  </div>
 </div>
 
 <!-- Link lihat semua -->
@@ -162,6 +177,76 @@ ob_start();
     updateDots(index);
     currentIndex = index;
   });
+
+  // Fetch data produk dari API Gateway secara dinamis
+  fetch('../../api/products')
+    .then(res => {
+      if (!res.ok) throw new Error('Network response was not ok');
+      return res.json();
+    })
+    .then(response => {
+      if (response.status === 'success') {
+        const container = document.getElementById('product-container');
+        container.innerHTML = '';
+        
+        if (response.data.length === 0) {
+          container.innerHTML = '<p class="col-span-full text-center text-gray-500 py-8">Belum ada produk ramah lingkungan.</p>';
+          return;
+        }
+
+        response.data.forEach(product => {
+          // Format mata uang Rupiah
+          const priceFormatted = new Intl.NumberFormat('id-ID', {
+            style: 'currency',
+            currency: 'IDR',
+            minimumFractionDigits: 0
+          }).format(product.price).replace('Rp', 'Rp');
+
+          const soldCount = parseInt(product.sold_count || 0);
+          const soldText = soldCount >= 1000 
+            ? (soldCount / 1000).toFixed(1) + 'rb' 
+            : soldCount;
+
+          const categoryText = product.category || 'Tanpa Kategori';
+
+          const cardHTML = `
+            <a href="../product_detail/?id=${product.id}" class="w-full overflow-hidden transition-all bg-white border border-gray-100 rounded-lg cursor-pointer hover:shadow hover:scale-105">
+              <img src="/5/e-commerce/uploads/${product.image}" alt="${escapeHTML(product.name)}" class="object-contain w-full aspect-square">
+              <div class="flex flex-col p-2 mb-1 space-y-1">
+                <h3 class="text-sm md:text-base font-medium text-gray-900 leading-snug line-clamp-2 h-[2.6rem] md:h-[2.8rem]">
+                  ${escapeHTML(product.name)}
+                </h3>
+                <div class="flex items-center justify-between">
+                  <p class="text-lg font-semibold truncate text-lime-600">${priceFormatted}</p>
+                  <p class="text-xs text-gray-500 truncate">${soldText} terjual</p>
+                </div>
+                <p class="text-xs text-gray-400 truncate">${escapeHTML(categoryText)}</p>
+              </div>
+            </a>
+          `;
+          container.innerHTML += cardHTML;
+        });
+      }
+    })
+    .catch(err => {
+      console.error('Error fetching products:', err);
+      document.getElementById('product-container').innerHTML = 
+        '<p class="col-span-full text-center text-red-500 py-8">Gagal memuat produk dari API Gateway.</p>';
+    });
+
+  // Helper untuk membersihkan string dari HTML injection
+  function escapeHTML(str) {
+    if (!str) return '';
+    return str.replace(/[&<>'"]/g, 
+      tag => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        "'": '&#39;',
+        '"': '&quot;'
+      }[tag] || tag)
+    );
+  }
 </script>
 
 <?php
