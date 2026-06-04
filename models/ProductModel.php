@@ -3,9 +3,10 @@ class ProductModel
 {
   private $conn;
 
-  public function __construct($db)
+  public function __construct($db = null)
   {
-    $this->conn = $db;
+    global $conn_products;
+    $this->conn = $conn_products ?? $db;
   }
 
   public function all()
@@ -131,13 +132,18 @@ class ProductModel
   public function getProductById($id)
   {
     $stmt = $this->conn->prepare("
-      SELECT p.*, s.name AS store_name
+      SELECT p.*
       FROM products p
-      LEFT JOIN stores s ON p.store_id = s.id
       WHERE p.id = ?
     ");
     $stmt->execute([$id]);
-    return $stmt->fetch(PDO::FETCH_ASSOC);
+    $product = $stmt->fetch(PDO::FETCH_ASSOC);
+    if ($product && !empty($product['store_id'])) {
+      require_once __DIR__ . '/../helpers/service_helper.php';
+      $stores = ServiceHelper::fetchStores([$product['store_id']]);
+      $product['store_name'] = $stores[$product['store_id']]['name'] ?? '';
+    }
+    return $product;
   }
 
   public function decreaseStock(int $product_id, int $quantity): bool

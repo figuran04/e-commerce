@@ -16,17 +16,32 @@ $orderModel = new OrderModel($conn);
 // ─── GET: Semua Pesanan ───────────────────────────────────────────────────────
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $sql = "SELECT o.id, o.user_id, o.store_id, o.order_date, o.status,
-                   u.name AS buyer_name, u.email AS buyer_email,
-                   s.name AS store_name,
                    COALESCE(SUM(oi.price * oi.quantity), 0) AS total_price
             FROM orders o
-            JOIN users u ON o.user_id = u.id
-            JOIN stores s ON o.store_id = s.id
             LEFT JOIN order_items oi ON o.id = oi.order_id
             GROUP BY o.id
             ORDER BY o.order_date DESC";
-    $stmt = $conn->query($sql);
+    global $conn_orders;
+    $stmt = $conn_orders->query($sql);
     $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    if (!empty($orders)) {
+        $userIds = array_unique(array_column($orders, 'user_id'));
+        $storeIds = array_unique(array_column($orders, 'store_id'));
+
+        require_once __DIR__ . '/../../../helpers/service_helper.php';
+        $users = ServiceHelper::fetchUsers($userIds);
+        $stores = ServiceHelper::fetchStores($storeIds);
+
+        foreach ($orders as &$o) {
+            $buyer = $users[$o['user_id']] ?? null;
+            $store = $stores[$o['store_id']] ?? null;
+
+            $o['buyer_name'] = $buyer['name'] ?? 'Pembeli Tidak Ditemukan';
+            $o['buyer_email'] = $buyer['email'] ?? '';
+            $o['store_name'] = $store['name'] ?? 'Toko Tidak Ditemukan';
+        }
+    }
 
     // Filter status jika ada query param
     $status = $_GET['status'] ?? '';

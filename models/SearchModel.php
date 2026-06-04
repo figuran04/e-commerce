@@ -4,9 +4,10 @@ class SearchModel
 {
   private $conn;
 
-  public function __construct($conn)
+  public function __construct($conn = null)
   {
-    $this->conn = $conn;
+    global $conn_products;
+    $this->conn = $conn_products ?? $conn;
   }
 
   public function searchProducts($query)

@@ -3,9 +3,10 @@ class OrderModel
 {
   private PDO $conn;
 
-  public function __construct(PDO $conn)
+  public function __construct(PDO $conn = null)
   {
-    $this->conn = $conn;
+    global $conn_orders;
+    $this->conn = $conn_orders ?? $conn;
   }
 
   // Ambil daftar pesanan berdasarkan user_id
@@ -38,29 +39,38 @@ class OrderModel
       od.quantity,
       od.price,
       od.product_name,
-      od.product_image,
-      s.name AS store_name,
-      s.address AS store_address
+      od.product_image
     FROM orders o
     JOIN order_items od ON o.id = od.order_id
-    JOIN stores s ON o.store_id = s.id
     WHERE o.user_id = ?
     ORDER BY o.order_date DESC
-  ";
+    ";
 
     $stmt = $this->conn->prepare($query);
     $stmt->execute([$userId]);
+    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    if (empty($rows)) {
+      return [];
+    }
+
+    // Fetch store info bulk
+    $storeIds = array_unique(array_column($rows, 'store_id'));
+    require_once __DIR__ . '/../helpers/service_helper.php';
+    $stores = ServiceHelper::fetchStores($storeIds);
 
     $orders = [];
-    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+    foreach ($rows as $row) {
       $orderId = $row['order_id'];
+      $storeId = $row['store_id'];
+      $store = $stores[$storeId] ?? null;
 
       if (!isset($orders[$orderId])) {
         $orders[$orderId] = [
           'id' => $orderId,
-          'store_id' => $row['store_id'],
-          'store_name' => $row['store_name'],
-          'store_address' => $row['store_address'],
+          'store_id' => $storeId,
+          'store_name' => $store['name'] ?? 'Toko Tidak Ditemukan',
+          'store_address' => $store['address'] ?? '',
           'order_date' => $row['order_date'],
           'status' => $row['status'],
           'total_price' => 0,
@@ -105,9 +115,9 @@ class OrderModel
   // Tambahkan detail pesanan: dengan snapshot nama & gambar
   public function addOrderDetail($order_id, $product_id, $quantity, $price)
   {
-    $productStmt = $this->conn->prepare("SELECT name, image FROM products WHERE id = ?");
-    $productStmt->execute([$product_id]);
-    $product = $productStmt->fetch(PDO::FETCH_ASSOC);
+    require_once __DIR__ . '/../helpers/service_helper.php';
+    $products = ServiceHelper::fetchProducts([$product_id]);
+    $product = $products[$product_id] ?? null;
 
     if (!$product) return false;
 
@@ -128,20 +138,15 @@ class OrderModel
   // Kurangi stok produk
   public function updateProductStock($product_id, $quantity)
   {
-    $stmt = $this->conn->prepare("
-      UPDATE products
-      SET stock = stock - ?
-      WHERE id = ? AND stock >= ?
-    ");
-    return $stmt->execute([$quantity, $product_id, $quantity]);
+    require_once __DIR__ . '/../helpers/service_helper.php';
+    return ServiceHelper::decreaseStock($product_id, $quantity);
   }
 
   public function getOrdersByStoreId($storeId): array
   {
     $query = "
-      SELECT orders.*, users.name AS buyer_name
+      SELECT orders.*
       FROM orders
-      JOIN users ON orders.user_id = users.id
       WHERE orders.store_id = ?
       ORDER BY orders.order_date DESC
     ";
@@ -149,7 +154,15 @@ class OrderModel
     $stmt->execute([$storeId]);
     $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+    if (empty($orders)) return [];
+
+    $userIds = array_unique(array_column($orders, 'user_id'));
+    require_once __DIR__ . '/../helpers/service_helper.php';
+    $users = ServiceHelper::fetchUsers($userIds);
+
     foreach ($orders as &$order) {
+      $buyer = $users[$order['user_id']] ?? null;
+      $order['buyer_name'] = $buyer['name'] ?? 'Pembeli Tidak Ditemukan';
       $order['items'] = $this->getOrderItems($order['id']);
     }
 
@@ -182,12 +195,8 @@ class OrderModel
   {
     $sql = "SELECT
             o.*,
-            o.user_id AS buyer_id,
-            u.name AS buyer_name,
-            u.address AS buyer_address,
-            u.phone AS buyer_phone
+            o.user_id AS buyer_id
           FROM orders o
-          JOIN users u ON o.user_id = u.id
           WHERE o.store_id = ?
           ORDER BY o.order_date DESC";
 
@@ -195,7 +204,17 @@ class OrderModel
     $stmt->execute([$store_id]);
     $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+    if (empty($orders)) return [];
+
+    $userIds = array_unique(array_column($orders, 'buyer_id'));
+    require_once __DIR__ . '/../helpers/service_helper.php';
+    $users = ServiceHelper::fetchUsers($userIds);
+
     foreach ($orders as &$order) {
+      $buyer = $users[$order['buyer_id']] ?? null;
+      $order['buyer_name'] = $buyer['name'] ?? 'Pembeli Tidak Ditemukan';
+      $order['buyer_address'] = $buyer['address'] ?? '';
+      $order['buyer_phone'] = $buyer['phone'] ?? '';
       $order['items'] = $this->getOrderItems($order['id']);
     }
 
@@ -215,29 +234,31 @@ class OrderModel
     $query = "
     SELECT
       o.*,
-      od.product_id, od.quantity, od.price, od.product_name, od.product_image,
-      s.name AS store_name, s.address AS store_address, s.user_id AS store_owner_id
+      od.product_id, od.quantity, od.price, od.product_name, od.product_image
     FROM orders o
     JOIN order_items od ON o.id = od.order_id
-    JOIN stores s ON o.store_id = s.id
     WHERE o.id = ?
-  ";
+    ";
 
     $stmt = $this->conn->prepare($query);
     $stmt->execute([$orderId]);
     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     if (empty($rows)) {
-      return null; // pesanan tidak ditemukan
+      return null;
     }
 
-    // Ambil info utama dari baris pertama
+    $storeId = $rows[0]['store_id'];
+    require_once __DIR__ . '/../helpers/service_helper.php';
+    $stores = ServiceHelper::fetchStores([$storeId]);
+    $store = $stores[$storeId] ?? null;
+
     $order = [
       'id' => $rows[0]['id'],
-      'store_owner_id' => $rows[0]['store_owner_id'],
-      'store_id' => $rows[0]['store_id'],
-      'store_name' => $rows[0]['store_name'],
-      'store_address' => $rows[0]['store_address'],
+      'store_owner_id' => $store['user_id'] ?? 0,
+      'store_id' => $storeId,
+      'store_name' => $store['name'] ?? 'Toko Tidak Ditemukan',
+      'store_address' => $store['address'] ?? '',
       'user_id' => $rows[0]['user_id'],
       'order_date' => $rows[0]['order_date'],
       'status' => $rows[0]['status'],
@@ -261,31 +282,37 @@ class OrderModel
 
   public function getOrderByIdWithItemsAndUser($orderId)
   {
-    $stmt = $this->conn->prepare("
-    SELECT
-      o.*,
-      u.name AS buyer_name,
-      u.phone AS buyer_phone,
-      s.user_id AS store_owner_id,
-      s.name AS store_name,
-      s.address AS store_address
-    FROM orders o
-    JOIN users u ON o.user_id = u.id
-    JOIN stores s ON o.store_id = s.id
-    WHERE o.id = ?
-  ");
+    $stmt = $this->conn->prepare("SELECT * FROM orders WHERE id = ?");
     $stmt->execute([$orderId]);
     $order = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($order) {
-      $stmtItems = $this->conn->prepare("
-      SELECT oi.*, p.name, p.image
-      FROM order_items oi
-      JOIN products p ON oi.product_id = p.id
-      WHERE oi.order_id = ?
-    ");
+      require_once __DIR__ . '/../helpers/service_helper.php';
+      
+      // Fetch user info
+      $users = ServiceHelper::fetchUsers([$order['user_id']]);
+      $buyer = $users[$order['user_id']] ?? null;
+      $order['buyer_name'] = $buyer['name'] ?? 'Pembeli Tidak Ditemukan';
+      $order['buyer_phone'] = $buyer['phone'] ?? '';
+
+      // Fetch store info
+      $stores = ServiceHelper::fetchStores([$order['store_id']]);
+      $store = $stores[$order['store_id']] ?? null;
+      $order['store_owner_id'] = $store['user_id'] ?? 0;
+      $order['store_name'] = $store['name'] ?? 'Toko Tidak Ditemukan';
+      $order['store_address'] = $store['address'] ?? '';
+
+      // Fetch items
+      $stmtItems = $this->conn->prepare("SELECT * FROM order_items WHERE order_id = ?");
       $stmtItems->execute([$orderId]);
-      $order['items'] = $stmtItems->fetchAll(PDO::FETCH_ASSOC);
+      $items = $stmtItems->fetchAll(PDO::FETCH_ASSOC);
+
+      // Reconstruct with product details compatibility
+      foreach ($items as &$item) {
+        $item['name'] = $item['product_name'];
+        $item['image'] = $item['product_image'];
+      }
+      $order['items'] = $items;
     }
 
     return $order;

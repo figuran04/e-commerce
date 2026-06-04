@@ -7,10 +7,21 @@ ErrorDocument 500 http://localhost/5/e-commerce/views/error/?code=500
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    # Rewrite base path
-    RewriteBase /5/e-commerce/
     
-    # Rute api/ ke api/gateway.php
+    # 1. Subdomain: auth.zerovaa.com
+    RewriteCond %{HTTP_HOST} ^auth\.zerovaa\.com$ [NC]
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^api/(.*)$ api/gateway_auth.php?route=$1 [QSA,L]
+
+    # 2. Subdomain: api.zerovaa.com
+    RewriteCond %{HTTP_HOST} ^api\.zerovaa\.com$ [NC]
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^api/(.*)$ api/gateway.php?route=$1 [QSA,L]
+
+    # 3. Fallback: localhost (XAMPP subfolder /5/e-commerce)
+    RewriteCond %{HTTP_HOST} ^localhost$ [NC]
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule ^api/(.*)$ api/gateway.php?route=$1 [QSA,L]

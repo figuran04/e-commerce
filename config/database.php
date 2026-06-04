@@ -7,10 +7,7 @@ $BASE_URL = $BASE . "/views";
 $host    = "localhost";
 $user    = "root";
 $pass    = "";
-$dbname  = "zerovaa_db";
 $charset = "utf8mb4";
-
-$dsn = "mysql:host=$host;dbname=$dbname;charset=$charset";
 
 $options = [
   PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
@@ -19,7 +16,13 @@ $options = [
 ];
 
 try {
-  $conn = new PDO($dsn, $user, $pass, $options);
+  $conn_auth     = new PDO("mysql:host=$host;dbname=db_auth;charset=$charset", $user, $pass, $options);
+  $conn_products = new PDO("mysql:host=$host;dbname=db_products;charset=$charset", $user, $pass, $options);
+  $conn_orders   = new PDO("mysql:host=$host;dbname=db_orders;charset=$charset", $user, $pass, $options);
+  
+  // Default connection for backward compatibility (defaults to auth)
+  $conn = $conn_auth;
 } catch (\PDOException $e) {
   die("Koneksi database gagal: " . $e->getMessage());
 }
+

@@ -3,25 +3,42 @@ class CartModel
 {
   private $pdo;
 
-  public function __construct(PDO $pdo)
+  public function __construct(PDO $pdo = null)
   {
-    $this->pdo = $pdo;
+    global $conn_orders;
+    $this->pdo = $conn_orders ?? $pdo;
   }
 
   public function getCartItemsByUserId(int $user_id): array
   {
-    $query = "SELECT c.id AS cart_id, p.id AS product_id, p.name, p.price, c.quantity
-              FROM carts c
-              JOIN products p ON c.product_id = p.id
-              WHERE c.user_id = ?";
-
+    $query = "SELECT id AS cart_id, product_id, quantity FROM carts WHERE user_id = ?";
     $stmt = $this->pdo->prepare($query);
     $stmt->execute([$user_id]);
-    $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $carts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+    if (empty($carts)) {
+      return ['items' => [], 'total_price' => 0];
+    }
+
+    $productIds = array_column($carts, 'product_id');
+    require_once __DIR__ . '/../helpers/service_helper.php';
+    $products = ServiceHelper::fetchProducts($productIds);
+
+    $items = [];
     $total = 0;
-    foreach ($items as $item) {
-      $total += $item['price'] * $item['quantity'];
+    foreach ($carts as $cart) {
+      $pId = $cart['product_id'];
+      $name = $products[$pId]['name'] ?? 'Produk Tidak Ditemukan';
+      $price = $products[$pId]['price'] ?? 0;
+      
+      $items[] = [
+        'cart_id' => $cart['cart_id'],
+        'product_id' => $pId,
+        'name' => $name,
+        'price' => $price,
+        'quantity' => $cart['quantity']
+      ];
+      $total += $price * $cart['quantity'];
     }
 
     return ['items' => $items, 'total_price' => $total];
@@ -29,25 +46,50 @@ class CartModel
 
   public function getCartItems(int $userId): array
   {
-    $query = "SELECT carts.id AS cart_id,
-                     products.id AS product_id,
-                     products.name,
-                     products.stock,
-                     products.price,
-                     products.image,
-                     carts.quantity,
-                     stores.id AS store_id,
-                     stores.name AS store_name
-              FROM carts
-              JOIN products ON carts.product_id = products.id
-              JOIN stores ON products.store_id = stores.id
-              WHERE carts.user_id = :userId";
-
+    $query = "SELECT id AS cart_id, product_id, quantity FROM carts WHERE user_id = :userId";
     $stmt = $this->pdo->prepare($query);
     $stmt->bindValue(':userId', $userId, PDO::PARAM_INT);
     $stmt->execute();
+    $carts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    if (empty($carts)) return [];
+
+    $productIds = array_column($carts, 'product_id');
+    require_once __DIR__ . '/../helpers/service_helper.php';
+    $products = ServiceHelper::fetchProducts($productIds);
+
+    $storeIds = [];
+    foreach ($products as $p) {
+      if (!empty($p['store_id'])) {
+        $storeIds[] = $p['store_id'];
+      }
+    }
+    $storeIds = array_unique($storeIds);
+    $stores = ServiceHelper::fetchStores($storeIds);
+
+    $items = [];
+    foreach ($carts as $cart) {
+      $pId = $cart['product_id'];
+      $product = $products[$pId] ?? null;
+      if ($product) {
+        $storeId = $product['store_id'] ?? 0;
+        $store = $stores[$storeId] ?? null;
+
+        $items[] = [
+          'cart_id' => $cart['cart_id'],
+          'product_id' => $pId,
+          'name' => $product['name'] ?? '',
+          'stock' => $product['stock'] ?? 0,
+          'price' => $product['price'] ?? 0.0,
+          'image' => $product['image'] ?? '',
+          'quantity' => $cart['quantity'],
+          'store_id' => $storeId,
+          'store_name' => $store['name'] ?? 'Toko Tidak Ditemukan'
+        ];
+      }
+    }
+
+    return $items;
   }
 
   public function addToCart(int $user_id, int $product_id, int $quantity): int
@@ -95,19 +137,33 @@ class CartModel
     if (empty($product_ids)) return ['items' => [], 'total_price' => 0];
 
     $placeholders = implode(',', array_fill(0, count($product_ids), '?'));
-    $sql = "SELECT c.product_id, p.name, p.price, c.quantity
-            FROM carts c
-            JOIN products p ON c.product_id = p.id
-            WHERE c.user_id = ? AND c.product_id IN ($placeholders)";
-
+    $sql = "SELECT product_id, quantity FROM carts WHERE user_id = ? AND product_id IN ($placeholders)";
     $params = array_merge([$user_id], $product_ids);
+    
     $stmt = $this->pdo->prepare($sql);
     $stmt->execute($params);
-    $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $carts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+    if (empty($carts)) return ['items' => [], 'total_price' => 0];
+
+    require_once __DIR__ . '/../helpers/service_helper.php';
+    $products = ServiceHelper::fetchProducts(array_column($carts, 'product_id'));
+
+    $items = [];
     $total_price = 0;
-    foreach ($items as $item) {
-      $total_price += $item['price'] * $item['quantity'];
+    foreach ($carts as $cart) {
+      $pId = $cart['product_id'];
+      $product = $products[$pId] ?? null;
+      if ($product) {
+        $price = $product['price'] ?? 0;
+        $items[] = [
+          'product_id' => $pId,
+          'name' => $product['name'] ?? '',
+          'price' => $price,
+          'quantity' => $cart['quantity']
+        ];
+        $total_price += $price * $cart['quantity'];
+      }
     }
 
     return ['items' => $items, 'total_price' => $total_price];
@@ -118,23 +174,49 @@ class CartModel
     if (empty($cart_ids)) return [];
 
     $placeholders = implode(',', array_fill(0, count($cart_ids), '?'));
-    $sql = "SELECT carts.id AS cart_id,
-                   products.id AS product_id,
-                   products.name,
-                   products.stock,
-                   products.price,
-                   products.image,
-                   carts.quantity,
-                   stores.id AS store_id,
-                   stores.name AS store_name
-            FROM carts
-            JOIN products ON carts.product_id = products.id
-            JOIN stores ON products.store_id = stores.id
-            WHERE carts.id IN ($placeholders)";
-
+    $sql = "SELECT id AS cart_id, product_id, quantity FROM carts WHERE id IN ($placeholders)";
     $stmt = $this->pdo->prepare($sql);
     $stmt->execute($cart_ids);
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $carts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    if (empty($carts)) return [];
+
+    $productIds = array_column($carts, 'product_id');
+    require_once __DIR__ . '/../helpers/service_helper.php';
+    $products = ServiceHelper::fetchProducts($productIds);
+
+    $storeIds = [];
+    foreach ($products as $p) {
+      if (!empty($p['store_id'])) {
+        $storeIds[] = $p['store_id'];
+      }
+    }
+    $storeIds = array_unique($storeIds);
+    $stores = ServiceHelper::fetchStores($storeIds);
+
+    $items = [];
+    foreach ($carts as $cart) {
+      $pId = $cart['product_id'];
+      $product = $products[$pId] ?? null;
+      if ($product) {
+        $storeId = $product['store_id'] ?? 0;
+        $store = $stores[$storeId] ?? null;
+
+        $items[] = [
+          'cart_id' => $cart['cart_id'],
+          'product_id' => $pId,
+          'name' => $product['name'] ?? '',
+          'stock' => $product['stock'] ?? 0,
+          'price' => $product['price'] ?? 0.0,
+          'image' => $product['image'] ?? '',
+          'quantity' => $cart['quantity'],
+          'store_id' => $storeId,
+          'store_name' => $store['name'] ?? 'Toko Tidak Ditemukan'
+        ];
+      }
+    }
+
+    return $items;
   }
 
   public function removeCartItem(int $cart_id, int $user_id): bool

@@ -3,9 +3,10 @@ class StoreModel
 {
   private $conn;
 
-  public function __construct($conn)
+  public function __construct($conn = null)
   {
-    $this->conn = $conn;
+    global $conn_auth;
+    $this->conn = $conn_auth ?? $conn;
   }
 
   public function getStoreByUserId($user_id)

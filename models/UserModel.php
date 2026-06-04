@@ -6,14 +6,14 @@ class UserModel
 
   public function __construct()
   {
-    global $conn;
-    $this->db = $conn;
+    global $conn_auth;
+    $this->db = $conn_auth;
   }
 
   public static function all()
   {
-    global $conn;
-    $stmt = $conn->query("SELECT * FROM users");
+    global $conn_auth;
+    $stmt = $conn_auth->query("SELECT * FROM users");
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
 

@@ -7,7 +7,21 @@
 const Auth = (() => {
   const TOKEN_KEY  = 'zerovaa_token';
   const USER_KEY   = 'zerovaa_user';
-  const BASE_API   = '/5/e-commerce/api';
+  const BASE_API   = window.location.hostname.endsWith('zerovaa.com') ? '' : '/5/e-commerce/api';
+
+  /** Resolves the proper API endpoint URL depending on the service (auth vs api) and current domain */
+  function getEndpointUrl(endpoint) {
+    // Strip leading slash if present
+    const cleanEndpoint = endpoint.replace(/^\//, '');
+    if (window.location.hostname.endsWith('zerovaa.com')) {
+      if (cleanEndpoint.startsWith('auth/')) {
+        return `http://auth.zerovaa.com/api/${cleanEndpoint}`;
+      } else {
+        return `http://api.zerovaa.com/api/${cleanEndpoint}`;
+      }
+    }
+    return `${BASE_API}/${cleanEndpoint}`;
+  }
 
   /** Simpan token dan data user ke localStorage */
   function save(token, user) {
@@ -52,7 +66,7 @@ const Auth = (() => {
     localStorage.removeItem(TOKEN_KEY);
     localStorage.removeItem(USER_KEY);
     // Invalidate session PHP via server-side
-    fetch(`${BASE_API}/auth/logout`, { method: 'POST' }).catch(() => {});
+    fetch(getEndpointUrl('auth/logout'), { method: 'POST' }).catch(() => {});
     if (redirect) {
       window.location.href = '/5/e-commerce/views/login';
     }
@@ -66,7 +80,7 @@ const Auth = (() => {
     const token = getToken();
     if (!token) return;
     try {
-      await fetch(`${BASE_API}/auth/sync_session`, {
+      await fetch(getEndpointUrl('auth/sync_session'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -89,7 +103,7 @@ const Auth = (() => {
     };
     if (token) headers['Authorization'] = `Bearer ${token}`;
 
-    const response = await fetch(`${BASE_API}/${endpoint}`, {
+    const response = await fetch(getEndpointUrl(endpoint), {
       ...options,
       headers,
     });
