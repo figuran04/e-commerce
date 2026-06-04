@@ -1,6 +1,6 @@
-<?php
+﻿<?php
 // controllers/cart/update_cart.php
-require '../../config/init.php';
+require_once __DIR__ . '/../../config/init.php';
 require_once '../../models/CartModel.php'; // Memanggil model
 
 // Pastikan pengguna sudah login dan data yang dibutuhkan ada

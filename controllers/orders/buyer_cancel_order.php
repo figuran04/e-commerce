@@ -1,9 +1,9 @@
 <?php
-require_once '../../config/init.php';
-require_once '../../models/OrderModel.php';
-require_once '../../models/ProductModel.php';
-require_once '../../models/UserModel.php';
-require_once '../../views/partials/alerts.php';
+require_once __DIR__ . '/../../config/init.php';
+require_once __DIR__ . '/../../helpers/flash.php';
+require_once __DIR__ . '/../../models/OrderModel.php';
+require_once __DIR__ . '/../../models/ProductModel.php';
+require_once __DIR__ . '/../../models/UserModel.php';
 
 if (!isset($_SESSION['user_id'])) {
   header('Location: ../../views/login/');
@@ -12,7 +12,7 @@ if (!isset($_SESSION['user_id'])) {
 
 $productModel = new ProductModel($conn);
 $orderModel   = new OrderModel($conn);
-$userModel    = new UserModel($conn);
+$userModel    = new UserModel();
 
 $user_id  = $_SESSION['user_id'];
 $order_id = $_POST['order_id'] ?? null;

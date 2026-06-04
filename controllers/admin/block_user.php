@@ -1,7 +1,7 @@
-<?php
-require_once '../../config/init.php';
+﻿<?php
+require_once __DIR__ . '/../../config/init.php';
 require_once '../../models/UserModel.php';
-require_once '../../views/partials/alerts.php';
+require_once __DIR__ . '/../../helpers/flash.php';
 
 if (!isset($_SESSION['user_id']) || $_SESSION['is_admin'] != 1) {
   header("Location: ../../views/login");
@@ -10,7 +10,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['is_admin'] != 1) {
 
 if (isset($_GET['id'])) {
   $user_id = intval($_GET['id']);
-  $userModel = new UserModel($conn);
+  $userModel = new UserModel();
   $result = $userModel->toggleStatus($user_id);
 
   if ($result === 'blocked' || $result === 'active') {

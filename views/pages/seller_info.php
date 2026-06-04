@@ -1,5 +1,5 @@
-<?php
-require '../../config/init.php';
+﻿<?php
+require_once __DIR__ . '/../../config/init.php';
 $pageTitle = "Panduan untuk Penjual";
 ob_start();
 ?>

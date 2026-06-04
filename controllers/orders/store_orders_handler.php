@@ -1,8 +1,8 @@
 <?php
-require '../../config/init.php';
-require '../../models/OrderModel.php';
-require '../../models/StoreModel.php';
-require '../../views/partials/alerts.php'; // untuk setFlash / getFlash
+require_once __DIR__ . '/../../config/init.php';
+require_once __DIR__ . '/../../helpers/flash.php';
+require_once __DIR__ . '/../../models/OrderModel.php';
+require_once __DIR__ . '/../../models/StoreModel.php';
 
 if (!isset($_SESSION['user_id'])) {
   header('Location: ../login');

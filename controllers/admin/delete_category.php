@@ -1,7 +1,7 @@
-<?php
-require_once '../../config/init.php';
+﻿<?php
+require_once __DIR__ . '/../../config/init.php';
 require_once '../../models/CategoryModel.php';
-require_once '../../views/partials/alerts.php';
+require_once __DIR__ . '/../../helpers/flash.php';
 
 if (!isset($_SESSION['user_id']) || $_SESSION['is_admin'] != 1) {
   header("Location: ../../views/login");

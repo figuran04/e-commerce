@@ -1,7 +1,7 @@
-﻿<?php
-require '../../config/init.php';
-require_once '../../models/CartModel.php';
-require_once '../../views/partials/alerts.php'; // untuk setFlash
+<?php
+require_once __DIR__ . '/../../config/init.php';
+require_once __DIR__ . '/../../helpers/flash.php';
+require_once __DIR__ . '/../../models/CartModel.php';
 
 if (!isset($_SESSION['user_id'])) {
   header("Location: ../../views/login");
@@ -23,6 +23,6 @@ if (isset($_POST['buy_now'])) {
 }
 
 setFlash('success', "Produk berhasil ditambahkan ke keranjang.");
-header("Location: /5/e-commerce/views/product_detail/?id=$product_id");
+header("Location: $BASE_URL/product_detail/?id=$product_id");
 exit;
 

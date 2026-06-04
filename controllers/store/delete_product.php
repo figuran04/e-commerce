@@ -1,7 +1,7 @@
-<?php
-require_once '../../config/init.php';
+﻿<?php
+require_once __DIR__ . '/../../config/init.php';
 require_once '../../models/ProductModel.php';
-require_once '../../views/partials/alerts.php'; // ✅ Flash message
+require_once __DIR__ . '/../../helpers/flash.php';
 
 if (!isset($_SESSION['user_id'])) {
   header("Location: ../../views/login");

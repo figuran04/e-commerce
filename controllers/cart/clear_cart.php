@@ -1,6 +1,6 @@
-<?php
+﻿<?php
 session_start();
-require '../../config/init.php';
+require_once __DIR__ . '/../../config/init.php';
 require_once '../../models/CartModel.php';
 
 // Cek login

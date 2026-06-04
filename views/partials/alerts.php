@@ -1,6 +1,6 @@
 <?php
 if (!function_exists('getFlash')) {
-  require_once '../../helpers/flash.php';
+  require_once __DIR__ . '/../../helpers/flash.php';
 }
 
 $alerts = [

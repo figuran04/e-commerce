@@ -1,7 +1,7 @@
 <?php
-session_start(); // Pastikan session dimulai
-require '../../models/UserModel.php';
-require '../../views/partials/alerts.php'; // Tambahkan untuk akses setFlash()
+require_once __DIR__ . '/../../config/init.php'; // session + DB
+require_once __DIR__ . '/../../helpers/flash.php';
+require_once __DIR__ . '/../../models/UserModel.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $name = trim($_POST['name']);

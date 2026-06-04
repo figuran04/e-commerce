@@ -1,5 +1,5 @@
 <?php
-require_once '../../config/init.php';
+require_once __DIR__ . '/../../config/init.php';
 $pageTitle = "Masuk";
 ob_start();
 ?>
@@ -28,7 +28,7 @@ ob_start();
       <span>Belum punya akun? </span><a href="../register">Daftar</a>
     </div>
     <?php include '../partials/alerts.php'; ?>
-    <form action="../../controllers/auth/login_handler.php" method="POST" class="flex flex-col w-full gap-1">
+    <form id="loginForm" class="flex flex-col w-full gap-1">
       <label for="email">Email:</label>
       <input type="email" id="email" name="email" placeholder="example@gmail.com" required>
 
@@ -36,6 +36,7 @@ ob_start();
       <input type="password" id="password" name="password" placeholder="********" required>
 
       <a href="../pages/help.php" class="text-right text-sm my-2">Butuh bantuan?</a>
+      <div id="loginError" class="text-red-600 text-sm hidden"></div>
       <button class="rounded px-4 py-2 bg-gray-200 text-gray-300 cursor-not-allowed" type="submit" id="nextButton" disabled>Masuk</button>
     </form>
   </div>
@@ -46,22 +47,60 @@ ob_start();
   document.getElementById("password").addEventListener("input", checkFields);
 
   function checkFields() {
-    var email = document.getElementById("email").value.trim();
+    var email    = document.getElementById("email").value.trim();
     var password = document.getElementById("password").value.trim();
     var nextButton = document.getElementById("nextButton");
-
-    // Jika kedua field terisi, aktifkan tombol
     if (email !== "" && password !== "") {
       nextButton.disabled = false;
       nextButton.classList.add("bg-lime-600", "hover:bg-lime-700", "text-gray-50", "cursor-pointer");
       nextButton.classList.remove("bg-gray-200", "text-gray-300", "cursor-not-allowed");
     } else {
-      // Jika salah satu atau keduanya kosong, nonaktifkan tombol
       nextButton.disabled = true;
       nextButton.classList.remove("bg-lime-600", "hover:bg-lime-700", "text-gray-50", "cursor-pointer");
       nextButton.classList.add("bg-gray-200", "text-gray-300", "cursor-not-allowed");
     }
   }
+
+  document.getElementById("loginForm").addEventListener("submit", async function(e) {
+    e.preventDefault();
+    const btn  = document.getElementById("nextButton");
+    const errEl = document.getElementById("loginError");
+    btn.disabled = true;
+    btn.textContent = "Memproses...";
+    errEl.classList.add("hidden");
+
+    try {
+      const res = await fetch("/5/e-commerce/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email:    document.getElementById("email").value.trim(),
+          password: document.getElementById("password").value.trim()
+        })
+      });
+      const data = await res.json();
+
+      if (data.status === "success") {
+        // Simpan token dan data user ke localStorage
+        Auth.save(data.token, data.user);
+        // Sinkronkan ke session PHP, lalu redirect
+        await Auth.syncSession();
+        window.location.href = "/5/e-commerce/views/home";
+      } else {
+        errEl.textContent = data.message || "Email atau password salah.";
+        errEl.classList.remove("hidden");
+        btn.disabled = false;
+        btn.textContent = "Masuk";
+        checkFields();
+      }
+    } catch (err) {
+      errEl.textContent = "Gagal terhubung ke server. Coba lagi.";
+      errEl.classList.remove("hidden");
+      btn.disabled = false;
+      btn.textContent = "Masuk";
+      checkFields();
+    }
+  });
 </script>
 
 <?php

@@ -1,11 +1,11 @@
-<?php
-require_once '../../config/init.php';
+﻿<?php
+require_once __DIR__ . '/../../config/init.php';
 require_once '../../models/UserModel.php';
 require_once '../../models/ProductModel.php';
 require_once '../../models/StoreModel.php';
-require_once '../../views/partials/alerts.php';
+require_once __DIR__ . '/../../helpers/flash.php';
 
-$userModel = new UserModel($conn);
+$userModel = new UserModel();
 $productModel = new ProductModel($conn);
 $storeModel = new StoreModel($conn);
 

@@ -1,5 +1,5 @@
-<?php
-require_once '../../config/init.php';
+﻿<?php
+require_once __DIR__ . '/../../config/init.php';
 require_once '../../models/UserModel.php';
 
 if (!isset($_SESSION['user_id'])) {
@@ -7,7 +7,7 @@ if (!isset($_SESSION['user_id'])) {
   exit;
 }
 
-$userModel = new UserModel($conn);
+$userModel = new UserModel();
 $user_id = $_SESSION['user_id'];
 $user = $userModel->getUserById($user_id);
 

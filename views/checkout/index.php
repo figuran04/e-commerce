@@ -1,5 +1,5 @@
 ﻿<?php
-require_once '../../config/init.php';
+require_once __DIR__ . '/../../config/init.php';
 require_once '../../controllers/checkout/checkout_handler.php';
 $pageTitle = "Checkout";
 ob_start();

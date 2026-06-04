@@ -1,8 +1,8 @@
 <?php
-require_once '../../config/init.php';
-require_once '../../models/OrderModel.php';
-require_once '../../models/UserModel.php'; // Dibutuhkan untuk ambil data pembeli
-require_once '../../views/partials/alerts.php';
+require_once __DIR__ . '/../../config/init.php';
+require_once __DIR__ . '/../../helpers/flash.php';
+require_once __DIR__ . '/../../models/OrderModel.php';
+require_once __DIR__ . '/../../models/UserModel.php';
 
 if (!isset($_SESSION['user_id'])) {
   header('Location: ../../views/login/');
@@ -31,7 +31,7 @@ $success = $orderModel->updateStatus($order_id, 'Dikirim', 'Dipesan', 'store_id'
 
 if ($success) {
   // Ambil data user (pembeli)
-  $userModel = new UserModel($conn);
+  $userModel = new UserModel();
   $buyer = $userModel->getUserById($order['user_id']);
 
   $phone = $buyer['phone'] ?? null;
