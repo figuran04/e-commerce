@@ -10,6 +10,7 @@ class ServiceHelper
     public static function getBaseUrl(string $service): string
     {
         $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
+        $baseUrl = rtrim(getenv('APP_URL') ?: 'http://localhost/5/e-commerce', '/');
         
         // If we are using the zerovaa subdomains
         if (strpos($host, 'zerovaa.com') !== false) {
@@ -20,12 +21,12 @@ class ServiceHelper
             }
         }
         
-        // Fallback for localhost (XAMPP default layout)
+        // Fallback for local or Docker deployment
         if ($service === 'auth') {
-            return "http://localhost/5/e-commerce/api/gateway_auth.php?route=";
-        } else {
-            return "http://localhost/5/e-commerce/api/gateway.php?route=";
+            return $baseUrl . '/api/gateway_auth.php?route=';
         }
+
+        return $baseUrl . '/api/gateway.php?route=';
     }
 
     /**
@@ -164,5 +165,71 @@ class ServiceHelper
             'quantity' => $quantity
         ]);
         return isset($res['status']) && $res['status'] === 'success';
+    }
+
+    /**
+     * Fetch products bulk by IDs with fallback to local database.
+     * Tries API first, falls back to local ProductModel if API fails.
+     */
+    public static function fetchProductsWithFallback(array $productIds): array
+    {
+        if (empty($productIds)) return [];
+        
+        // Try API first
+        $res = self::call('api', 'products/bulk', 'POST', ['ids' => $productIds]);
+        if (isset($res['status']) && $res['status'] === 'success' && !empty($res['data'])) {
+            return $res['data'] ?? [];
+        }
+        
+        // Fallback to local database
+        global $conn_products;
+        if (!isset($conn_products)) {
+            return [];
+        }
+        
+        try {
+            $placeholders = implode(',', array_fill(0, count($productIds), '?'));
+            $stmt = $conn_products->prepare("SELECT id, name, price, stock, image, store_id FROM products WHERE id IN ($placeholders)");
+            $stmt->execute($productIds);
+            $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            // Map products by their ID for easy lookup
+            $mapped = [];
+            foreach ($products as $p) {
+                $mapped[$p['id']] = $p;
+            }
+            return $mapped;
+        } catch (Exception $e) {
+            return [];
+        }
+    }
+
+    /**
+     * Fetch single product with fallback to local database.
+     * Tries API first, falls back to local ProductModel if API fails.
+     */
+    public static function fetchProductWithFallback(int $productId): ?array
+    {
+        if ($productId <= 0) return null;
+        
+        // Try API first
+        $res = self::call('api', 'products/bulk', 'POST', ['ids' => [$productId]]);
+        if (isset($res['status']) && $res['status'] === 'success' && !empty($res['data'])) {
+            return $res['data'][$productId] ?? null;
+        }
+        
+        // Fallback to local database
+        global $conn_products;
+        if (!isset($conn_products)) {
+            return null;
+        }
+        
+        try {
+            $stmt = $conn_products->prepare("SELECT id, name, price, stock, image, store_id FROM products WHERE id = ?");
+            $stmt->execute([$productId]);
+            return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
+        } catch (Exception $e) {
+            return null;
+        }
     }
 }

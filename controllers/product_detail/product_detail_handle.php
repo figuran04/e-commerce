@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 require_once __DIR__ . '/../../config/init.php';
 require '../../models/ProductModel.php';
 require_once '../../models/StoreModel.php';

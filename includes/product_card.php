@@ -1,4 +1,4 @@
-﻿<?php require_once '../../helpers/format.php'; ?>
+<?php require_once '../../helpers/format.php'; ?>
 
 <?php foreach ($products as $product) : ?>
   <a href="../product_detail/?id=<?= $product['id']; ?>" class="w-full overflow-hidden transition-all bg-white border border-gray-100 rounded-lg cursor-pointer hover:shadow hover:scale-105">

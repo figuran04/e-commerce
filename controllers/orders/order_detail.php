@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 require_once __DIR__ . '/../../config/init.php'; // harus memuat session_start dan fungsi flash
 require_once '../../models/OrderModel.php';
 require_once '../../helpers/flash.php';

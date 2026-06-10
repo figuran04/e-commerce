@@ -1,6 +1,7 @@
 <?php
 // controllers/api/auth/register.php - API Endpoint: POST /api/auth/register
 
+require_once __DIR__ . '/../../../config/init.php';
 require_once __DIR__ . '/../../../models/UserModel.php';
 require_once __DIR__ . '/../../../helpers/jwt_helper.php';
 

@@ -1,13 +1,14 @@
 <?php
-// Base URL — sesuai lokasi proyek di htdocs/5/e-commerce
-$BASE     = "http://localhost/5/e-commerce";
-$BASE_URL = $BASE . "/views";
+// Base URL — dapat di-overwrite lewat APP_URL saat deploy di Docker
+$BASE     = getenv('APP_URL') ?: 'http://localhost/5/e-commerce';
+$BASE_URL = rtrim($BASE, '/') . '/views';
 
-// Konfigurasi database
-$host    = "localhost";
-$user    = "root";
-$pass    = "";
-$charset = "utf8mb4";
+// Konfigurasi database — dapat di-overwrite lewat variabel lingkungan
+$host    = getenv('DB_HOST') ?: 'localhost';
+$port    = getenv('DB_PORT') ?: '3306';
+$user    = getenv('DB_USER') ?: 'root';
+$pass    = getenv('DB_PASSWORD') ?: '';
+$charset = 'utf8mb4';
 
 $options = [
   PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
@@ -16,9 +17,9 @@ $options = [
 ];
 
 try {
-  $conn_auth     = new PDO("mysql:host=$host;dbname=db_auth;charset=$charset", $user, $pass, $options);
-  $conn_products = new PDO("mysql:host=$host;dbname=db_products;charset=$charset", $user, $pass, $options);
-  $conn_orders   = new PDO("mysql:host=$host;dbname=db_orders;charset=$charset", $user, $pass, $options);
+  $conn_auth     = new PDO("mysql:host=$host;port=$port;dbname=db_auth;charset=$charset", $user, $pass, $options);
+  $conn_products = new PDO("mysql:host=$host;port=$port;dbname=db_products;charset=$charset", $user, $pass, $options);
+  $conn_orders   = new PDO("mysql:host=$host;port=$port;dbname=db_orders;charset=$charset", $user, $pass, $options);
   
   // Default connection for backward compatibility (defaults to auth)
   $conn = $conn_auth;

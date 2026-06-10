@@ -1,0 +1,45 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: zerovaa-app
+    ports:
+      - "8081:80"
+    environment:
+      APP_URL: http://localhost:8081
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_USER: appuser
+      DB_PASSWORD: apppass
+      DB_ROOT_USER: root
+      DB_ROOT_PASSWORD: rootpass
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - .:/var/www/html
+
+  db:
+    image: mysql:8.4
+    container_name: zerovaa-db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: zerovaa_db
+      MYSQL_USER: appuser
+      MYSQL_PASSWORD: apppass
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./docker/mysql/init/01-create-databases.sql:/docker-entrypoint-initdb.d/01-create-databases.sql:ro
+      - ./docker/mysql/init/02-seed-auth.sql:/docker-entrypoint-initdb.d/02-seed-auth.sql:ro
+      - ./docker/mysql/init/03-seed-products.sql:/docker-entrypoint-initdb.d/03-seed-products.sql:ro
+      - ./docker/mysql/init/04-seed-orders.sql:/docker-entrypoint-initdb.d/04-seed-orders.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-prootpass"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  mysql_data:

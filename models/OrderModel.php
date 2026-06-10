@@ -116,7 +116,7 @@ class OrderModel
   public function addOrderDetail($order_id, $product_id, $quantity, $price)
   {
     require_once __DIR__ . '/../helpers/service_helper.php';
-    $products = ServiceHelper::fetchProducts([$product_id]);
+    $products = ServiceHelper::fetchProductsWithFallback([$product_id]);
     $product = $products[$product_id] ?? null;
 
     if (!$product) return false;

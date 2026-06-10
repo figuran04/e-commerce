@@ -23,11 +23,13 @@
         <i class="text-2xl ph ph-magnifying-glass"></i>
       </button>
     </form>
-    <?php if (isset($_SESSION['user_id'])): ?>
-      <?php
+    <?php
+      $loggedIn = isset($_SESSION['user_id']);
       $isAdmin = isset($_SESSION['is_admin']) && $_SESSION['is_admin'] == 1;
-      $plClass = $isAdmin ? '' : '';
-      ?>
+      $storeLink = $BASE . '/views/store';
+    ?>
+
+    <div id="auth-user-nav" class="items-center gap-1 md:gap-2 <?= $loggedIn ? 'flex' : 'hidden' ?>">
       <ul class="flex items-center gap-1 md:gap-2">
         <li class="hidden md:block">
           <a href="<?= $BASE ?>/views/orders/user_orders.php" class="flex space-x-2 items-center transition-all hover:bg-[rgba(101,163,13,0.2)] p-2 rounded-lg">
@@ -41,7 +43,6 @@
         </li>
       </ul>
       <p class="hidden text-2xl md:block">|</p>
-      <?php $storeLink = isset($_SESSION['store_id']) ? $BASE . '/views/store/?id=' . $_SESSION['store_id'] : $BASE . '/views/store/'; ?>
       <ul class="items-center hidden gap-1 md:flex">
         <li class="hidden md:block">
           <a href="<?= $storeLink ?>" class="flex space-x-2 items-center transition-all hover:bg-[rgba(101,163,13,0.2)] py-1 px-2 rounded-lg">
@@ -50,9 +51,9 @@
           </a>
         </li>
         <li class="hidden md:block">
-          <a href="<?= $BASE ?>/views/profile?id=<?= $_SESSION['user_id']; ?>" class="flex space-x-2 items-center transition-all hover:bg-[rgba(101,163,13,0.2)] py-1 px-2 rounded-lg">
+          <a href="<?= $BASE ?>/views/profile" class="flex space-x-2 items-center transition-all hover:bg-[rgba(101,163,13,0.2)] py-1 px-2 rounded-lg">
             <i class="text-2xl ph ph-user"></i>
-            <p><?= htmlspecialchars($_SESSION['user_name']); ?></p>
+            <p id="auth-user-name"><?= htmlspecialchars($_SESSION['user_name'] ?? 'Akun'); ?></p>
           </a>
         </li>
       </ul>
@@ -66,17 +67,16 @@
           </li>
         </ul>
       <?php endif; ?>
+    </div>
 
-    <?php else: ?>
-      <ul class="flex items-center gap-2">
-        <li>
-          <a href="<?= $BASE ?>/views/login" class="px-3 py-1 transition-all border-2 rounded border-lime-600 hover:border-lime-700 hover:text-lime-700 text-sm">Masuk</a>
-        </li>
-        <li>
-          <a href="<?= $BASE ?>/views/register" class="px-3 py-1 border-2 rounded border-lime-600 bg-lime-600 hover:border-lime-700 hover:bg-lime-700 text-gray-50 text-sm">Daftar</a>
-        </li>
-      </ul>
-    <?php endif; ?>
+    <ul id="auth-guest-nav" class="flex items-center gap-2 <?= $loggedIn ? 'hidden' : '' ?>">
+      <li>
+        <a href="<?= $BASE ?>/views/login" class="px-3 py-1 transition-all border-2 rounded border-lime-600 hover:border-lime-700 hover:text-lime-700 text-sm">Masuk</a>
+      </li>
+      <li>
+        <a href="<?= $BASE ?>/views/register" class="px-3 py-1 border-2 rounded border-lime-600 bg-lime-600 hover:border-lime-700 hover:bg-lime-700 text-gray-50 text-sm">Daftar</a>
+      </li>
+    </ul>
   </nav>
 </header>
 

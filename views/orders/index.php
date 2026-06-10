@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 include '../../controllers/orders/order_detail.php';
 require_once '../../includes/order_actions.php';
 require_once '../../helpers/status.php';

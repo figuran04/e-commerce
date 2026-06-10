@@ -41,6 +41,8 @@ $_SESSION['is_admin']   = ($user['role'] === 'admin') ? 1 : 0;
 if ($store) {
     $_SESSION['store_id']   = $store['id'];
     $_SESSION['store_name'] = $store['name'];
+} else {
+    unset($_SESSION['store_id'], $_SESSION['store_name']);
 }
 
 http_response_code(200);

@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 require_once __DIR__ . '/../../config/init.php';
 $pageTitle = "Syarat & Kebijakan";
 ob_start();

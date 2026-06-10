@@ -1,6 +1,7 @@
 <?php
 // controllers/api/products.php - API Controller untuk Produk
 
+require_once __DIR__ . '/../../config/init.php';
 require_once __DIR__ . '/../../models/ProductModel.php';
 
 $productModel = new ProductModel($conn);

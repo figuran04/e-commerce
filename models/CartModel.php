@@ -22,7 +22,7 @@ class CartModel
 
     $productIds = array_column($carts, 'product_id');
     require_once __DIR__ . '/../helpers/service_helper.php';
-    $products = ServiceHelper::fetchProducts($productIds);
+    $products = ServiceHelper::fetchProductsWithFallback($productIds);
 
     $items = [];
     $total = 0;
@@ -56,7 +56,7 @@ class CartModel
 
     $productIds = array_column($carts, 'product_id');
     require_once __DIR__ . '/../helpers/service_helper.php';
-    $products = ServiceHelper::fetchProducts($productIds);
+    $products = ServiceHelper::fetchProductsWithFallback($productIds);
 
     $storeIds = [];
     foreach ($products as $p) {
@@ -94,26 +94,48 @@ class CartModel
 
   public function addToCart(int $user_id, int $product_id, int $quantity): int
   {
-    // Cek apakah produk sudah ada di keranjang
+    if ($quantity < 1) {
+      return 0;
+    }
+
+    require_once __DIR__ . '/../helpers/service_helper.php';
+    $products = ServiceHelper::fetchProductsWithFallback([$product_id]);
+    $product = $products[$product_id] ?? null;
+
+    if (!$product || !isset($product['stock'])) {
+      return 0;
+    }
+
+    $availableStock = (int) $product['stock'];
+    if ($availableStock < 1 || $availableStock < $quantity) {
+      return 0;
+    }
+
     $query = "SELECT id, quantity FROM carts WHERE user_id = ? AND product_id = ?";
     $stmt = $this->pdo->prepare($query);
     $stmt->execute([$user_id, $product_id]);
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($row) {
-      // Jika sudah ada, update quantity
-      $new_quantity = $row['quantity'] + $quantity;
+      $new_quantity = (int) $row['quantity'] + $quantity;
+      if ($new_quantity > $availableStock) {
+        $new_quantity = $availableStock;
+      }
+
+      if ($new_quantity < 1) {
+        return 0;
+      }
+
       $update_query = "UPDATE carts SET quantity = ? WHERE id = ?";
       $stmt = $this->pdo->prepare($update_query);
       $stmt->execute([$new_quantity, $row['id']]);
-      return (int)$row['id']; // kembalikan cart_id yang sudah ada
-    } else {
-      // Jika belum ada, tambahkan baris baru
-      $insert_query = "INSERT INTO carts (user_id, product_id, quantity) VALUES (?, ?, ?)";
-      $stmt = $this->pdo->prepare($insert_query);
-      $stmt->execute([$user_id, $product_id, $quantity]);
-      return (int)$this->pdo->lastInsertId(); // kembalikan cart_id baru
+      return (int) $row['id'];
     }
+
+    $insert_query = "INSERT INTO carts (user_id, product_id, quantity) VALUES (?, ?, ?)";
+    $stmt = $this->pdo->prepare($insert_query);
+    $stmt->execute([$user_id, $product_id, $quantity]);
+    return (int) $this->pdo->lastInsertId();
   }
 
 
@@ -124,12 +146,30 @@ class CartModel
     $stmt->execute([$user_id]);
   }
 
-  public function updateQuantity(int $cart_id, int $quantity): void
+  public function updateQuantity(int $cart_id, int $quantity): bool
   {
     $quantity = max(1, $quantity);
+
+    $stmt = $this->pdo->prepare("SELECT product_id, quantity FROM carts WHERE id = ?");
+    $stmt->execute([$cart_id]);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$row) {
+      return false;
+    }
+
+    require_once __DIR__ . '/../helpers/service_helper.php';
+    $products = ServiceHelper::fetchProductsWithFallback([$row['product_id']]);
+    $stock = (int)($products[$row['product_id']]['stock'] ?? 0);
+
+    if ($stock < 1) {
+      return false;
+    }
+
+    $quantity = min($quantity, $stock);
     $query = "UPDATE carts SET quantity = ? WHERE id = ?";
     $stmt = $this->pdo->prepare($query);
-    $stmt->execute([$quantity, $cart_id]);
+    return $stmt->execute([$quantity, $cart_id]);
   }
 
   public function getCartItemsByUserIdAndProductIds(int $user_id, array $product_ids = []): array
@@ -147,7 +187,8 @@ class CartModel
     if (empty($carts)) return ['items' => [], 'total_price' => 0];
 
     require_once __DIR__ . '/../helpers/service_helper.php';
-    $products = ServiceHelper::fetchProducts(array_column($carts, 'product_id'));
+    $products = ServiceHelper::fetchProductsWithFallback(array_column($carts, 'product_id'));
+
 
     $items = [];
     $total_price = 0;
@@ -183,7 +224,7 @@ class CartModel
 
     $productIds = array_column($carts, 'product_id');
     require_once __DIR__ . '/../helpers/service_helper.php';
-    $products = ServiceHelper::fetchProducts($productIds);
+    $products = ServiceHelper::fetchProductsWithFallback($productIds);
 
     $storeIds = [];
     foreach ($products as $p) {

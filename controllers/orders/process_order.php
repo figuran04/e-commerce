@@ -12,8 +12,8 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 $productModel = new ProductModel($conn);
-$orderModel = new OrderModel($conn);
-$cartModel = new CartModel($conn);
+$orderModel = new OrderModel();
+$cartModel = new CartModel();
 $userModel = new UserModel();
 $userId = $_SESSION['user_id'];
 $user = $userModel->getUserById($userId);

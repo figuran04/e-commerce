@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 require_once __DIR__ . '/../../config/init.php';
 require_once '../../controllers/checkout/checkout_handler.php';
 $pageTitle = "Checkout";
@@ -56,57 +56,56 @@ ob_start();
       <span>Rp<?= number_format($total_price, 0, ',', '.') ?></span>
     </div>
 
-    <div>
-      <label for="payment_method" class="block mb-1 text-sm font-medium text-gray-700">Pilih Metode Pembayaran</label>
-      <select id="payment_method" name="payment_method" class="w-full px-3 py-2 border border-gray-200 rounded focus:outline-none focus:ring focus:ring-lime-200">
-        <!-- <option value="">-- Pilih Metode --</option> -->
-        <option value="bank_transfer">Transfer Bank</option>
-        <option value="ewallet" selected>E-Wallet</option>
-        <option value="cod">Bayar di Tempat (COD)</option>
-      </select>
-    </div>
-
-    <!-- Sub Opsi: Bank Transfer -->
-    <div id="bank_options" class="hidden mt-3">
-      <label class="block mb-1 text-sm font-medium text-gray-700">Pilih Bank</label>
-      <div class="space-y-2">
-        <label class="flex items-center gap-2">
-          <input type="radio" name="bank_option" value="BCA" class="text-lime-600"> BCA
-        </label>
-        <label class="flex items-center gap-2">
-          <input type="radio" name="bank_option" value="BNI" class="text-lime-600"> BNI
-        </label>
-        <label class="flex items-center gap-2">
-          <input type="radio" name="bank_option" value="Mandiri" class="text-lime-600"> Mandiri
-        </label>
-        <label class="flex items-center gap-2">
-          <input type="radio" name="bank_option" value="BRI" class="text-lime-600"> BRI
-        </label>
-      </div>
-    </div>
-
-    <!-- Sub Opsi: E-Wallet -->
-    <div id="ewallet_options" class="hidden mt-3">
-      <label class="block mb-1 text-sm font-medium text-gray-700">Pilih E-Wallet</label>
-      <div class="space-y-2">
-        <label class="flex items-center gap-2">
-          <input type="radio" name="ewallet_option" value="OVO" class="text-lime-600" checked> OVO
-        </label>
-        <label class="flex items-center gap-2">
-          <input type="radio" name="ewallet_option" value="DANA" class="text-lime-600"> DANA
-        </label>
-        <label class="flex items-center gap-2">
-          <input type="radio" name="ewallet_option" value="GoPay" class="text-lime-600"> GoPay
-        </label>
-        <label class="flex items-center gap-2">
-          <input type="radio" name="ewallet_option" value="ShopeePay" class="text-lime-600"> ShopeePay
-        </label>
-      </div>
-    </div>
-
     <form action="../../controllers/orders/process_order.php" method="POST">
       <input type="hidden" name="total_price" value="<?= $total_price ?>">
-      <!-- Sisipkan payment_method nanti di backend -->
+
+      <div class="mb-4">
+        <label for="payment_method" class="block mb-1 text-sm font-medium text-gray-700">Pilih Metode Pembayaran</label>
+        <select id="payment_method" name="payment_method" class="w-full px-3 py-2 border border-gray-200 rounded focus:outline-none focus:ring focus:ring-lime-200">
+          <option value="bank_transfer">Transfer Bank</option>
+          <option value="ewallet" selected>E-Wallet</option>
+          <option value="cod">Bayar di Tempat (COD)</option>
+        </select>
+      </div>
+
+      <!-- Sub Opsi: Bank Transfer -->
+      <div id="bank_options" class="hidden mb-4">
+        <label class="block mb-1 text-sm font-medium text-gray-700">Pilih Bank</label>
+        <div class="space-y-2">
+          <label class="flex items-center gap-2">
+            <input type="radio" name="bank_option" value="BCA" class="text-lime-600"> BCA
+          </label>
+          <label class="flex items-center gap-2">
+            <input type="radio" name="bank_option" value="BNI" class="text-lime-600"> BNI
+          </label>
+          <label class="flex items-center gap-2">
+            <input type="radio" name="bank_option" value="Mandiri" class="text-lime-600"> Mandiri
+          </label>
+          <label class="flex items-center gap-2">
+            <input type="radio" name="bank_option" value="BRI" class="text-lime-600"> BRI
+          </label>
+        </div>
+      </div>
+
+      <!-- Sub Opsi: E-Wallet -->
+      <div id="ewallet_options" class="hidden mb-4">
+        <label class="block mb-1 text-sm font-medium text-gray-700">Pilih E-Wallet</label>
+        <div class="space-y-2">
+          <label class="flex items-center gap-2">
+            <input type="radio" name="ewallet_option" value="OVO" class="text-lime-600" checked> OVO
+          </label>
+          <label class="flex items-center gap-2">
+            <input type="radio" name="ewallet_option" value="DANA" class="text-lime-600"> DANA
+          </label>
+          <label class="flex items-center gap-2">
+            <input type="radio" name="ewallet_option" value="GoPay" class="text-lime-600"> GoPay
+          </label>
+          <label class="flex items-center gap-2">
+            <input type="radio" name="ewallet_option" value="ShopeePay" class="text-lime-600"> ShopeePay
+          </label>
+        </div>
+      </div>
+
       <button type="submit" class="w-full px-4 py-2 text-white rounded bg-lime-600 hover:bg-lime-700 mt-4">
         Bayar Sekarang
       </button>

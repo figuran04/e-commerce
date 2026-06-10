@@ -1,6 +1,7 @@
-﻿<?php
+<?php
 // controllers/cart/update_cart.php
 require_once __DIR__ . '/../../config/init.php';
+require_once __DIR__ . '/../../helpers/flash.php';
 require_once '../../models/CartModel.php'; // Memanggil model
 
 // Pastikan pengguna sudah login dan data yang dibutuhkan ada
@@ -15,9 +16,11 @@ $quantity = (int) $_POST['quantity'];
 // Membuat instance dari CartModel
 $cartModel = new CartModel($conn);
 
-// Memperbarui jumlah produk di keranjang
-$cartModel->updateQuantity($cart_id, $quantity);
+if (!$cartModel->updateQuantity($cart_id, $quantity)) {
+  setFlash('error', 'Jumlah tidak bisa diperbarui karena stok tidak mencukupi.');
+  header('Location: ../../views/cart');
+  exit;
+}
 
-// Redirect ke halaman keranjang
-header("Location: ../../views/cart");
+header('Location: ../../views/cart');
 exit;

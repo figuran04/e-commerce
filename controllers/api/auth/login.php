@@ -1,6 +1,7 @@
 <?php
 // controllers/api/auth/login.php - API Endpoint untuk Login User (JWT)
 
+require_once __DIR__ . '/../../../config/init.php';
 require_once __DIR__ . '/../../../models/UserModel.php';
 require_once __DIR__ . '/../../../models/StoreModel.php';
 require_once __DIR__ . '/../../../helpers/jwt_helper.php';

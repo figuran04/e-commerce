@@ -7,20 +7,26 @@
 const Auth = (() => {
   const TOKEN_KEY  = 'zerovaa_token';
   const USER_KEY   = 'zerovaa_user';
-  const BASE_API   = window.location.hostname.endsWith('zerovaa.com') ? '' : '/5/e-commerce/api';
+  const BASE_API   = window.location.hostname.endsWith('zerovaa.com')
+    ? ''
+    : (window.location.pathname.includes('/5/e-commerce/') ? '/5/e-commerce/api' : '/api');
 
   /** Resolves the proper API endpoint URL depending on the service (auth vs api) and current domain */
   function getEndpointUrl(endpoint) {
-    // Strip leading slash if present
     const cleanEndpoint = endpoint.replace(/^\//, '');
+
     if (window.location.hostname.endsWith('zerovaa.com')) {
       if (cleanEndpoint.startsWith('auth/')) {
-        return `http://auth.zerovaa.com/api/${cleanEndpoint}`;
-      } else {
-        return `http://api.zerovaa.com/api/${cleanEndpoint}`;
+        return `http://auth.zerovaa.com/api/gateway_auth.php?route=${cleanEndpoint}`;
       }
+      return `http://api.zerovaa.com/api/gateway.php?route=${cleanEndpoint}`;
     }
-    return `${BASE_API}/${cleanEndpoint}`;
+
+    if (cleanEndpoint.startsWith('auth/')) {
+      return `${BASE_API}/gateway_auth.php?route=${cleanEndpoint}`;
+    }
+
+    return `${BASE_API}/gateway.php?route=${cleanEndpoint}`;
   }
 
   /** Simpan token dan data user ke localStorage */
@@ -62,13 +68,15 @@ const Auth = (() => {
   }
 
   /** Hapus token dan data user, redirect ke halaman login */
-  function logout(redirect = true) {
+  async function logout(redirect = true) {
     localStorage.removeItem(TOKEN_KEY);
     localStorage.removeItem(USER_KEY);
     // Invalidate session PHP via server-side
-    fetch(getEndpointUrl('auth/logout'), { method: 'POST' }).catch(() => {});
+    try {
+      await fetch(getEndpointUrl('auth/logout'), { method: 'POST', credentials: 'same-origin' });
+    } catch (e) {}
     if (redirect) {
-      window.location.href = '/5/e-commerce/views/login';
+      window.location.href = '../login';
     }
   }
 
@@ -82,6 +90,7 @@ const Auth = (() => {
     try {
       await fetch(getEndpointUrl('auth/sync_session'), {
         method: 'POST',
+        credentials: 'same-origin',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
@@ -105,6 +114,7 @@ const Auth = (() => {
 
     const response = await fetch(getEndpointUrl(endpoint), {
       ...options,
+      credentials: 'same-origin',
       headers,
     });
 

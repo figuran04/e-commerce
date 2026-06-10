@@ -1,4 +1,4 @@
-﻿<?php require '../../controllers/product_detail/product_detail_handle.php'; ?>
+<?php require '../../controllers/product_detail/product_detail_handle.php'; ?>
 <?php require_once '../../helpers/format.php'; ?>
 <?php $pageTitle = "Detail Produk";
 ob_start(); ?>

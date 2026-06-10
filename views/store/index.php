@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 require '../../controllers/store/store_handler.php';
 require_once '../../helpers/flash.php';
 require_once '../../helpers/format.php';

@@ -100,7 +100,7 @@ ob_start();
     errEl.classList.add("hidden");
 
     try {
-      const res = await fetch("/5/e-commerce/api/auth/register", {
+      const res = await fetch("../../api/gateway_auth.php?route=auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -114,7 +114,7 @@ ob_start();
       if (data.status === "success") {
         Auth.save(data.token, data.user);
         await Auth.syncSession();
-        window.location.href = "/5/e-commerce/views/home";
+        window.location.href = "../home/";
       } else {
         errEl.textContent = data.message || "Gagal mendaftar, coba lagi.";
         errEl.classList.remove("hidden");

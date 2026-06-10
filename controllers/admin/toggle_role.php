@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 require_once __DIR__ . '/../../config/init.php';
 require_once '../../models/UserModel.php';
 require_once __DIR__ . '/../../helpers/flash.php';

@@ -179,7 +179,7 @@ ob_start();
   });
 
   // Fetch data produk dari API Gateway secara dinamis
-  fetch('../../api/products')
+  fetch('../../api/gateway.php?route=products')
     .then(res => {
       if (!res.ok) throw new Error('Network response was not ok');
       return res.json();

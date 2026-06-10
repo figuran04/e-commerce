@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 require_once __DIR__ . '/../../config/init.php';
 require_once '../../models/CategoryModel.php';
 require_once '../../models/StoreModel.php';
@@ -10,7 +10,7 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 $categoryModel = new CategoryModel($conn);
-$categories = $categoryModel->getChildCategories();
+$categories = $categoryModel->getAll();
 
 $storeModel = new StoreModel($conn);
 $store = $storeModel->getStoreByUserId($_SESSION['user_id']);

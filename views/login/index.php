@@ -70,7 +70,7 @@ ob_start();
     errEl.classList.add("hidden");
 
     try {
-      const res = await fetch("/5/e-commerce/api/auth/login", {
+      const res = await fetch("../../api/gateway_auth.php?route=auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -85,7 +85,7 @@ ob_start();
         Auth.save(data.token, data.user);
         // Sinkronkan ke session PHP, lalu redirect
         await Auth.syncSession();
-        window.location.href = "/5/e-commerce/views/home";
+        window.location.href = "../home/";
       } else {
         errEl.textContent = data.message || "Email atau password salah.";
         errEl.classList.remove("hidden");

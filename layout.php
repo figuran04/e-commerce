@@ -1,5 +1,5 @@
 <?php
-if (session_status() === PHP_SESSION_NONE) {
+if (session_status() === PHP_SESSION_NONE && !headers_sent()) {
   session_start();
 }
 $currentPath = trim($_SERVER['REQUEST_URI'], '/');
@@ -34,7 +34,7 @@ $isAdminPage = strpos($currentPath, 'admin') !== false;
     href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css" />
   <link rel="stylesheet" href="<?= $BASE_URL; ?>/global.css">
   <!-- Auth Helper: JWT di browser -->
-  <script src="<?= $BASE; ?>/helpers/auth.js"></script>
+  <script src="<?= $BASE; ?>/helpers/auth.js?v=20260604"></script>
 </head>
 
 <body class="bg-[#E2E6CF]">
@@ -71,8 +71,20 @@ $isAdminPage = strpos($currentPath, 'admin') !== false;
     <?php endif; ?>
 
     document.addEventListener('DOMContentLoaded', function() {
-      // Sinkronisasi JWT dengan PHP session di setiap page load
+      const guestNav = document.getElementById('auth-guest-nav');
+      const userNav = document.getElementById('auth-user-nav');
+      const userNameEl = document.getElementById('auth-user-name');
+
       if (typeof Auth !== 'undefined') {
+        const user = Auth.getUser();
+        const loggedIn = Auth.isLoggedIn();
+
+        if (guestNav) guestNav.classList.toggle('hidden', loggedIn);
+        if (userNav) userNav.classList.toggle('hidden', !loggedIn);
+        if (userNameEl && user && user.name) {
+          userNameEl.textContent = user.name;
+        }
+
         Auth.syncSession();
       }
 

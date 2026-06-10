@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 require_once __DIR__ . '/../../config/init.php';
 require '../../controllers/products/products_controller.php';
 ob_start();

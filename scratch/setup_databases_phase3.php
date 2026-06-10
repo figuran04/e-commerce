@@ -1,13 +1,14 @@
 <?php
 // scratch/setup_databases_phase3.php
 
-$host = "localhost";
-$user = "root";
-$pass = "";
-$charset = "utf8mb4";
+$host = getenv('DB_HOST') ?: 'localhost';
+$port = getenv('DB_PORT') ?: '3306';
+$user = getenv('DB_ROOT_USER') ?: (getenv('DB_USER') ?: 'root');
+$pass = getenv('DB_ROOT_PASSWORD') ?: (getenv('DB_PASSWORD') ?: '');
+$charset = 'utf8mb4';
 
 try {
-    $pdo = new PDO("mysql:host=$host;charset=$charset", $user, $pass, [
+    $pdo = new PDO("mysql:host=$host;port=$port;charset=$charset", $user, $pass, [
         PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
     ]);
