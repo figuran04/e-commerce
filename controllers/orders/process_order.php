@@ -74,6 +74,7 @@ foreach ($cart_items as $item) {
   }
 
   $productModel->decreaseStock($product_id, $quantity);
+  $productModel->incrementSoldCount($product_id, $quantity);
 }
 
 // Hapus item dari keranjang
