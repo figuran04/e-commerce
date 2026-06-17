@@ -156,10 +156,6 @@ class ServiceHelper
         return isset($res['status']) && $res['status'] === 'success';
     }
 
-    /**
-     * Fetch products bulk by IDs with fallback to local database.
-     * Tries API first, falls back to local ProductModel if API fails.
-     */
     public static function fetchProductsWithFallback(array $productIds): array
     {
         if (empty($productIds)) return [];
@@ -170,32 +166,12 @@ class ServiceHelper
             return $res['data'] ?? [];
         }
         
-        // Fallback to local database
-        global $conn_products;
-        if (!isset($conn_products)) {
-            return [];
-        }
-        
-        try {
-            $placeholders = implode(',', array_fill(0, count($productIds), '?'));
-            $stmt = $conn_products->prepare("SELECT id, name, price, stock, image, store_id FROM products WHERE id IN ($placeholders)");
-            $stmt->execute($productIds);
-            $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            
-            // Map products by their ID for easy lookup
-            $mapped = [];
-            foreach ($products as $p) {
-                $mapped[$p['id']] = $p;
-            }
-            return $mapped;
-        } catch (Exception $e) {
-            return [];
-        }
+        return [];
     }
 
     /**
-     * Fetch single product with fallback to local database.
-     * Tries API first, falls back to local ProductModel if API fails.
+     * Fetch single product.
+     * Tries API.
      */
     public static function fetchProductWithFallback(int $productId): ?array
     {
@@ -207,18 +183,6 @@ class ServiceHelper
             return $res['data'][$productId] ?? null;
         }
         
-        // Fallback to local database
-        global $conn_products;
-        if (!isset($conn_products)) {
-            return null;
-        }
-        
-        try {
-            $stmt = $conn_products->prepare("SELECT id, name, price, stock, image, store_id FROM products WHERE id = ?");
-            $stmt->execute([$productId]);
-            return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
-        } catch (Exception $e) {
-            return null;
-        }
+        return null;
     }
 }

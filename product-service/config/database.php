@@ -17,12 +17,10 @@ $options = [
 ];
 
 try {
-  $conn_auth     = new PDO("mysql:host=$host;port=$port;dbname=db_auth;charset=$charset", $user, $pass, $options);
   $conn_products = new PDO("mysql:host=$host;port=$port;dbname=db_products;charset=$charset", $user, $pass, $options);
-  $conn_orders   = new PDO("mysql:host=$host;port=$port;dbname=db_orders;charset=$charset", $user, $pass, $options);
   
-  // Default connection for backward compatibility (defaults to auth)
-  $conn = $conn_auth;
+  // Default connection for backward compatibility (defaults to products)
+  $conn = $conn_products;
 } catch (\PDOException $e) {
   die("Koneksi database gagal: " . $e->getMessage());
 }

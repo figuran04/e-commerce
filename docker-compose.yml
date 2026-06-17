@@ -26,6 +26,7 @@ services:
       DB_USER: appuser
       DB_PASSWORD: apppass
 
+
   auth-service:
     build:
       context: ./auth-service
@@ -37,8 +38,8 @@ services:
       APP_URL: http://localhost:8081
       DB_HOST: db
       DB_PORT: 3306
-      DB_USER: appuser
-      DB_PASSWORD: apppass
+      DB_USER: authuser
+      DB_PASSWORD: authpass
       SERVICE_NAME: auth
 
   product-service:
@@ -52,8 +53,8 @@ services:
       APP_URL: http://localhost:8081
       DB_HOST: db
       DB_PORT: 3306
-      DB_USER: appuser
-      DB_PASSWORD: apppass
+      DB_USER: productuser
+      DB_PASSWORD: productpass
       SERVICE_NAME: products
 
   order-service:
@@ -67,8 +68,8 @@ services:
       APP_URL: http://localhost:8081
       DB_HOST: db
       DB_PORT: 3306
-      DB_USER: appuser
-      DB_PASSWORD: apppass
+      DB_USER: orderuser
+      DB_PASSWORD: orderpass
       SERVICE_NAME: orders
 
   db:

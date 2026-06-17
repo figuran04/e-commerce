@@ -8,4 +8,18 @@ GRANT ALL PRIVILEGES ON db_auth.* TO 'appuser'@'%';
 GRANT ALL PRIVILEGES ON db_products.* TO 'appuser'@'%';
 GRANT ALL PRIVILEGES ON db_orders.* TO 'appuser'@'%';
 GRANT ALL PRIVILEGES ON zerovaa_db.* TO 'appuser'@'%';
+
+-- Isolated user for Auth service
+CREATE USER IF NOT EXISTS 'authuser'@'%' IDENTIFIED BY 'authpass';
+GRANT ALL PRIVILEGES ON db_auth.* TO 'authuser'@'%';
+
+-- Isolated user for Product service
+CREATE USER IF NOT EXISTS 'productuser'@'%' IDENTIFIED BY 'productpass';
+GRANT ALL PRIVILEGES ON db_products.* TO 'productuser'@'%';
+
+-- Isolated user for Order service
+CREATE USER IF NOT EXISTS 'orderuser'@'%' IDENTIFIED BY 'orderpass';
+GRANT ALL PRIVILEGES ON db_orders.* TO 'orderuser'@'%';
+
 FLUSH PRIVILEGES;
+
